@@ -27,7 +27,7 @@ export default function AuthPage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+      <main className="flex min-h-screen flex-col items-center justify-center">
         <div className="flex items-center gap-2">
           <Loader2 className="h-6 w-6 animate-spin" />
           <span>Loading...</span>
@@ -38,7 +38,7 @@ export default function AuthPage() {
 
   if (user && session) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+      <main className="min-h-screen">
         <div className="container mx-auto px-4 py-8">
           <Dashboard user={user} session={session} onSignOut={handleSignOut} />
         </div>
@@ -47,7 +47,7 @@ export default function AuthPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+    <main className="flex min-h-screen flex-col items-center justify-center">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="flex items-center justify-center gap-2">
@@ -79,7 +79,7 @@ export default function AuthPage() {
             )}
           </Button>
 
-          <p className="text-center text-xs text-gray-400">
+          <p className="text-muted-foreground text-center text-xs">
             By connecting your wallet, you agree to our Terms of Service and
             Privacy Policy. We use EIP-4361 standard for secure authentication.
           </p>

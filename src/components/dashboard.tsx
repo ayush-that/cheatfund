@@ -49,10 +49,8 @@ export function Dashboard({ user, session, onSignOut }: DashboardProps) {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h1 className="mb-2 text-3xl font-bold text-white">
-          Welcome to CheatFund
-        </h1>
-        <p className="text-gray-300">Your Web3 dashboard</p>
+        <h1 className="mb-2 text-3xl font-bold">Welcome to CheatFund</h1>
+        <p className="text-muted-foreground">Your Web3 dashboard</p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -66,17 +64,19 @@ export function Dashboard({ user, session, onSignOut }: DashboardProps) {
           </CardHeader>
           <CardContent className="space-y-3">
             <div>
-              <p className="text-sm font-medium text-gray-500">
+              <p className="text-muted-foreground text-sm font-medium">
                 Wallet Address
               </p>
               <p className="font-mono text-sm">{shortAddress}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">User ID</p>
+              <p className="text-muted-foreground text-sm font-medium">
+                User ID
+              </p>
               <p className="font-mono text-sm break-all">{user.id}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">
+              <p className="text-muted-foreground text-sm font-medium">
                 Authentication Method
               </p>
               <Badge variant="secondary">Web3 Wallet</Badge>
@@ -94,19 +94,23 @@ export function Dashboard({ user, session, onSignOut }: DashboardProps) {
           </CardHeader>
           <CardContent className="space-y-3">
             <div>
-              <p className="text-sm font-medium text-gray-500">
+              <p className="text-muted-foreground text-sm font-medium">
                 Session Status
               </p>
               <Badge variant="default">Active</Badge>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">Expires At</p>
+              <p className="text-muted-foreground text-sm font-medium">
+                Expires At
+              </p>
               <p className="text-sm">
                 {new Date(session.expires_at! * 1000).toLocaleString()}
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">Provider</p>
+              <p className="text-muted-foreground text-sm font-medium">
+                Provider
+              </p>
               <p className="text-sm">Ethereum</p>
             </div>
           </CardContent>
@@ -125,7 +129,7 @@ export function Dashboard({ user, session, onSignOut }: DashboardProps) {
               <LogOut className="mr-2 h-4 w-4" />
               Sign Out
             </Button>
-            <p className="text-center text-xs text-gray-500">
+            <p className="text-muted-foreground text-center text-xs">
               Your wallet connection is secure and encrypted
             </p>
           </CardContent>
