@@ -67,3 +67,4 @@ Notes:
 - We use pnpm package manager in the project
 - We use Zustand for state management
 - We use Privy for authentication
+- Read/update documentation time to time from the docs folder
