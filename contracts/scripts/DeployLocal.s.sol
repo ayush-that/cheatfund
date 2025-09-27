@@ -2,8 +2,8 @@
 pragma solidity ^0.8.20;
 
 import {Script, console} from "forge-std/Script.sol";
-import {ChitFund} from "../src/ChitFund.sol";
-import {ChitFundFactory} from "../src/ChitFundFactory.sol";
+import {ChitFund} from "../ChitFund.sol";
+import {ChitFundFactory} from "../ChitFundFactory.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract MockUSDC is ERC20 {

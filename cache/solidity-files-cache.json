@@ -3,12 +3,280 @@
   "paths": {
     "artifacts": "out",
     "build_infos": "out/build-info",
-    "sources": "src",
+    "sources": "contracts",
     "tests": "test",
     "scripts": "script",
     "libraries": ["lib"]
   },
   "files": {
+    "contracts/ChitFund.sol": {
+      "lastModificationDate": 1758984744442,
+      "contentHash": "c99782b9245223c7",
+      "interfaceReprHash": null,
+      "sourceName": "contracts/ChitFund.sol",
+      "imports": [
+        "contracts/interfaces/IChitFund.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "ChitFund": {
+          "0.8.20": {
+            "default": {
+              "path": "ChitFund.sol/ChitFund.json",
+              "build_id": "699d669d42a39367"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "contracts/ChitFundFactory.sol": {
+      "lastModificationDate": 1758974531343,
+      "contentHash": "ef1bab6f1aef4646",
+      "interfaceReprHash": null,
+      "sourceName": "contracts/ChitFundFactory.sol",
+      "imports": [
+        "contracts/ChitFund.sol",
+        "contracts/interfaces/IChitFund.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "ChitFundFactory": {
+          "0.8.20": {
+            "default": {
+              "path": "ChitFundFactory.sol/ChitFundFactory.json",
+              "build_id": "699d669d42a39367"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "contracts/interfaces/IAutomationCompatible.sol": {
+      "lastModificationDate": 1758964383023,
+      "contentHash": "bdb6e5a7f418ed2b",
+      "interfaceReprHash": null,
+      "sourceName": "contracts/interfaces/IAutomationCompatible.sol",
+      "imports": [],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "IAutomationCompatible": {
+          "0.8.20": {
+            "default": {
+              "path": "IAutomationCompatible.sol/IAutomationCompatible.json",
+              "build_id": "699d669d42a39367"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "contracts/interfaces/IChitFund.sol": {
+      "lastModificationDate": 1758964373944,
+      "contentHash": "e65b7b0d3477eb86",
+      "interfaceReprHash": null,
+      "sourceName": "contracts/interfaces/IChitFund.sol",
+      "imports": [],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "IChitFund": {
+          "0.8.20": {
+            "default": {
+              "path": "IChitFund.sol/IChitFund.json",
+              "build_id": "699d669d42a39367"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "contracts/interfaces/IChitFundFactory.sol": {
+      "lastModificationDate": 1758965603329,
+      "contentHash": "0539777bb117331b",
+      "interfaceReprHash": null,
+      "sourceName": "contracts/interfaces/IChitFundFactory.sol",
+      "imports": [],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "IChitFundFactory": {
+          "0.8.20": {
+            "default": {
+              "path": "IChitFundFactory.sol/IChitFundFactory.json",
+              "build_id": "699d669d42a39367"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "contracts/scripts/DeployChitFund.s.sol": {
+      "lastModificationDate": 1758985530026,
+      "contentHash": "0a3fdc55afcab036",
+      "interfaceReprHash": null,
+      "sourceName": "contracts/scripts/DeployChitFund.s.sol",
+      "imports": [
+        "contracts/ChitFund.sol",
+        "contracts/ChitFundFactory.sol",
+        "contracts/interfaces/IChitFund.sol",
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "DeployChitFund": {
+          "0.8.20": {
+            "default": {
+              "path": "DeployChitFund.s.sol/DeployChitFund.json",
+              "build_id": "699d669d42a39367"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "contracts/scripts/DeployLocal.s.sol": {
+      "lastModificationDate": 1758985530045,
+      "contentHash": "a5fa238b3894e163",
+      "interfaceReprHash": null,
+      "sourceName": "contracts/scripts/DeployLocal.s.sol",
+      "imports": [
+        "contracts/ChitFund.sol",
+        "contracts/ChitFundFactory.sol",
+        "contracts/interfaces/IChitFund.sol",
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/openzeppelin-contracts/contracts/interfaces/draft-IERC6093.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "lib/openzeppelin-contracts/contracts/utils/Context.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "DeployLocal": {
+          "0.8.20": {
+            "default": {
+              "path": "DeployLocal.s.sol/DeployLocal.json",
+              "build_id": "699d669d42a39367"
+            }
+          }
+        },
+        "MockUSDC": {
+          "0.8.20": {
+            "default": {
+              "path": "DeployLocal.s.sol/MockUSDC.json",
+              "build_id": "699d669d42a39367"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "contracts/scripts/TestChitFund.s.sol": {
+      "lastModificationDate": 1758985530015,
+      "contentHash": "80ce10b81db8dd54",
+      "interfaceReprHash": null,
+      "sourceName": "contracts/scripts/TestChitFund.s.sol",
+      "imports": [
+        "contracts/ChitFund.sol",
+        "contracts/interfaces/IChitFund.sol",
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "TestChitFund": {
+          "0.8.20": {
+            "default": {
+              "path": "TestChitFund.s.sol/TestChitFund.json",
+              "build_id": "699d669d42a39367"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "contracts/scripts/TestCompleteCycle.s.sol": {
+      "lastModificationDate": 1758985530045,
+      "contentHash": "558f49523d16f2d5",
+      "interfaceReprHash": null,
+      "sourceName": "contracts/scripts/TestCompleteCycle.s.sol",
+      "imports": [
+        "contracts/ChitFund.sol",
+        "contracts/interfaces/IChitFund.sol",
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "TestCompleteCycle": {
+          "0.8.20": {
+            "default": {
+              "path": "TestCompleteCycle.s.sol/TestCompleteCycle.json",
+              "build_id": "699d669d42a39367"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
     "lib/forge-std/src/Base.sol": {
       "lastModificationDate": 1758963092757,
       "contentHash": "b30affbf365427e2",
@@ -24,7 +292,7 @@
           "0.8.20": {
             "default": {
               "path": "Base.sol/CommonBase.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         },
@@ -32,7 +300,7 @@
           "0.8.20": {
             "default": {
               "path": "Base.sol/ScriptBase.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         },
@@ -40,7 +308,7 @@
           "0.8.20": {
             "default": {
               "path": "Base.sol/TestBase.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -74,7 +342,7 @@
           "0.8.20": {
             "default": {
               "path": "Script.sol/Script.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -93,7 +361,7 @@
           "0.8.20": {
             "default": {
               "path": "StdAssertions.sol/StdAssertions.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -112,7 +380,7 @@
           "0.8.20": {
             "default": {
               "path": "StdChains.sol/StdChains.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -136,7 +404,7 @@
           "0.8.20": {
             "default": {
               "path": "StdCheats.sol/StdCheats.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         },
@@ -144,7 +412,7 @@
           "0.8.20": {
             "default": {
               "path": "StdCheats.sol/StdCheatsSafe.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -166,7 +434,7 @@
           "0.8.20": {
             "default": {
               "path": "StdConstants.sol/StdConstants.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -185,7 +453,7 @@
           "0.8.20": {
             "default": {
               "path": "StdError.sol/stdError.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -204,7 +472,7 @@
           "0.8.20": {
             "default": {
               "path": "StdInvariant.sol/StdInvariant.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -223,7 +491,7 @@
           "0.8.20": {
             "default": {
               "path": "StdJson.sol/stdJson.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -242,7 +510,7 @@
           "0.8.20": {
             "default": {
               "path": "StdMath.sol/stdMath.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -261,7 +529,7 @@
           "0.8.20": {
             "default": {
               "path": "StdStorage.sol/stdStorage.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         },
@@ -269,7 +537,7 @@
           "0.8.20": {
             "default": {
               "path": "StdStorage.sol/stdStorageSafe.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -288,7 +556,7 @@
           "0.8.20": {
             "default": {
               "path": "StdStyle.sol/StdStyle.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -307,7 +575,7 @@
           "0.8.20": {
             "default": {
               "path": "StdToml.sol/stdToml.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -329,7 +597,7 @@
           "0.8.20": {
             "default": {
               "path": "StdUtils.sol/StdUtils.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -367,7 +635,7 @@
           "0.8.20": {
             "default": {
               "path": "Test.sol/Test.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -386,7 +654,7 @@
           "0.8.20": {
             "default": {
               "path": "Vm.sol/Vm.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         },
@@ -394,7 +662,7 @@
           "0.8.20": {
             "default": {
               "path": "Vm.sol/VmSafe.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -413,7 +681,7 @@
           "0.8.20": {
             "default": {
               "path": "console.sol/console.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -442,7 +710,7 @@
           "0.8.20": {
             "default": {
               "path": "IMulticall3.sol/IMulticall3.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -461,7 +729,7 @@
           "0.8.20": {
             "default": {
               "path": "safeconsole.sol/safeconsole.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -480,7 +748,7 @@
           "0.8.20": {
             "default": {
               "path": "draft-IERC6093.sol/IERC1155Errors.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         },
@@ -488,7 +756,7 @@
           "0.8.20": {
             "default": {
               "path": "draft-IERC6093.sol/IERC20Errors.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         },
@@ -496,7 +764,7 @@
           "0.8.20": {
             "default": {
               "path": "draft-IERC6093.sol/IERC721Errors.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -520,7 +788,7 @@
           "0.8.20": {
             "default": {
               "path": "ERC20.sol/ERC20.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -539,7 +807,7 @@
           "0.8.20": {
             "default": {
               "path": "IERC20.sol/IERC20.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -560,7 +828,7 @@
           "0.8.20": {
             "default": {
               "path": "IERC20Metadata.sol/IERC20Metadata.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -579,275 +847,7 @@
           "0.8.20": {
             "default": {
               "path": "Context.sol/Context.json",
-              "build_id": "9faf6063c2ab6b94"
-            }
-          }
-        }
-      },
-      "seenByCompiler": true
-    },
-    "script/DeployChitFund.s.sol": {
-      "lastModificationDate": 1758974985771,
-      "contentHash": "2784e28be82a238a",
-      "interfaceReprHash": null,
-      "sourceName": "script/DeployChitFund.s.sol",
-      "imports": [
-        "lib/forge-std/src/Base.sol",
-        "lib/forge-std/src/Script.sol",
-        "lib/forge-std/src/StdChains.sol",
-        "lib/forge-std/src/StdCheats.sol",
-        "lib/forge-std/src/StdConstants.sol",
-        "lib/forge-std/src/StdJson.sol",
-        "lib/forge-std/src/StdMath.sol",
-        "lib/forge-std/src/StdStorage.sol",
-        "lib/forge-std/src/StdStyle.sol",
-        "lib/forge-std/src/StdUtils.sol",
-        "lib/forge-std/src/Vm.sol",
-        "lib/forge-std/src/console.sol",
-        "lib/forge-std/src/console2.sol",
-        "lib/forge-std/src/interfaces/IMulticall3.sol",
-        "lib/forge-std/src/safeconsole.sol",
-        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
-        "src/ChitFund.sol",
-        "src/ChitFundFactory.sol",
-        "src/interfaces/IChitFund.sol"
-      ],
-      "versionRequirement": "^0.8.20",
-      "artifacts": {
-        "DeployChitFund": {
-          "0.8.20": {
-            "default": {
-              "path": "DeployChitFund.s.sol/DeployChitFund.json",
-              "build_id": "9faf6063c2ab6b94"
-            }
-          }
-        }
-      },
-      "seenByCompiler": true
-    },
-    "script/DeployLocal.s.sol": {
-      "lastModificationDate": 1758974531343,
-      "contentHash": "cf7266f134266853",
-      "interfaceReprHash": null,
-      "sourceName": "script/DeployLocal.s.sol",
-      "imports": [
-        "lib/forge-std/src/Base.sol",
-        "lib/forge-std/src/Script.sol",
-        "lib/forge-std/src/StdChains.sol",
-        "lib/forge-std/src/StdCheats.sol",
-        "lib/forge-std/src/StdConstants.sol",
-        "lib/forge-std/src/StdJson.sol",
-        "lib/forge-std/src/StdMath.sol",
-        "lib/forge-std/src/StdStorage.sol",
-        "lib/forge-std/src/StdStyle.sol",
-        "lib/forge-std/src/StdUtils.sol",
-        "lib/forge-std/src/Vm.sol",
-        "lib/forge-std/src/console.sol",
-        "lib/forge-std/src/console2.sol",
-        "lib/forge-std/src/interfaces/IMulticall3.sol",
-        "lib/forge-std/src/safeconsole.sol",
-        "lib/openzeppelin-contracts/contracts/interfaces/draft-IERC6093.sol",
-        "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol",
-        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
-        "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol",
-        "lib/openzeppelin-contracts/contracts/utils/Context.sol",
-        "src/ChitFund.sol",
-        "src/ChitFundFactory.sol",
-        "src/interfaces/IChitFund.sol"
-      ],
-      "versionRequirement": "^0.8.20",
-      "artifacts": {
-        "DeployLocal": {
-          "0.8.20": {
-            "default": {
-              "path": "DeployLocal.s.sol/DeployLocal.json",
-              "build_id": "9faf6063c2ab6b94"
-            }
-          }
-        },
-        "MockUSDC": {
-          "0.8.20": {
-            "default": {
-              "path": "DeployLocal.s.sol/MockUSDC.json",
-              "build_id": "9faf6063c2ab6b94"
-            }
-          }
-        }
-      },
-      "seenByCompiler": true
-    },
-    "script/TestChitFund.s.sol": {
-      "lastModificationDate": 1758974985772,
-      "contentHash": "ac2b90d242824f0a",
-      "interfaceReprHash": null,
-      "sourceName": "script/TestChitFund.s.sol",
-      "imports": [
-        "lib/forge-std/src/Base.sol",
-        "lib/forge-std/src/Script.sol",
-        "lib/forge-std/src/StdChains.sol",
-        "lib/forge-std/src/StdCheats.sol",
-        "lib/forge-std/src/StdConstants.sol",
-        "lib/forge-std/src/StdJson.sol",
-        "lib/forge-std/src/StdMath.sol",
-        "lib/forge-std/src/StdStorage.sol",
-        "lib/forge-std/src/StdStyle.sol",
-        "lib/forge-std/src/StdUtils.sol",
-        "lib/forge-std/src/Vm.sol",
-        "lib/forge-std/src/console.sol",
-        "lib/forge-std/src/console2.sol",
-        "lib/forge-std/src/interfaces/IMulticall3.sol",
-        "lib/forge-std/src/safeconsole.sol",
-        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
-        "src/ChitFund.sol",
-        "src/interfaces/IChitFund.sol"
-      ],
-      "versionRequirement": "^0.8.20",
-      "artifacts": {
-        "TestChitFund": {
-          "0.8.20": {
-            "default": {
-              "path": "TestChitFund.s.sol/TestChitFund.json",
-              "build_id": "9faf6063c2ab6b94"
-            }
-          }
-        }
-      },
-      "seenByCompiler": true
-    },
-    "script/TestCompleteCycle.s.sol": {
-      "lastModificationDate": 1758971255507,
-      "contentHash": "e6b85d443ed736c6",
-      "interfaceReprHash": null,
-      "sourceName": "script/TestCompleteCycle.s.sol",
-      "imports": [
-        "lib/forge-std/src/Base.sol",
-        "lib/forge-std/src/Script.sol",
-        "lib/forge-std/src/StdChains.sol",
-        "lib/forge-std/src/StdCheats.sol",
-        "lib/forge-std/src/StdConstants.sol",
-        "lib/forge-std/src/StdJson.sol",
-        "lib/forge-std/src/StdMath.sol",
-        "lib/forge-std/src/StdStorage.sol",
-        "lib/forge-std/src/StdStyle.sol",
-        "lib/forge-std/src/StdUtils.sol",
-        "lib/forge-std/src/Vm.sol",
-        "lib/forge-std/src/console.sol",
-        "lib/forge-std/src/console2.sol",
-        "lib/forge-std/src/interfaces/IMulticall3.sol",
-        "lib/forge-std/src/safeconsole.sol",
-        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
-        "src/ChitFund.sol",
-        "src/interfaces/IChitFund.sol"
-      ],
-      "versionRequirement": "^0.8.20",
-      "artifacts": {
-        "TestCompleteCycle": {
-          "0.8.20": {
-            "default": {
-              "path": "TestCompleteCycle.s.sol/TestCompleteCycle.json",
-              "build_id": "9faf6063c2ab6b94"
-            }
-          }
-        }
-      },
-      "seenByCompiler": true
-    },
-    "src/ChitFund.sol": {
-      "lastModificationDate": 1758974531343,
-      "contentHash": "c99782b9245223c7",
-      "interfaceReprHash": null,
-      "sourceName": "src/ChitFund.sol",
-      "imports": [
-        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
-        "src/interfaces/IChitFund.sol"
-      ],
-      "versionRequirement": "^0.8.20",
-      "artifacts": {
-        "ChitFund": {
-          "0.8.20": {
-            "default": {
-              "path": "ChitFund.sol/ChitFund.json",
-              "build_id": "9faf6063c2ab6b94"
-            }
-          }
-        }
-      },
-      "seenByCompiler": true
-    },
-    "src/ChitFundFactory.sol": {
-      "lastModificationDate": 1758974531343,
-      "contentHash": "ef1bab6f1aef4646",
-      "interfaceReprHash": null,
-      "sourceName": "src/ChitFundFactory.sol",
-      "imports": [
-        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
-        "src/ChitFund.sol",
-        "src/interfaces/IChitFund.sol"
-      ],
-      "versionRequirement": "^0.8.20",
-      "artifacts": {
-        "ChitFundFactory": {
-          "0.8.20": {
-            "default": {
-              "path": "ChitFundFactory.sol/ChitFundFactory.json",
-              "build_id": "9faf6063c2ab6b94"
-            }
-          }
-        }
-      },
-      "seenByCompiler": true
-    },
-    "src/interfaces/IAutomationCompatible.sol": {
-      "lastModificationDate": 1758964383023,
-      "contentHash": "bdb6e5a7f418ed2b",
-      "interfaceReprHash": null,
-      "sourceName": "src/interfaces/IAutomationCompatible.sol",
-      "imports": [],
-      "versionRequirement": "^0.8.20",
-      "artifacts": {
-        "IAutomationCompatible": {
-          "0.8.20": {
-            "default": {
-              "path": "IAutomationCompatible.sol/IAutomationCompatible.json",
-              "build_id": "9faf6063c2ab6b94"
-            }
-          }
-        }
-      },
-      "seenByCompiler": true
-    },
-    "src/interfaces/IChitFund.sol": {
-      "lastModificationDate": 1758964373944,
-      "contentHash": "e65b7b0d3477eb86",
-      "interfaceReprHash": null,
-      "sourceName": "src/interfaces/IChitFund.sol",
-      "imports": [],
-      "versionRequirement": "^0.8.20",
-      "artifacts": {
-        "IChitFund": {
-          "0.8.20": {
-            "default": {
-              "path": "IChitFund.sol/IChitFund.json",
-              "build_id": "9faf6063c2ab6b94"
-            }
-          }
-        }
-      },
-      "seenByCompiler": true
-    },
-    "src/interfaces/IChitFundFactory.sol": {
-      "lastModificationDate": 1758965603329,
-      "contentHash": "0539777bb117331b",
-      "interfaceReprHash": null,
-      "sourceName": "src/interfaces/IChitFundFactory.sol",
-      "imports": [],
-      "versionRequirement": "^0.8.20",
-      "artifacts": {
-        "IChitFundFactory": {
-          "0.8.20": {
-            "default": {
-              "path": "IChitFundFactory.sol/IChitFundFactory.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -855,11 +855,14 @@
       "seenByCompiler": true
     },
     "test/ChitFund.t.sol": {
-      "lastModificationDate": 1758974985779,
-      "contentHash": "311c92a24ee63145",
+      "lastModificationDate": 1758985530014,
+      "contentHash": "972bf5869a776ac7",
       "interfaceReprHash": null,
       "sourceName": "test/ChitFund.t.sol",
       "imports": [
+        "contracts/ChitFund.sol",
+        "contracts/ChitFundFactory.sol",
+        "contracts/interfaces/IChitFund.sol",
         "lib/forge-std/src/Base.sol",
         "lib/forge-std/src/StdAssertions.sol",
         "lib/forge-std/src/StdChains.sol",
@@ -879,10 +882,7 @@
         "lib/forge-std/src/console2.sol",
         "lib/forge-std/src/interfaces/IMulticall3.sol",
         "lib/forge-std/src/safeconsole.sol",
-        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
-        "src/ChitFund.sol",
-        "src/ChitFundFactory.sol",
-        "src/interfaces/IChitFund.sol"
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol"
       ],
       "versionRequirement": "^0.8.20",
       "artifacts": {
@@ -890,7 +890,7 @@
           "0.8.20": {
             "default": {
               "path": "ChitFund.t.sol/ChitFundTest.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -898,11 +898,14 @@
       "seenByCompiler": true
     },
     "test/ChitFundAutomation.t.sol": {
-      "lastModificationDate": 1758974985784,
-      "contentHash": "b984c2d5131ac4f9",
+      "lastModificationDate": 1758985530014,
+      "contentHash": "81444d1cf4c51404",
       "interfaceReprHash": null,
       "sourceName": "test/ChitFundAutomation.t.sol",
       "imports": [
+        "contracts/ChitFund.sol",
+        "contracts/ChitFundFactory.sol",
+        "contracts/interfaces/IChitFund.sol",
         "lib/forge-std/src/Base.sol",
         "lib/forge-std/src/StdAssertions.sol",
         "lib/forge-std/src/StdChains.sol",
@@ -922,10 +925,7 @@
         "lib/forge-std/src/console2.sol",
         "lib/forge-std/src/interfaces/IMulticall3.sol",
         "lib/forge-std/src/safeconsole.sol",
-        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
-        "src/ChitFund.sol",
-        "src/ChitFundFactory.sol",
-        "src/interfaces/IChitFund.sol"
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol"
       ],
       "versionRequirement": "^0.8.20",
       "artifacts": {
@@ -933,7 +933,7 @@
           "0.8.20": {
             "default": {
               "path": "ChitFundAutomation.t.sol/ChitFundAutomationTest.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -941,11 +941,14 @@
       "seenByCompiler": true
     },
     "test/ChitFundEdgeCases.t.sol": {
-      "lastModificationDate": 1758974985772,
-      "contentHash": "c8a7e4edb1ad483f",
+      "lastModificationDate": 1758985530015,
+      "contentHash": "af83a25893682c03",
       "interfaceReprHash": null,
       "sourceName": "test/ChitFundEdgeCases.t.sol",
       "imports": [
+        "contracts/ChitFund.sol",
+        "contracts/ChitFundFactory.sol",
+        "contracts/interfaces/IChitFund.sol",
         "lib/forge-std/src/Base.sol",
         "lib/forge-std/src/StdAssertions.sol",
         "lib/forge-std/src/StdChains.sol",
@@ -965,10 +968,7 @@
         "lib/forge-std/src/console2.sol",
         "lib/forge-std/src/interfaces/IMulticall3.sol",
         "lib/forge-std/src/safeconsole.sol",
-        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
-        "src/ChitFund.sol",
-        "src/ChitFundFactory.sol",
-        "src/interfaces/IChitFund.sol"
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol"
       ],
       "versionRequirement": "^0.8.20",
       "artifacts": {
@@ -976,7 +976,7 @@
           "0.8.20": {
             "default": {
               "path": "ChitFundEdgeCases.t.sol/ChitFundEdgeCasesTest.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -984,11 +984,14 @@
       "seenByCompiler": true
     },
     "test/ChitFundFactory.t.sol": {
-      "lastModificationDate": 1758974904430,
-      "contentHash": "6808fea83c6585aa",
+      "lastModificationDate": 1758985530015,
+      "contentHash": "d7605d2e66763377",
       "interfaceReprHash": null,
       "sourceName": "test/ChitFundFactory.t.sol",
       "imports": [
+        "contracts/ChitFund.sol",
+        "contracts/ChitFundFactory.sol",
+        "contracts/interfaces/IChitFund.sol",
         "lib/forge-std/src/Base.sol",
         "lib/forge-std/src/StdAssertions.sol",
         "lib/forge-std/src/StdChains.sol",
@@ -1008,10 +1011,7 @@
         "lib/forge-std/src/console2.sol",
         "lib/forge-std/src/interfaces/IMulticall3.sol",
         "lib/forge-std/src/safeconsole.sol",
-        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
-        "src/ChitFund.sol",
-        "src/ChitFundFactory.sol",
-        "src/interfaces/IChitFund.sol"
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol"
       ],
       "versionRequirement": "^0.8.20",
       "artifacts": {
@@ -1019,7 +1019,7 @@
           "0.8.20": {
             "default": {
               "path": "ChitFundFactory.t.sol/ChitFundFactoryTest.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -1027,11 +1027,14 @@
       "seenByCompiler": true
     },
     "test/ChitFundIntegration.t.sol": {
-      "lastModificationDate": 1758974985784,
-      "contentHash": "a78795ec08c0999c",
+      "lastModificationDate": 1758985530014,
+      "contentHash": "f727140d3aafd0f0",
       "interfaceReprHash": null,
       "sourceName": "test/ChitFundIntegration.t.sol",
       "imports": [
+        "contracts/ChitFund.sol",
+        "contracts/ChitFundFactory.sol",
+        "contracts/interfaces/IChitFund.sol",
         "lib/forge-std/src/Base.sol",
         "lib/forge-std/src/StdAssertions.sol",
         "lib/forge-std/src/StdChains.sol",
@@ -1051,10 +1054,7 @@
         "lib/forge-std/src/console2.sol",
         "lib/forge-std/src/interfaces/IMulticall3.sol",
         "lib/forge-std/src/safeconsole.sol",
-        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
-        "src/ChitFund.sol",
-        "src/ChitFundFactory.sol",
-        "src/interfaces/IChitFund.sol"
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol"
       ],
       "versionRequirement": "^0.8.20",
       "artifacts": {
@@ -1062,7 +1062,7 @@
           "0.8.20": {
             "default": {
               "path": "ChitFundIntegration.t.sol/ChitFundIntegrationTest.json",
-              "build_id": "9faf6063c2ab6b94"
+              "build_id": "699d669d42a39367"
             }
           }
         }
@@ -1070,7 +1070,7 @@
       "seenByCompiler": true
     }
   },
-  "builds": ["9faf6063c2ab6b94"],
+  "builds": ["699d669d42a39367"],
   "profiles": {
     "default": {
       "solc": {

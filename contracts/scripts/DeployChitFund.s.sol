@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import {Script, console} from "forge-std/Script.sol";
-import {ChitFundFactory} from "../src/ChitFundFactory.sol";
+import {ChitFundFactory} from "../ChitFundFactory.sol";
 
 contract DeployChitFund is Script {
     struct DeployConfig {
