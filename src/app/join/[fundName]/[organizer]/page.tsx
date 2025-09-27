@@ -160,12 +160,6 @@ export default function JoinFundPage() {
         <div className="border-border bg-card/50 border-b backdrop-blur-sm">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/home">
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back to Home
-                </Link>
-              </Button>
               <div>
                 <h1 className="text-foreground text-xl font-bold">
                   Join Chit Fund
@@ -178,7 +172,7 @@ export default function JoinFundPage() {
           </div>
         </div>
 
-        <div className="container mx-auto max-w-4xl px-4 py-6">
+        <div className="container mx-auto px-4 py-6">
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="space-y-6 lg:col-span-2">
               <Card>
