@@ -47,9 +47,11 @@ export function SidebarDemo() {
               cheat.fund
             </h1>
           </div>
-          {links.map((link, idx) => (
-            <SidebarLink className="pl-[10px]" key={idx} link={link} />
-          ))}
+          <div className={open ? "pl-[12px]" : "pl-[5px]"}>
+            {links.map((link, idx) => (
+              <SidebarLink key={idx} link={link} />
+            ))}
+          </div>
         </div>
       </SidebarBody>
     </Sidebar>
