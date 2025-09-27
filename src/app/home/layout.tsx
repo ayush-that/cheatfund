@@ -1,6 +1,6 @@
 import type React from "react";
-import { Sidebar } from "~/components/ui/navigation/sidebar";
 import { Navbar } from "~/components/ui/navigation/navbar";
+import { SidebarDemo } from "~/components/ui/dashboard/sidebar";
 
 export default function HomeLayout({
   children,
@@ -9,7 +9,7 @@ export default function HomeLayout({
 }) {
   return (
     <div className="flex h-screen">
-      <Sidebar />
+      {/* <SidebarDemo /> */}
       <div className="flex flex-1 flex-col">
         <Navbar />
         <main className="flex-1 overflow-auto">{children}</main>
