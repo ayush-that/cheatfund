@@ -1,8 +1,10 @@
-import "~/styles/globals.css";
+import "../styles/globals.css";
 
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 import { AnonAadhaarProviderWrapper } from "~/components/anon-aadhaar-provider-wrapper";
+import { WalletProvider } from "~/lib/wallet";
+import { Toaster } from "~/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "CheatFund - Web3 Authentication",
@@ -21,7 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable} dark`}>
       <body>
-        <AnonAadhaarProviderWrapper>{children}</AnonAadhaarProviderWrapper>
+        <AnonAadhaarProviderWrapper>
+          <WalletProvider>
+            {children}
+            <Toaster />
+          </WalletProvider>
+        </AnonAadhaarProviderWrapper>
       </body>
     </html>
   );
