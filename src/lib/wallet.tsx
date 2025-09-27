@@ -117,14 +117,12 @@ export function WalletProvider({ children }: { children: ReactNode }) {
           method: "eth_getBalance",
           params: [address, "latest"],
         } as any)) as string;
-        const balanceInEth = (
-          Number.parseInt(balance, 16) / Math.pow(10, 18)
-        ).toFixed(4);
+        const balanceInEth =
+          Math.floor((Number.parseInt(balance, 16) / Math.pow(10, 18)) * 100) /
+          100;
         setState((prev) => ({ ...prev, balance: balanceInEth }));
       }
-    } catch (error) {
-      console.error("Error fetching balance:", error);
-    }
+    } catch (error) {}
   };
 
   const connect = async () => {

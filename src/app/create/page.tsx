@@ -30,6 +30,7 @@ import { useWallet } from "~/lib/wallet";
 import { useChitFundFactory } from "~/hooks/contracts/useChitFundFactory";
 import { useTransactionManager } from "~/hooks/contracts/useTransactionManager";
 import { TransactionStatus } from "~/components/ui/transaction/transaction-status";
+import { CreatingFundLoading } from "~/components/ui/loading/loading-states";
 import { switchToFlowTestnet, checkNetwork } from "~/lib/web3";
 import { toast } from "sonner";
 import {
@@ -116,7 +117,6 @@ export default function CreateFundPage() {
     setIsCreating(true);
 
     try {
-      // Check and switch to Flow Testnet
       const isOnFlowTestnet = await checkNetwork();
       if (!isOnFlowTestnet) {
         toast.loading("Switching to Flow Testnet...", { id: "switch-network" });
@@ -131,7 +131,6 @@ export default function CreateFundPage() {
         toast.success("Switched to Flow Testnet!", { id: "switch-network" });
       }
 
-      // Prepare contract parameters
       const contributionAmount = (
         Number.parseFloat(formData.totalAmount) /
         Number.parseInt(formData.maxParticipants)
@@ -145,11 +144,9 @@ export default function CreateFundPage() {
 
       toast.loading("Creating chit fund...", { id: "create-fund" });
 
-      // Call smart contract
       const result = await createChitFund(params);
 
       if (result.success && result.txHash) {
-        // Track transaction
         addTransaction(result.txHash);
         setCurrentTx(result.txHash);
 
@@ -596,9 +593,17 @@ export default function CreateFundPage() {
                   {currentTx && (
                     <div className="mt-4">
                       <TransactionStatus
-                        transaction={getTransaction(currentTx)!}
+                        transactionHash={currentTx}
+                        status="pending"
+                        type="Fund Creation"
                         onClose={() => setCurrentTx(null)}
                       />
+                    </div>
+                  )}
+
+                  {isCreating && (
+                    <div className="mt-4">
+                      <CreatingFundLoading />
                     </div>
                   )}
 

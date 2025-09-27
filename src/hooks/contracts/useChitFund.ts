@@ -55,6 +55,71 @@ export function useChitFund(contractAddress: string) {
       setLoading(true);
       setError(null);
 
+      // First, check fund status before attempting to join
+      const provider = getProvider();
+      const readContract = new ethers.Contract(
+        contractAddress,
+        CONTRACTS.CHITFUND.abi,
+        provider,
+      );
+
+      // Check if contract exists
+      try {
+        const code = await provider.getCode(contractAddress);
+        if (code === "0x") {
+          throw new Error("No contract found at this address");
+        }
+      } catch (error) {
+        throw new Error("Contract not found at the specified address");
+      }
+
+      try {
+        const fundName = await (readContract as any).fundName();
+
+        const contributionAmount = await (
+          readContract as any
+        ).contributionAmount();
+        const totalMembers = await (readContract as any).totalMembers();
+      } catch (error) {
+        throw new Error(
+          "Invalid contract address. This appears to be a factory contract, not a ChitFund instance. Please use the correct ChitFund contract address.",
+        );
+      }
+
+      const isChitFundStarted = await (readContract as any).isChitFundStarted();
+      if (isChitFundStarted) {
+        throw new Error(
+          "This fund has already started and is no longer accepting new members",
+        );
+      }
+
+      let poolStatus;
+      try {
+        poolStatus = await (readContract as any).getPoolStatus();
+      } catch (error) {
+        throw new Error(
+          "Failed to get fund status. The contract may not be properly deployed or accessible.",
+        );
+      }
+
+      if (poolStatus.currentMembers >= poolStatus.totalMembers) {
+        throw new Error("This fund is full and cannot accept more members");
+      }
+
+      // Check if user is already a member
+      const isMember = await (readContract as any).isMemberAddress(address);
+      if (isMember) {
+        throw new Error("You are already a member of this fund");
+      }
+
+      // Check if fund is active (only relevant for started funds)
+      if (isChitFundStarted && !poolStatus.isActive) {
+        throw new Error(
+          "This fund is not active and cannot accept new members",
+        );
+      }
+
+      // Now attempt to join
       const signer = await getSigner();
       const contract = new ethers.Contract(
         contractAddress,
@@ -71,8 +136,37 @@ export function useChitFund(contractAddress: string) {
         receipt,
       };
     } catch (error: any) {
-      const errorMessage =
-        error.reason || error.message || "Failed to join fund";
+      let errorMessage = "Failed to join fund";
+
+      // Handle specific error cases
+      if (error.message?.includes("Invalid contract address")) {
+        errorMessage = error.message;
+      } else if (error.message?.includes("Already started")) {
+        errorMessage =
+          "This fund has already started and is no longer accepting new members";
+      } else if (error.message?.includes("Fund is full")) {
+        errorMessage = "This fund is full and cannot accept more members";
+      } else if (error.message?.includes("Already a member")) {
+        errorMessage = "You are already a member of this fund";
+      } else if (error.message?.includes("not active")) {
+        errorMessage = "This fund is not active and cannot accept new members";
+      } else if (error.reason) {
+        errorMessage = error.reason;
+      } else if (error.data) {
+        // Try to decode the revert reason
+        try {
+          const decoded = ethers.AbiCoder.defaultAbiCoder().decode(
+            ["string"],
+            error.data,
+          );
+          errorMessage = decoded[0];
+        } catch {
+          errorMessage = "Transaction failed: " + error.data;
+        }
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
       setError(errorMessage);
       throw new Error(errorMessage);
     } finally {
@@ -159,6 +253,112 @@ export function useChitFund(contractAddress: string) {
     },
     [address, contractAddress],
   );
+
+  const checkCanJoin = useCallback(async (): Promise<{
+    canJoin: boolean;
+    reason?: string;
+    fundStatus: {
+      isStarted: boolean;
+      isFull: boolean;
+      isActive: boolean;
+      isMember: boolean;
+    };
+  }> => {
+    if (!address || !contractAddress) {
+      return {
+        canJoin: false,
+        reason: "Wallet not connected",
+        fundStatus: {
+          isStarted: false,
+          isFull: false,
+          isActive: false,
+          isMember: false,
+        },
+      };
+    }
+
+    try {
+      const provider = getProvider();
+      const contract = new ethers.Contract(
+        contractAddress,
+        CONTRACTS.CHITFUND.abi,
+        provider,
+      );
+
+      // Check if contract exists by trying to get code
+      try {
+        const code = await provider.getCode(contractAddress);
+        if (code === "0x") {
+          throw new Error("No contract found at this address");
+        }
+      } catch (error) {
+        throw new Error("Contract not found at the specified address");
+      }
+
+      let isChitFundStarted, poolStatus, isMember;
+
+      try {
+        isChitFundStarted = await (contract as any).isChitFundStarted();
+      } catch (error) {
+        throw new Error("Failed to check fund status");
+      }
+
+      try {
+        poolStatus = await (contract as any).getPoolStatus();
+      } catch (error) {
+        throw new Error(
+          "Failed to get fund status. The contract may not be properly deployed or accessible.",
+        );
+      }
+
+      try {
+        isMember = await (contract as any).isMemberAddress(address);
+      } catch (error) {
+        throw new Error("Failed to check membership status");
+      }
+
+      const isFull = poolStatus.currentMembers >= poolStatus.totalMembers;
+
+      let canJoin = true;
+      let reason = "";
+
+      if (isChitFundStarted) {
+        canJoin = false;
+        reason = "Fund has already started";
+      } else if (isFull) {
+        canJoin = false;
+        reason = "Fund is full";
+      } else if (isMember) {
+        canJoin = false;
+        reason = "Already a member";
+      } else if (isChitFundStarted && !poolStatus.isActive) {
+        canJoin = false;
+        reason = "Fund is not active";
+      }
+
+      return {
+        canJoin,
+        reason,
+        fundStatus: {
+          isStarted: isChitFundStarted,
+          isFull,
+          isActive: !isChitFundStarted || poolStatus.isActive, // Active if not started yet OR if started and cycle is active
+          isMember,
+        },
+      };
+    } catch (error) {
+      return {
+        canJoin: false,
+        reason: "Unable to check fund status",
+        fundStatus: {
+          isStarted: false,
+          isFull: false,
+          isActive: false,
+          isMember: false,
+        },
+      };
+    }
+  }, [address, contractAddress]);
 
   const getFundData =
     useCallback(async (): Promise<FundDashboardData | null> => {
@@ -251,6 +451,7 @@ export function useChitFund(contractAddress: string) {
     contribute,
     submitBid,
     getFundData,
+    checkCanJoin,
     fundData,
     loading,
     error,

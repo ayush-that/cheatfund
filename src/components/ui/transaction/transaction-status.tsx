@@ -1,174 +1,217 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../card";
-import { Badge } from "../badge";
-import { Button } from "../button";
-import { Progress } from "../progress";
-import { CheckCircle, Clock, AlertCircle, ExternalLink } from "lucide-react";
+} from "~/components/ui/card";
+import { Button } from "~/components/ui/button";
+import { Badge } from "~/components/ui/badge";
+import { Progress } from "~/components/ui/progress";
+import { Alert, AlertDescription } from "~/components/ui/alert";
+import {
+  CheckCircle,
+  XCircle,
+  Clock,
+  ExternalLink,
+  Copy,
+  RefreshCw,
+  AlertCircle,
+} from "lucide-react";
+import { useTransactionManager } from "~/hooks/contracts/useTransactionManager";
 import { SUPPORTED_NETWORKS } from "~/lib/contracts";
-import type { TransactionStatus } from "~/hooks/contracts/useTransactionManager";
 
 interface TransactionStatusProps {
-  transaction: TransactionStatus;
+  transactionHash?: string;
+  status: "pending" | "confirmed" | "failed";
+  type: string;
   onClose?: () => void;
-  showDetails?: boolean;
+  onRetry?: () => void;
+  className?: string;
 }
 
 export function TransactionStatus({
-  transaction,
+  transactionHash,
+  status,
+  type,
   onClose,
-  showDetails = true,
+  onRetry,
+  className,
 }: TransactionStatusProps) {
-  const [timeElapsed, setTimeElapsed] = useState(0);
+  const { transactions } = useTransactionManager();
+  const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeElapsed(Date.now() - transaction.timestamp);
-    }, 1000);
+  const transaction = transactionHash ? transactions[transactionHash] : null;
+  const currentStatus = transaction?.status || status;
+  const confirmations = transaction?.confirmations || 0;
+  const blockNumber = transaction?.blockNumber;
+  const gasUsed = transaction?.gasUsed;
+  const error = transaction?.error;
 
-    return () => clearInterval(interval);
-  }, [transaction.timestamp]);
+  const copyHash = async () => {
+    if (transactionHash) {
+      await navigator.clipboard.writeText(transactionHash);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const getBlockExplorerUrl = () => {
+    if (!transactionHash) return null;
+    const network = SUPPORTED_NETWORKS[545]; // Flow Testnet
+    return `${network.blockExplorer}/tx/${transactionHash}`;
+  };
 
   const getStatusIcon = () => {
-    switch (transaction.status) {
+    switch (currentStatus) {
       case "confirmed":
         return <CheckCircle className="h-5 w-5 text-green-500" />;
       case "failed":
-        return <AlertCircle className="h-5 w-5 text-red-500" />;
+        return <XCircle className="h-5 w-5 text-red-500" />;
+      case "pending":
       default:
-        return <Clock className="h-5 w-5 text-yellow-500" />;
+        return <Clock className="h-5 w-5 animate-pulse text-yellow-500" />;
     }
   };
 
   const getStatusColor = () => {
-    switch (transaction.status) {
+    switch (currentStatus) {
       case "confirmed":
-        return "bg-green-500";
+        return "bg-green-100 text-green-800 border-green-200";
       case "failed":
-        return "bg-red-500";
+        return "bg-red-100 text-red-800 border-red-200";
+      case "pending":
       default:
-        return "bg-yellow-500";
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
     }
   };
 
   const getStatusText = () => {
-    switch (transaction.status) {
+    switch (currentStatus) {
       case "confirmed":
         return "Transaction Confirmed";
       case "failed":
         return "Transaction Failed";
+      case "pending":
       default:
         return "Transaction Pending";
     }
   };
 
-  const formatTime = (ms: number) => {
-    const seconds = Math.floor(ms / 1000);
-    if (seconds < 60) return `${seconds}s`;
-    const minutes = Math.floor(seconds / 60);
-    return `${minutes}m ${seconds % 60}s`;
-  };
-
-  const getExplorerUrl = () => {
-    const network = SUPPORTED_NETWORKS[545];
-    return `${network.blockExplorer}/tx/${transaction.hash}`;
-  };
-
   const getProgressValue = () => {
-    if (transaction.status === "confirmed") return 100;
-    if (transaction.status === "failed") return 100;
-    return Math.min(90, (transaction.confirmations / 12) * 100);
+    if (currentStatus === "confirmed") return 100;
+    if (currentStatus === "failed") return 100;
+    return Math.min((confirmations / 1) * 100, 90); // Assuming 1 confirmation needed
   };
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className={className}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center space-x-2">
             {getStatusIcon()}
             <CardTitle className="text-lg">{getStatusText()}</CardTitle>
           </div>
-          <Badge
-            variant={
-              transaction.status === "confirmed" ? "default" : "secondary"
-            }
-            className={transaction.status === "confirmed" ? "bg-green-500" : ""}
-          >
-            {transaction.status}
-          </Badge>
+          <div className="flex items-center space-x-2">
+            <Badge className={getStatusColor()}>{type}</Badge>
+            {onClose && (
+              <Button variant="ghost" size="sm" onClick={onClose}>
+                <XCircle className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
         </div>
         <CardDescription>
-          Transaction submitted {formatTime(timeElapsed)} ago
+          {currentStatus === "pending" &&
+            "Your transaction is being processed on the blockchain"}
+          {currentStatus === "confirmed" &&
+            "Your transaction has been successfully confirmed"}
+          {currentStatus === "failed" && "Your transaction failed to execute"}
         </CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <div className="flex justify-between text-sm">
-            <span>Progress</span>
-            <span>{transaction.confirmations}/12 confirmations</span>
-          </div>
-          <Progress value={getProgressValue()} className="h-2" />
-        </div>
-
-        {showDetails && (
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Hash:</span>
-              <span className="font-mono text-xs">
-                {transaction.hash.slice(0, 10)}...{transaction.hash.slice(-8)}
-              </span>
+        {currentStatus === "pending" && (
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm">
+              <span>Confirmations: {confirmations}/1</span>
+              <span>{Math.round(getProgressValue())}%</span>
             </div>
+            <Progress value={getProgressValue()} className="h-2" />
+          </div>
+        )}
 
-            {transaction.blockNumber && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Block:</span>
-                <span>{transaction.blockNumber.toLocaleString()}</span>
+        {transactionHash && (
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Transaction Hash</label>
+            <div className="flex items-center space-x-2">
+              <code className="bg-muted flex-1 rounded px-2 py-1 font-mono text-sm">
+                {transactionHash.slice(0, 10)}...{transactionHash.slice(-8)}
+              </code>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={copyHash}
+                disabled={copied}
+              >
+                {copied ? (
+                  <CheckCircle className="h-4 w-4" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
+              </Button>
+              {getBlockExplorerUrl() && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const url = getBlockExplorerUrl();
+                    if (url) window.open(url, "_blank");
+                  }}
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {(blockNumber || gasUsed) && (
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            {blockNumber && (
+              <div>
+                <span className="font-medium">Block Number:</span>
+                <span className="ml-2 font-mono">{blockNumber.toString()}</span>
               </div>
             )}
-
-            {transaction.gasUsed && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Gas Used:</span>
-                <span>{transaction.gasUsed.toLocaleString()}</span>
+            {gasUsed && (
+              <div>
+                <span className="font-medium">Gas Used:</span>
+                <span className="ml-2 font-mono">{gasUsed.toString()}</span>
               </div>
             )}
           </div>
         )}
 
-        {transaction.error && (
-          <div className="rounded-md bg-red-50 p-3 text-sm text-red-800">
-            {transaction.error}
-          </div>
+        {currentStatus === "failed" && error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
         )}
 
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex-1"
-            onClick={() => window.open(getExplorerUrl(), "_blank")}
-          >
-            <ExternalLink className="mr-2 h-4 w-4" />
-            View on Explorer
-          </Button>
-
-          {onClose && (
-            <Button
-              variant={transaction.status === "pending" ? "outline" : "default"}
-              size="sm"
-              onClick={onClose}
-              className="flex-1"
-            >
-              {transaction.status === "pending" ? "Hide" : "Close"}
+        <div className="flex justify-end space-x-2">
+          {currentStatus === "failed" && onRetry && (
+            <Button variant="outline" onClick={onRetry}>
+              <RefreshCw className="mr-2 h-4 w-4" />
+              Retry
             </Button>
+          )}
+          {currentStatus === "confirmed" && onClose && (
+            <Button onClick={onClose}>Close</Button>
           )}
         </div>
       </CardContent>

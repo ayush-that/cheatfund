@@ -18,6 +18,7 @@ import { useWallet } from "~/lib/wallet";
 import { useChitFund } from "~/hooks/contracts/useChitFund";
 import { useTransactionManager } from "~/hooks/contracts/useTransactionManager";
 import { TransactionStatus } from "~/components/ui/transaction/transaction-status";
+import { JoinFundForm } from "~/components/ui/fund/join-fund-form";
 import { switchToFlowTestnet, checkNetwork } from "~/lib/web3";
 import { toast } from "sonner";
 import {
@@ -35,7 +36,7 @@ import {
 import Link from "next/link";
 
 export default function JoinFundPage() {
-  const contractAddress = "0x66cb2eb0baa986b241d43d652ae912a4dbfce50c";
+  const contractAddress = "0xaeba71150ced9fdf7b3f54796ceef360b1df7f2d";
   const params = useParams();
   const router = useRouter();
   const { address, balance } = useWallet();
@@ -131,7 +132,6 @@ export default function JoinFundPage() {
     setJoinError("");
 
     try {
-      // Check and switch to Flow Testnet
       const isOnFlowTestnet = await checkNetwork();
       if (!isOnFlowTestnet) {
         toast.loading("Switching to Flow Testnet...", { id: "switch-network" });
@@ -423,108 +423,26 @@ export default function JoinFundPage() {
             </div>
 
             <div className="space-y-6">
-              <Card className="sticky top-6">
-                <CardHeader>
-                  <CardTitle>Join This Fund</CardTitle>
-                  <CardDescription>
-                    {fundData.maxParticipants - fundData.currentParticipants}{" "}
-                    spots remaining
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">
-                        Wallet Balance
-                      </span>
-                      <span
-                        className={
-                          Number.parseFloat(balance || "0") >=
-                          Number.parseFloat(fundData.monthlyAmount)
-                            ? "text-green-600"
-                            : "text-destructive"
-                        }
-                      >
-                        {balance || "0"} ETH
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Required</span>
-                      <span className="font-medium">
-                        {fundData.monthlyAmount} ETH
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">
-                        Available Spots
-                      </span>
-                      <span className="font-medium">
-                        {fundData.maxParticipants -
-                          fundData.currentParticipants}
-                      </span>
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  {joinError && (
-                    <Alert variant="destructive">
-                      <AlertCircle className="h-4 w-4" />
-                      <AlertDescription>{joinError}</AlertDescription>
-                    </Alert>
-                  )}
-
-                  {!canJoin && (
-                    <Alert variant="destructive">
-                      <AlertCircle className="h-4 w-4" />
-                      <AlertDescription>
-                        {Number.parseFloat(balance || "0") <
-                        Number.parseFloat(fundData.monthlyAmount)
-                          ? "Insufficient wallet balance to join this fund"
-                          : fundData.currentParticipants >=
-                              fundData.maxParticipants
-                            ? "This fund is full"
-                            : "This fund is not currently accepting new participants"}
-                      </AlertDescription>
-                    </Alert>
-                  )}
-
-                  <Button
-                    onClick={handleJoinFund}
-                    disabled={!canJoin || isJoining}
-                    className="bg-primary hover:bg-primary/90 w-full"
-                  >
-                    {isJoining || contractLoading ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Joining Fund...
-                      </>
-                    ) : (
-                      "Join Fund"
-                    )}
-                  </Button>
-
-                  <p className="text-muted-foreground text-center text-xs">
-                    By joining, you agree to the terms and conditions of this
-                    chit fund.
-                  </p>
-
-                  {currentTx && (
-                    <div className="mt-4">
-                      <TransactionStatus
-                        transaction={getTransaction(currentTx)!}
-                        onClose={() => setCurrentTx(null)}
-                      />
-                    </div>
-                  )}
-
-                  {contractError && (
-                    <div className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-800">
-                      <strong>Error:</strong> {contractError}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+              {/* New Join Fund Form */}
+              <JoinFundForm
+                contractAddress={contractAddress}
+                fundName={fundData.name}
+                contributionAmount={BigInt(
+                  Number.parseFloat(fundData.monthlyAmount) * 1e18,
+                )}
+                totalMembers={fundData.maxParticipants}
+                currentMembers={fundData.currentParticipants}
+                onSuccess={() => {
+                  toast.success("Successfully joined the fund!");
+                  router.push(
+                    `/fund/${encodeURIComponent(fundData.name)}/${organizer}`,
+                  );
+                }}
+                onError={(error) => {
+                  setJoinError(error.message);
+                  toast.error(`Failed to join fund: ${error.message}`);
+                }}
+              />
 
               <Card>
                 <CardHeader>

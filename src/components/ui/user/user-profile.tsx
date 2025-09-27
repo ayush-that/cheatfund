@@ -37,7 +37,6 @@ export function UserProfile({ profile }: UserProfileProps) {
 
   const handleSave = () => {
     // TODO: Implement profile update
-    console.log("Saving profile:", editedProfile);
     setIsEditing(false);
   };
 

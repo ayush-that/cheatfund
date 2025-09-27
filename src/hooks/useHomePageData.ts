@@ -68,15 +68,50 @@ export function useHomePageData() {
       setLoading(true);
       setError(null);
 
-      const userFunds = await getUserChitFunds();
-
-      const publicFundsResponse = await fetch(
-        "/api/funds/public?limit=20&offset=0",
-      );
-      if (!publicFundsResponse.ok) {
-        throw new Error("Failed to fetch public funds");
+      const contractAddress = process.env.NEXT_PUBLIC_CHITFUND_FACTORY_ADDRESS;
+      if (!contractAddress) {
+        const fallbackData: HomePageData = {
+          userStats: {
+            totalInvested: "0",
+            totalReturns: "0",
+            activeFunds: 0,
+            completedFunds: 0,
+            successRate: 0,
+            nextPaymentDue: null,
+            monthlyCommitment: "0",
+          },
+          recentActivities: [],
+          activeFunds: [],
+          publicFunds: [],
+        };
+        setData(fallbackData);
+        setLoading(false);
+        return;
       }
-      const { data: publicFunds } = await publicFundsResponse.json();
+
+      const contractTimeout = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Contract call timeout")), 10000),
+      );
+
+      let userFunds: any[] = [];
+      try {
+        userFunds = await Promise.race([getUserChitFunds(), contractTimeout]);
+      } catch (contractError) {
+        userFunds = [];
+      }
+
+      let publicFunds: any[] = [];
+      try {
+        const publicFundsResponse = await fetch(
+          "/api/funds/public?limit=20&offset=0",
+        );
+        if (publicFundsResponse.ok) {
+          const { data } = await publicFundsResponse.json();
+          publicFunds = data || [];
+        }
+      } catch (apiError) {
+        publicFunds = [];
+      }
 
       const totalInvested = userFunds.reduce((sum, fund) => {
         return (
@@ -146,6 +181,22 @@ export function useHomePageData() {
       setData(homePageData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch data");
+
+      const fallbackData: HomePageData = {
+        userStats: {
+          totalInvested: "0",
+          totalReturns: "0",
+          activeFunds: 0,
+          completedFunds: 0,
+          successRate: 0,
+          nextPaymentDue: null,
+          monthlyCommitment: "0",
+        },
+        recentActivities: [],
+        activeFunds: [],
+        publicFunds: [],
+      };
+      setData(fallbackData);
     } finally {
       setLoading(false);
     }
@@ -153,7 +204,30 @@ export function useHomePageData() {
 
   useEffect(() => {
     fetchHomePageData();
-  }, [fetchHomePageData]);
+
+    const timeout = setTimeout(() => {
+      if (loading) {
+        const fallbackData: HomePageData = {
+          userStats: {
+            totalInvested: "0",
+            totalReturns: "0",
+            activeFunds: 0,
+            completedFunds: 0,
+            successRate: 0,
+            nextPaymentDue: null,
+            monthlyCommitment: "0",
+          },
+          recentActivities: [],
+          activeFunds: [],
+          publicFunds: [],
+        };
+        setData(fallbackData);
+        setLoading(false);
+      }
+    }, 15000);
+
+    return () => clearTimeout(timeout);
+  }, [fetchHomePageData, loading]);
 
   return {
     data,

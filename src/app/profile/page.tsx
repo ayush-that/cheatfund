@@ -2,7 +2,6 @@ import { WalletGuard } from "~/components/ui/wallet/wallet-guard";
 import { UserProfile } from "~/components/ui/user/user-profile";
 
 export default function ProfilePage() {
-  // Mock user profile data
   const userProfile = {
     displayName: "John Doe",
     bio: "Experienced chit fund participant and organizer. Passionate about decentralized finance and community savings.",

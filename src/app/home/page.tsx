@@ -22,9 +22,17 @@ export default function HomePage() {
   if (loading) {
     return (
       <WalletGuard>
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin" />
-          <span className="ml-2">Loading dashboard...</span>
+        <div className="container mx-auto px-4 py-6">
+          <div className="mb-8 text-center">
+            <Loader2 className="mx-auto mb-4 h-8 w-8 animate-spin" />
+            <span className="ml-2">Loading dashboard...</span>
+            <div className="text-muted-foreground mt-4 text-sm">
+              <p>Fetching your funds and data...</p>
+              <p className="mt-2 text-xs">
+                If this takes too long, there might be a network issue.
+              </p>
+            </div>
+          </div>
         </div>
       </WalletGuard>
     );
@@ -34,10 +42,15 @@ export default function HomePage() {
     return (
       <WalletGuard>
         <div className="flex items-center justify-center py-12">
-          <AlertCircle className="h-8 w-8 text-red-500" />
-          <span className="ml-2 text-red-500">
-            Error loading dashboard: {error}
-          </span>
+          <div className="text-center">
+            <AlertCircle className="mx-auto mb-4 h-8 w-8 text-red-500" />
+            <span className="mb-4 block text-red-500">
+              Error loading dashboard: {error}
+            </span>
+            <Button onClick={refetch} variant="outline">
+              Try Again
+            </Button>
+          </div>
         </div>
       </WalletGuard>
     );
@@ -46,8 +59,17 @@ export default function HomePage() {
   if (!data) {
     return (
       <WalletGuard>
-        <div className="flex items-center justify-center py-12">
-          <span>No data available</span>
+        <div className="container mx-auto px-4 py-6">
+          <div className="mb-8 text-center">
+            <span className="text-lg">No data available</span>
+            <p className="text-muted-foreground mt-2">
+              This might be because you haven't created any funds yet, or
+              there's a connection issue.
+            </p>
+            <Button onClick={refetch} className="mt-4">
+              Try Again
+            </Button>
+          </div>
         </div>
       </WalletGuard>
     );

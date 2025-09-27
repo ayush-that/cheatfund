@@ -105,7 +105,6 @@ export default function AuthPage() {
       if (user) {
         await updateUserVerificationStatus(user.id, true, false);
       }
-      alert("Sorry, you must be 18 years or older to use this platform.");
     }
   };
 
