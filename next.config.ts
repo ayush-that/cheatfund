@@ -5,12 +5,25 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  webpack: (config) => {
-    config.resolve.fallback = {
-      fs: false,
-      readline: false,
-    };
-    return config;
+
+  serverExternalPackages: ["@anon-aadhaar/core", "@anon-aadhaar/react"],
+
+  turbopack: {
+    root: "/Users/shydev/cheatfund",
+    resolveAlias: {
+      fs: "false",
+      readline: "false",
+      path: "false",
+      crypto: "false",
+      stream: "false",
+      util: "false",
+      buffer: "false",
+      constants: "false",
+      os: "false",
+      net: "false",
+      tls: "false",
+      child_process: "false",
+    },
   },
 };
 

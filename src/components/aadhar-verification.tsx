@@ -1,12 +1,25 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import {
-  LogInWithAnonAadhaar,
-  useAnonAadhaar,
-  useProver,
-  AnonAadhaarProof,
-} from "@anon-aadhaar/react";
+import dynamic from "next/dynamic";
+
+const LogInWithAnonAadhaar = dynamic(
+  () =>
+    import("@anon-aadhaar/react").then((mod) => ({
+      default: mod.LogInWithAnonAadhaar,
+    })),
+  { ssr: false },
+);
+
+const AnonAadhaarProof = dynamic(
+  () =>
+    import("@anon-aadhaar/react").then((mod) => ({
+      default: mod.AnonAadhaarProof,
+    })),
+  { ssr: false },
+);
+
+import { useAnonAadhaar, useProver } from "@anon-aadhaar/react";
 import { useAadharStore } from "~/stores/aadhar-store";
 import {
   Card,
