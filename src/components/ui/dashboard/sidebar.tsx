@@ -43,7 +43,7 @@ export function SidebarDemo() {
       <SidebarBody>
         <div className="mt-8 flex w-full flex-col gap-2">
           <div className="px-4 py-2">
-            <h1 className="truncate text-sm font-bold text-white">
+            <h1 className="truncate text-3xl font-bold text-[#E4BAD1]">
               Cheat.Fund
             </h1>
           </div>

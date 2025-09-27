@@ -6,6 +6,7 @@ import { AnonAadhaarProviderWrapper } from "~/components/anon-aadhaar-provider-w
 import { WalletProvider } from "~/lib/wallet";
 import { Toaster } from "~/components/ui/sonner";
 import { SidebarDemo } from "~/components/ui/dashboard/sidebar";
+import { ChatPopup } from "~/components/chat-popup";
 
 export const metadata: Metadata = {
   title: "CheatFund - Web3 Authentication",
@@ -31,6 +32,7 @@ export default function RootLayout({
               <div className="w-full">{children}</div>
             </div>
             <Toaster />
+            <ChatPopup />
           </WalletProvider>
         </AnonAadhaarProviderWrapper>
       </body>
