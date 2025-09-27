@@ -218,4 +218,31 @@ export class ChitFundDatabase {
 
     return fund;
   }
+
+  static async getTotalVolume() {
+    const result = await prisma.chitFund.aggregate({
+      _sum: {
+        totalAmount: true,
+      },
+    });
+
+    return result._sum.totalAmount || 0;
+  }
+
+  static async getSuccessRate() {
+    const totalFunds = await prisma.chitFund.count();
+    if (totalFunds === 0) return 0;
+
+    const completedFunds = await prisma.chitFund.count({
+      where: {
+        activities: {
+          some: {
+            activityType: "fund_completed",
+          },
+        },
+      },
+    });
+
+    return totalFunds > 0 ? Math.round((completedFunds / totalFunds) * 100) : 0;
+  }
 }

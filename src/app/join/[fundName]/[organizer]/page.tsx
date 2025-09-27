@@ -11,13 +11,11 @@ import {
 } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
-import { Separator } from "~/components/ui/separator";
 import { Alert, AlertDescription } from "~/components/ui/alert";
 import { WalletGuard } from "~/components/ui/wallet/wallet-guard";
 import { useWallet } from "~/lib/wallet";
 import { useChitFund } from "~/hooks/contracts/useChitFund";
 import { useTransactionManager } from "~/hooks/contracts/useTransactionManager";
-import { TransactionStatus } from "~/components/ui/transaction/transaction-status";
 import { JoinFundForm } from "~/components/ui/fund/join-fund-form";
 import { switchToFlowTestnet, checkNetwork } from "~/lib/web3";
 import { toast } from "sonner";
@@ -26,9 +24,6 @@ import {
   Users,
   Calendar,
   DollarSign,
-  Shield,
-  CheckCircle,
-  AlertCircle,
   Clock,
   Info,
   Loader2,
@@ -37,28 +32,19 @@ import Link from "next/link";
 import { formatDate } from "~/lib/date-utils";
 
 export default function JoinFundPage() {
-  const contractAddress =
-    process.env.NEXT_PUBLIC_CHIT_FUND_CONTRACT_ADDRESS || "";
   const params = useParams();
   const router = useRouter();
-  const { address, balance } = useWallet();
+  const { balance } = useWallet();
   const fundName = decodeURIComponent(params.fundName as string);
   const organizer = params.organizer as string;
-  const [isJoining, setIsJoining] = useState(false);
-  const [joinError, setJoinError] = useState("");
-  const [currentTx, setCurrentTx] = useState<string | null>(null);
+  const [contractAddress, setContractAddress] = useState<string>("");
 
-  const {
-    joinFund,
-    getFundData,
-    loading: contractLoading,
-    error: contractError,
-  } = useChitFund(contractAddress);
-  const { addTransaction, getTransaction } = useTransactionManager();
+  const { getFundData, error: contractError } = useChitFund(contractAddress);
 
   const [fundData, setFundData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState<string>("");
+  const [totalVolume, setTotalVolume] = useState<string>("0");
 
   useEffect(() => {
     const fetchFundData = async () => {
@@ -83,6 +69,8 @@ export default function JoinFundPage() {
           return;
         }
 
+        setContractAddress(fund.contractAddress);
+
         const blockchainData = await getFundData();
 
         const completeFundData = {
@@ -104,6 +92,12 @@ export default function JoinFundPage() {
         };
 
         setFundData(completeFundData);
+
+        const volumeResponse = await fetch("/api/funds/total-volume");
+        if (volumeResponse.ok) {
+          const { totalVolume: volume } = await volumeResponse.json();
+          setTotalVolume(volume);
+        }
       } catch (err) {
         setFetchError("Failed to load fund data");
       } finally {
@@ -112,7 +106,7 @@ export default function JoinFundPage() {
     };
 
     fetchFundData();
-  }, [fundName, organizer]);
+  }, [fundName, organizer, getFundData]);
 
   const canJoin =
     fundData &&
@@ -121,84 +115,7 @@ export default function JoinFundPage() {
     Number.parseFloat(balance || "0") >=
       Number.parseFloat(fundData.monthlyAmount);
 
-  const handleJoinFund = async () => {
-    if (!canJoin) return;
-    if (!address) {
-      toast.error("Please connect your wallet first");
-      return;
-    }
-
-    setIsJoining(true);
-    setJoinError("");
-
-    try {
-      const isOnFlowTestnet = await checkNetwork();
-      if (!isOnFlowTestnet) {
-        toast.loading("Switching to Flow Testnet...", { id: "switch-network" });
-        const switched = await switchToFlowTestnet();
-        if (!switched) {
-          toast.error("Please switch to Flow Testnet to join funds", {
-            id: "switch-network",
-          });
-          setIsJoining(false);
-          return;
-        }
-        toast.success("Switched to Flow Testnet!", { id: "switch-network" });
-      }
-
-      toast.loading("Joining fund...", { id: "join-fund" });
-      const result = await joinFund();
-
-      if (result.success && result.txHash) {
-        addTransaction(result.txHash);
-        setCurrentTx(result.txHash);
-
-        toast.success("Join transaction submitted!", { id: "join-fund" });
-
-        setTimeout(async () => {
-          try {
-            await fetch("/api/funds/members", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                fundId: fundData.id,
-                memberAddress: address,
-              }),
-            });
-
-            await fetch("/api/funds/activity", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                fundId: fundData.id,
-                activityType: "member_joined",
-                description: `Member ${address} joined the fund`,
-                memberAddress: address,
-                transactionHash: result.txHash,
-              }),
-            });
-
-            toast.success("Successfully joined the fund!");
-            router.push(`/fund/${encodeURIComponent(fundName)}/${organizer}`);
-          } catch (dbError) {
-            toast.error("Joined fund but failed to save member data");
-            router.push(`/fund/${encodeURIComponent(fundName)}/${organizer}`);
-          }
-        }, 3000);
-      }
-    } catch (error: any) {
-      toast.error(error.message || "Failed to join fund", { id: "join-fund" });
-      setJoinError(error.message || "Failed to join fund. Please try again.");
-    } finally {
-      setIsJoining(false);
-    }
-  };
-
-  if (loading) {
+  if (loading || !contractAddress) {
     return (
       <WalletGuard>
         <div className="mx-auto max-w-4xl space-y-6 p-6">
@@ -219,6 +136,18 @@ export default function JoinFundPage() {
             <AlertDescription>
               {fetchError || "Fund not found"}
             </AlertDescription>
+          </Alert>
+        </div>
+      </WalletGuard>
+    );
+  }
+
+  if (contractError) {
+    return (
+      <WalletGuard>
+        <div className="mx-auto max-w-4xl space-y-6 p-6">
+          <Alert variant="destructive">
+            <AlertDescription>Contract Error: {contractError}</AlertDescription>
           </Alert>
         </div>
       </WalletGuard>
@@ -386,6 +315,7 @@ export default function JoinFundPage() {
                 )}
                 totalMembers={fundData.maxParticipants}
                 currentMembers={fundData.currentParticipants}
+                totalVolume={totalVolume}
                 onSuccess={() => {
                   toast.success("Successfully joined the fund!");
                   router.push(
@@ -393,26 +323,9 @@ export default function JoinFundPage() {
                   );
                 }}
                 onError={(error) => {
-                  setJoinError(error.message);
                   toast.error(`Failed to join fund: ${error.message}`);
                 }}
               />
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Fund Statistics</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Success Rate</span>
-                    <span className="font-medium text-green-600">98.5%</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Total Volume</span>
-                    <span className="font-medium">245.8 FLOW</span>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>

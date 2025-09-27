@@ -7,6 +7,8 @@ export async function POST(request: NextRequest) {
 
     const { fundId, memberAddress } = body;
 
+    console.log("Adding member to fund:", { fundId, memberAddress });
+
     if (!fundId || !memberAddress) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -19,8 +21,11 @@ export async function POST(request: NextRequest) {
       memberAddress,
     );
 
+    console.log("Member added successfully:", member);
+
     return NextResponse.json({ success: true, member });
   } catch (error) {
+    console.error("Failed to add member:", error);
     return NextResponse.json(
       { error: "Failed to add member" },
       { status: 500 },

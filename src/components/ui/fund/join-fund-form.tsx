@@ -31,6 +31,7 @@ interface JoinFundFormProps {
   contributionAmount: bigint;
   totalMembers: number;
   currentMembers: number;
+  totalVolume?: string;
   onSuccess?: () => void;
   onError?: (error: Error) => void;
   className?: string;
@@ -42,6 +43,7 @@ export function JoinFundForm({
   contributionAmount,
   totalMembers,
   currentMembers,
+  totalVolume = "0",
   onSuccess,
   onError,
   className,
@@ -64,14 +66,37 @@ export function JoinFundForm({
       isMember: boolean;
     };
   } | null>(null);
+  const [checkingStatus, setCheckingStatus] = useState(false);
 
   useEffect(() => {
     const checkStatus = async () => {
       if (contractAddress && address) {
+        setCheckingStatus(true);
         try {
-          const status = await checkCanJoin();
+          const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Check timeout")), 10000),
+          );
+
+          const status = (await Promise.race([
+            checkCanJoin(),
+            timeoutPromise,
+          ])) as any;
+
           setCanJoinInfo(status);
-        } catch (err) {}
+        } catch (err) {
+          setCanJoinInfo({
+            canJoin: false,
+            reason: "Failed to check fund status",
+            fundStatus: {
+              isStarted: false,
+              isFull: false,
+              isActive: false,
+              isMember: false,
+            },
+          });
+        } finally {
+          setCheckingStatus(false);
+        }
       }
     };
 
@@ -119,7 +144,8 @@ export function JoinFundForm({
   const spotsRemaining = totalMembers - currentMembers;
 
   const getStatusBadge = () => {
-    if (!canJoinInfo) return <Badge variant="secondary">Checking...</Badge>;
+    if (checkingStatus || !canJoinInfo)
+      return <Badge variant="secondary">Checking...</Badge>;
 
     if (canJoinInfo.fundStatus.isStarted) {
       return <Badge variant="destructive">Started</Badge>;
@@ -162,7 +188,7 @@ export function JoinFundForm({
               <span>Your Balance</span>
               <span
                 className={cn(
-                  "font-mono",
+                  "",
                   hasEnoughBalance() ? "text-green-600" : "text-red-600",
                 )}
               >
@@ -176,6 +202,11 @@ export function JoinFundForm({
                 {contributionAmountFormatted} FLOW
               </span>
             </div>
+
+            <div className="flex items-center justify-between text-sm">
+              <span>Total Volume</span>
+              <span className="font-semibold">{totalVolume} FLOW</span>
+            </div>
           </div>
         )}
 
@@ -188,7 +219,22 @@ export function JoinFundForm({
             }
           >
             <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{canJoinInfo.reason}</AlertDescription>
+            <AlertDescription>
+              {canJoinInfo.reason}
+              {canJoinInfo.reason === "Failed to check fund status" && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="ml-2"
+                  onClick={() => {
+                    setCanJoinInfo(null);
+                    setCheckingStatus(false);
+                  }}
+                >
+                  Retry
+                </Button>
+              )}
+            </AlertDescription>
           </Alert>
         )}
 

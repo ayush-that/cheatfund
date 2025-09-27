@@ -151,7 +151,7 @@ export function ContributionForm({
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
             <span>Your Balance</span>
-            <span className="font-mono">{balanceFormatted} FLOW</span>
+            <span>{balanceFormatted} FLOW</span>
           </div>
 
           {!hasEnoughBalance() && (

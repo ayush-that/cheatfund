@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -22,7 +22,7 @@ import { ContributionForm } from "~/components/ui/fund/contribution-form";
 import { BiddingInterface } from "~/components/ui/fund/bidding-interface";
 import { TransactionHistory } from "~/components/ui/fund/transaction-history";
 import { formatEther } from "ethers";
-import { ArrowLeft, Share2, AlertCircle } from "lucide-react";
+import { ArrowLeft, Share2, AlertCircle, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { ADDRESS_ZERO } from "~/lib/contracts";
 
@@ -35,11 +35,13 @@ export default function FundManagementPage() {
   const organizer = params.organizer as string;
   const isOrganizer = address?.toLowerCase() === organizer.toLowerCase();
 
-  const contractAddress =
-    process.env.NEXT_PUBLIC_CHIT_FUND_CONTRACT_ADDRESS || "";
+  const [contractAddress, setContractAddress] = useState<string>("");
+  const [fundData, setFundData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string>("");
 
   const {
-    fundData,
+    fundData: blockchainData,
     loading: fundLoading,
     error: fundError,
     joinFund,
@@ -49,6 +51,79 @@ export default function FundManagementPage() {
   } = useChitFund(contractAddress);
 
   const { events, loading: eventsLoading } = useContractEvents(contractAddress);
+
+  const fetchFundData = async () => {
+    try {
+      setLoading(true);
+      setFetchError("");
+
+      const fundsResponse = await fetch("/api/funds/public?limit=100&offset=0");
+      if (!fundsResponse.ok) {
+        throw new Error("Failed to fetch funds");
+      }
+      const { data: funds } = await fundsResponse.json();
+      const fund = funds.find(
+        (f: any) =>
+          f.name.toLowerCase() === fundName.toLowerCase() &&
+          f.organizer.toLowerCase() === organizer.toLowerCase(),
+      );
+
+      if (!fund) {
+        setFetchError("Fund not found");
+        return;
+      }
+
+      // Debug: Check what data we're getting
+      console.log("Fund data from database:", {
+        name: fund.name,
+        members: fund.members,
+        membersLength: fund.members?.length,
+        _count: fund._count,
+        maxParticipants: fund.maxParticipants,
+      });
+
+      // Debug: Check members directly
+      try {
+        const membersResponse = await fetch(
+          `/api/debug/fund-members?fundId=${fund.id}`,
+        );
+        if (membersResponse.ok) {
+          const membersData = await membersResponse.json();
+          console.log("Direct members query:", membersData);
+        }
+      } catch (err) {
+        console.error("Failed to fetch members directly:", err);
+      }
+
+      setContractAddress(fund.contractAddress);
+      setFundData(fund);
+    } catch (err) {
+      setFetchError("Failed to load fund data");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFundData();
+  }, [fundName, organizer]);
+
+  useEffect(() => {
+    if (contractAddress) {
+      fetchFundData();
+    }
+  }, [contractAddress]);
+
+  // Add periodic refresh to catch member updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (contractAddress) {
+        fetchFundData();
+      }
+    }, 5000); // Refresh every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [contractAddress]);
 
   const getCyclePhase = (
     cycle: any,
@@ -91,20 +166,46 @@ export default function FundManagementPage() {
     );
   }
 
-  if (fundError) {
+  if (loading) {
     return (
       <WalletGuard>
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
-            <AlertCircle className="mx-auto mb-4 h-8 w-8 text-red-500" />
-            <p className="text-red-500">Error loading fund: {fundError}</p>
+            <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900"></div>
+            <p>Loading fund data...</p>
           </div>
         </div>
       </WalletGuard>
     );
   }
 
-  if (!fundData) {
+  if (fetchError || !fundData) {
+    return (
+      <WalletGuard>
+        <div className="flex items-center justify-center py-12">
+          <div className="text-center">
+            <AlertCircle className="mx-auto mb-4 h-8 w-8 text-red-500" />
+            <p className="text-red-500">{fetchError || "Fund not found"}</p>
+          </div>
+        </div>
+      </WalletGuard>
+    );
+  }
+
+  if (fundError) {
+    return (
+      <WalletGuard>
+        <div className="flex items-center justify-center py-12">
+          <div className="text-center">
+            <AlertCircle className="mx-auto mb-4 h-8 w-8 text-red-500" />
+            <p className="text-red-500">Blockchain error: {fundError}</p>
+          </div>
+        </div>
+      </WalletGuard>
+    );
+  }
+
+  if (!contractAddress) {
     return (
       <WalletGuard>
         <div className="flex items-center justify-center py-12">
@@ -116,10 +217,23 @@ export default function FundManagementPage() {
     );
   }
 
+  const combinedFundData = {
+    ...fundData,
+    ...blockchainData,
+    fundInfo: {
+      ...fundData,
+      ...blockchainData?.fundInfo,
+    },
+  };
+
   const shareLink = `${window.location.origin}/join/${encodeURIComponent(fundName)}/${organizer}`;
 
   const copyShareLink = async () => {
     await navigator.clipboard.writeText(shareLink);
+  };
+
+  const refreshFundData = async () => {
+    await fetchFundData();
   };
 
   return (
@@ -137,7 +251,9 @@ export default function FundManagementPage() {
                 </Button>
                 <div>
                   <h1 className="text-2xl font-bold">
-                    {fundData.fundInfo?.name || fundName}
+                    {combinedFundData?.fundInfo?.name ||
+                      combinedFundData?.name ||
+                      fundName}
                   </h1>
                   <p className="text-muted-foreground">Chit Fund Management</p>
                 </div>
@@ -145,14 +261,20 @@ export default function FundManagementPage() {
               <div className="flex items-center space-x-2">
                 <Badge
                   variant={
-                    fundData.fundInfo?.isActive ? "default" : "secondary"
+                    combinedFundData.fundInfo?.isActive
+                      ? "default"
+                      : "secondary"
                   }
                 >
-                  {fundData.fundInfo?.isActive ? "Active" : "Inactive"}
+                  {combinedFundData.fundInfo?.isActive ? "Active" : "Inactive"}
                 </Badge>
                 <Button variant="outline" size="sm" onClick={copyShareLink}>
                   <Share2 className="mr-2 h-4 w-4" />
                   Share
+                </Button>
+                <Button variant="outline" size="sm" onClick={refreshFundData}>
+                  <RefreshCw className="mr-2 h-4 w-4" />
+                  Refresh
                 </Button>
               </div>
             </div>
@@ -162,20 +284,24 @@ export default function FundManagementPage() {
         <div className="container mx-auto px-4 py-6">
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="space-y-6 lg:col-span-2">
-              {fundData.currentCycle && (
+              {combinedFundData.currentCycle && (
                 <CycleProgress
                   cycleData={{
-                    ...fundData.currentCycle,
-                    phase: getCyclePhase(fundData.currentCycle),
+                    ...combinedFundData.currentCycle,
+                    phase: getCyclePhase(combinedFundData.currentCycle),
                   }}
-                  totalMembers={fundData.fundInfo?.totalMembers || 0}
+                  totalMembers={
+                    combinedFundData.maxParticipants ||
+                    combinedFundData.fundInfo?.totalMembers ||
+                    0
+                  }
                 />
               )}
 
-              {fundData.members && (
+              {combinedFundData.members && (
                 <MembersList
                   contractAddress={contractAddress}
-                  members={fundData.members.map((member, index) => ({
+                  members={combinedFundData.members.map((member, index) => ({
                     ...member,
                     joinedAt: Date.now() - index * 24 * 60 * 60 * 1000,
                     position: index + 1,
@@ -207,8 +333,10 @@ export default function FundManagementPage() {
                         Contribution Amount
                       </p>
                       <p className="font-semibold">
-                        {fundData.fundInfo?.contributionAmount
-                          ? formatEther(fundData.fundInfo.contributionAmount)
+                        {combinedFundData.fundInfo?.contributionAmount
+                          ? formatEther(
+                              combinedFundData.fundInfo.contributionAmount,
+                            )
                           : "0"}{" "}
                         FLOW
                       </p>
@@ -216,8 +344,13 @@ export default function FundManagementPage() {
                     <div>
                       <p className="text-muted-foreground text-sm">Members</p>
                       <p className="font-semibold">
-                        {fundData.fundInfo?.currentMembers || 0}/
-                        {fundData.fundInfo?.totalMembers || 0}
+                        {combinedFundData.members?.length ||
+                          combinedFundData._count?.members ||
+                          0}
+                        /
+                        {combinedFundData.maxParticipants ||
+                          combinedFundData.fundInfo?.totalMembers ||
+                          0}
                       </p>
                     </div>
                     <div>
@@ -225,7 +358,7 @@ export default function FundManagementPage() {
                         Current Cycle
                       </p>
                       <p className="font-semibold">
-                        {fundData.currentCycle?.cycleNumber || 0}
+                        {combinedFundData.currentCycle?.cycleNumber || 0}
                       </p>
                     </div>
                     <div>
@@ -233,8 +366,8 @@ export default function FundManagementPage() {
                         Pool Amount
                       </p>
                       <p className="font-semibold">
-                        {fundData.currentCycle?.totalPool
-                          ? formatEther(fundData.currentCycle.totalPool)
+                        {combinedFundData.currentCycle?.totalPool
+                          ? formatEther(combinedFundData.currentCycle.totalPool)
                           : "0"}{" "}
                         FLOW
                       </p>
@@ -248,8 +381,12 @@ export default function FundManagementPage() {
                       </span>
                       <span className="font-medium">
                         {Math.round(
-                          ((fundData.fundInfo?.currentMembers || 0) /
-                            (fundData.fundInfo?.totalMembers || 1)) *
+                          ((combinedFundData.members?.length ||
+                            combinedFundData._count?.members ||
+                            0) /
+                            (combinedFundData.maxParticipants ||
+                              combinedFundData.fundInfo?.totalMembers ||
+                              1)) *
                             100,
                         )}
                         %
@@ -257,8 +394,12 @@ export default function FundManagementPage() {
                     </div>
                     <Progress
                       value={
-                        ((fundData.fundInfo?.currentMembers || 0) /
-                          (fundData.fundInfo?.totalMembers || 1)) *
+                        ((combinedFundData.members?.length ||
+                          combinedFundData._count?.members ||
+                          0) /
+                          (combinedFundData.maxParticipants ||
+                            combinedFundData.fundInfo?.totalMembers ||
+                            1)) *
                         100
                       }
                       className="h-2"
@@ -266,7 +407,7 @@ export default function FundManagementPage() {
                   </div>
 
                   {/* Member Status */}
-                  {fundData.memberStatus && (
+                  {combinedFundData.memberStatus && (
                     <div className="border-t pt-4">
                       <h4 className="mb-2 text-sm font-medium">Your Status</h4>
                       <div className="space-y-1 text-sm">
@@ -274,15 +415,17 @@ export default function FundManagementPage() {
                           <span className="text-muted-foreground">Member</span>
                           <span
                             className={
-                              fundData.memberStatus.isMember
+                              combinedFundData.memberStatus.isMember
                                 ? "text-green-600"
                                 : "text-red-600"
                             }
                           >
-                            {fundData.memberStatus.isMember ? "Yes" : "No"}
+                            {combinedFundData.memberStatus.isMember
+                              ? "Yes"
+                              : "No"}
                           </span>
                         </div>
-                        {fundData.memberStatus.isMember && (
+                        {combinedFundData.memberStatus.isMember && (
                           <>
                             <div className="flex justify-between">
                               <span className="text-muted-foreground">
@@ -290,12 +433,12 @@ export default function FundManagementPage() {
                               </span>
                               <span
                                 className={
-                                  fundData.memberStatus.hasContributed
+                                  combinedFundData.memberStatus.hasContributed
                                     ? "text-green-600"
                                     : "text-orange-600"
                                 }
                               >
-                                {fundData.memberStatus.hasContributed
+                                {combinedFundData.memberStatus.hasContributed
                                   ? "Yes"
                                   : "Pending"}
                               </span>
@@ -306,12 +449,14 @@ export default function FundManagementPage() {
                               </span>
                               <span
                                 className={
-                                  fundData.memberStatus.hasBid
+                                  combinedFundData.memberStatus.hasBid
                                     ? "text-green-600"
                                     : "text-orange-600"
                                 }
                               >
-                                {fundData.memberStatus.hasBid ? "Yes" : "No"}
+                                {combinedFundData.memberStatus.hasBid
+                                  ? "Yes"
+                                  : "No"}
                               </span>
                             </div>
                           </>
@@ -322,27 +467,30 @@ export default function FundManagementPage() {
                 </CardContent>
               </Card>
 
-              {fundData.currentCycle &&
-                getCyclePhase(fundData.currentCycle) === "contribution" && (
+              {combinedFundData.currentCycle &&
+                getCyclePhase(combinedFundData.currentCycle) ===
+                  "contribution" && (
                   <ContributionForm
                     contractAddress={contractAddress}
                     contributionAmount={
-                      fundData.fundInfo?.contributionAmount || BigInt(0)
+                      combinedFundData.fundInfo?.contributionAmount || BigInt(0)
                     }
                     isEthBased={
-                      fundData.fundInfo?.paymentToken === ADDRESS_ZERO
+                      combinedFundData.fundInfo?.paymentToken === ADDRESS_ZERO
                     }
-                    deadline={fundData.currentCycle.contributionDeadline}
+                    deadline={
+                      combinedFundData.currentCycle.contributionDeadline
+                    }
                   />
                 )}
 
-              {fundData.currentCycle &&
-                getCyclePhase(fundData.currentCycle) === "bidding" && (
+              {combinedFundData.currentCycle &&
+                getCyclePhase(combinedFundData.currentCycle) === "bidding" && (
                   <BiddingInterface
                     contractAddress={contractAddress}
                     cycleData={{
-                      ...fundData.currentCycle,
-                      phase: getCyclePhase(fundData.currentCycle),
+                      ...combinedFundData.currentCycle,
+                      phase: getCyclePhase(combinedFundData.currentCycle),
                     }}
                   />
                 )}
@@ -375,8 +523,9 @@ export default function FundManagementPage() {
                       <Share2 className="mr-2 h-4 w-4" />
                       Share Fund
                     </Button>
-                    {fundData.currentCycle &&
-                      getCyclePhase(fundData.currentCycle) === "complete" && (
+                    {combinedFundData.currentCycle &&
+                      getCyclePhase(combinedFundData.currentCycle) ===
+                        "complete" && (
                         <Button className="w-full" onClick={() => {}}>
                           Start Next Cycle
                         </Button>
@@ -385,7 +534,7 @@ export default function FundManagementPage() {
                 </Card>
               )}
 
-              {!fundData.memberStatus?.isMember && (
+              {!combinedFundData.memberStatus?.isMember && (
                 <Card>
                   <CardHeader>
                     <CardTitle>Join This Fund</CardTitle>

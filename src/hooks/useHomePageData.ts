@@ -205,13 +205,18 @@ export function useHomePageData() {
         contractAddress: fund.contractAddress,
       }));
 
+      const successRateResponse = await fetch("/api/funds/success-rate");
+      const successRate = successRateResponse.ok
+        ? (await successRateResponse.json()).successRate
+        : 0;
+
       const homePageData: HomePageData = {
         userStats: {
           totalInvested: validTotalInvested.toString(),
           totalReturns: "0",
           activeFunds: activeFunds.length,
           completedFunds: completedFunds.length,
-          successRate: 95,
+          successRate,
           nextPaymentDue: null,
           monthlyCommitment: validTotalInvested.toString(),
         },
