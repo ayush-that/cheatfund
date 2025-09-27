@@ -55,7 +55,6 @@ export function useChitFund(contractAddress: string) {
       setLoading(true);
       setError(null);
 
-      // First, check fund status before attempting to join
       const provider = getProvider();
       const readContract = new ethers.Contract(
         contractAddress,
@@ -63,7 +62,6 @@ export function useChitFund(contractAddress: string) {
         provider,
       );
 
-      // Check if contract exists
       try {
         const code = await provider.getCode(contractAddress);
         if (code === "0x") {
@@ -106,20 +104,17 @@ export function useChitFund(contractAddress: string) {
         throw new Error("This fund is full and cannot accept more members");
       }
 
-      // Check if user is already a member
       const isMember = await (readContract as any).isMemberAddress(address);
       if (isMember) {
         throw new Error("You are already a member of this fund");
       }
 
-      // Check if fund is active (only relevant for started funds)
       if (isChitFundStarted && !poolStatus.isActive) {
         throw new Error(
           "This fund is not active and cannot accept new members",
         );
       }
 
-      // Now attempt to join
       const signer = await getSigner();
       const contract = new ethers.Contract(
         contractAddress,
@@ -138,7 +133,6 @@ export function useChitFund(contractAddress: string) {
     } catch (error: any) {
       let errorMessage = "Failed to join fund";
 
-      // Handle specific error cases
       if (error.message?.includes("Invalid contract address")) {
         errorMessage = error.message;
       } else if (error.message?.includes("Already started")) {
@@ -153,7 +147,6 @@ export function useChitFund(contractAddress: string) {
       } else if (error.reason) {
         errorMessage = error.reason;
       } else if (error.data) {
-        // Try to decode the revert reason
         try {
           const decoded = ethers.AbiCoder.defaultAbiCoder().decode(
             ["string"],
@@ -285,7 +278,6 @@ export function useChitFund(contractAddress: string) {
         provider,
       );
 
-      // Check if contract exists by trying to get code
       try {
         const code = await provider.getCode(contractAddress);
         if (code === "0x") {
@@ -342,7 +334,7 @@ export function useChitFund(contractAddress: string) {
         fundStatus: {
           isStarted: isChitFundStarted,
           isFull,
-          isActive: !isChitFundStarted || poolStatus.isActive, // Active if not started yet OR if started and cycle is active
+          isActive: !isChitFundStarted || poolStatus.isActive,
           isMember,
         },
       };

@@ -36,7 +36,6 @@ export function UserProfile({ profile }: UserProfileProps) {
   const [editedProfile, setEditedProfile] = useState(profile);
 
   const handleSave = () => {
-    // TODO: Implement profile update
     setIsEditing(false);
   };
 
@@ -47,7 +46,6 @@ export function UserProfile({ profile }: UserProfileProps) {
 
   return (
     <div className="space-y-6">
-      {/* Profile Header */}
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -146,7 +144,6 @@ export function UserProfile({ profile }: UserProfileProps) {
         </CardContent>
       </Card>
 
-      {/* Profile Stats */}
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
@@ -182,7 +179,7 @@ export function UserProfile({ profile }: UserProfileProps) {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Total Volume</span>
-                <span className="font-medium">{profile.totalVolume} ETH</span>
+                <span className="font-medium">{profile.totalVolume} FLOW</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Reputation</span>

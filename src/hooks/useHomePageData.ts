@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useWallet } from "~/lib/wallet";
 import { useChitFundFactory } from "./contracts/useChitFundFactory";
+import { formatDate } from "~/lib/date-utils";
 
 export interface HomePageData {
   userStats: {
@@ -58,7 +59,7 @@ export function useHomePageData() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchHomePageData = useCallback(async () => {
+  const fetchHomePageData = async () => {
     if (!address) {
       setLoading(false);
       return;
@@ -94,11 +95,42 @@ export function useHomePageData() {
       );
 
       let userFunds: any[] = [];
+      let databaseFunds: any[] = [];
+
       try {
-        userFunds = await Promise.race([getUserChitFunds(), contractTimeout]);
+        const result = await Promise.race([
+          getUserChitFunds(),
+          contractTimeout,
+        ]);
+        userFunds = Array.isArray(result) ? result : [];
       } catch (contractError) {
         userFunds = [];
       }
+
+      try {
+        const dbResponse = await fetch(
+          `/api/funds/user?address=${encodeURIComponent(address)}`,
+        );
+        if (dbResponse.ok) {
+          const { data } = await dbResponse.json();
+          databaseFunds = data || [];
+        } else {
+        }
+      } catch (dbError) {
+        databaseFunds = [];
+      }
+
+      const allFunds = [...userFunds, ...databaseFunds];
+      const uniqueFunds = allFunds.filter(
+        (fund, index, self) =>
+          index ===
+          self.findIndex(
+            (f) =>
+              f.address === fund.address ||
+              f.contractAddress === fund.contractAddress ||
+              f.id === fund.id,
+          ),
+      );
 
       let publicFunds: any[] = [];
       try {
@@ -113,14 +145,19 @@ export function useHomePageData() {
         publicFunds = [];
       }
 
-      const totalInvested = userFunds.reduce((sum, fund) => {
-        return (
-          sum + Number(fund.contributionAmount) * Number(fund.currentMembers)
+      const totalInvested = uniqueFunds.reduce((sum, fund) => {
+        const contributionAmount = Number(
+          fund.contributionAmount || fund.totalAmount,
         );
+        return sum + contributionAmount;
       }, 0);
 
-      const activeFunds = userFunds.filter((fund) => fund.isActive);
-      const completedFunds = userFunds.filter((fund) => !fund.isActive);
+      const validTotalInvested = isNaN(totalInvested) ? 0 : totalInvested;
+
+      const activeFunds = uniqueFunds.filter((fund) => fund.isActive !== false);
+      const completedFunds = uniqueFunds.filter(
+        (fund) => fund.isActive === false,
+      );
 
       const recentActivities = [
         {
@@ -135,18 +172,23 @@ export function useHomePageData() {
       ];
 
       const formattedActiveFunds = activeFunds.map((fund, index) => ({
-        id: fund.address,
+        id: fund.address || fund.contractAddress || fund.id,
         name: fund.name,
-        organizer: fund.creator,
-        totalAmount: (
-          Number(fund.contributionAmount) * Number(fund.totalMembers)
-        ).toString(),
-        duration: 12,
-        currentParticipants: Number(fund.currentMembers),
-        maxParticipants: Number(fund.totalMembers),
+        organizer: fund.creator || fund.organizer,
+        totalAmount: fund.totalAmount
+          ? Number(fund.totalAmount).toString()
+          : (
+              Number(fund.contributionAmount) *
+              Number(fund.totalMembers || fund.maxParticipants)
+            ).toString(),
+        duration: fund.duration || 12,
+        currentParticipants: Number(
+          fund.currentMembers || fund.members?.length || 0,
+        ),
+        maxParticipants: Number(fund.totalMembers || fund.maxParticipants),
         nextBidDate: null,
         status: "active" as const,
-        contractAddress: fund.address,
+        contractAddress: fund.address || fund.contractAddress,
       }));
 
       const formattedPublicFunds = publicFunds.map((fund: any) => ({
@@ -165,13 +207,13 @@ export function useHomePageData() {
 
       const homePageData: HomePageData = {
         userStats: {
-          totalInvested: totalInvested.toString(),
+          totalInvested: validTotalInvested.toString(),
           totalReturns: "0",
           activeFunds: activeFunds.length,
           completedFunds: completedFunds.length,
           successRate: 95,
           nextPaymentDue: null,
-          monthlyCommitment: totalInvested.toString(),
+          monthlyCommitment: validTotalInvested.toString(),
         },
         recentActivities,
         activeFunds: formattedActiveFunds,
@@ -200,7 +242,7 @@ export function useHomePageData() {
     } finally {
       setLoading(false);
     }
-  }, [address, getUserChitFunds]);
+  };
 
   useEffect(() => {
     fetchHomePageData();
@@ -227,7 +269,7 @@ export function useHomePageData() {
     }, 15000);
 
     return () => clearTimeout(timeout);
-  }, [fetchHomePageData, loading]);
+  }, [address]);
 
   return {
     data,

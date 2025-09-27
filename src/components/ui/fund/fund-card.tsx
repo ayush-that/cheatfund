@@ -150,7 +150,7 @@ export function FundCard({
                 <DollarSign className="h-4 w-4" />
                 <span>Contribution</span>
               </div>
-              <p className="font-semibold">{contributionAmount} ETH</p>
+              <p className="font-semibold">{contributionAmount} FLOW</p>
             </div>
             <div className="space-y-1">
               <div className="text-muted-foreground flex items-center space-x-2 text-sm">
@@ -223,7 +223,6 @@ export function FundCard({
     );
   }
 
-  // Default variant
   return (
     <Card className={cn("transition-shadow hover:shadow-md", className)}>
       <CardHeader className="pb-3">
@@ -245,7 +244,7 @@ export function FundCard({
               <DollarSign className="h-4 w-4" />
               <span>Amount</span>
             </div>
-            <p className="font-semibold">{contributionAmount} ETH</p>
+            <p className="font-semibold">{contributionAmount} FLOW</p>
           </div>
           <div className="space-y-1">
             <div className="text-muted-foreground flex items-center space-x-2 text-sm">

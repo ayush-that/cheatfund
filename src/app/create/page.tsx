@@ -352,7 +352,7 @@ export default function CreateFundPage() {
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
                       <Label htmlFor="totalAmount">
-                        Total Fund Amount (ETH) *
+                        Total Fund Amount (FLOW) *
                       </Label>
                       <Input
                         id="totalAmount"
@@ -461,7 +461,7 @@ export default function CreateFundPage() {
                         Monthly contribution per participant:
                       </p>
                       <p className="text-primary text-lg font-semibold">
-                        {monthlyContribution} ETH
+                        {monthlyContribution} FLOW
                       </p>
                     </div>
                   )}
@@ -514,7 +514,7 @@ export default function CreateFundPage() {
                         Total Amount
                       </span>
                       <span className="font-medium">
-                        {formData.totalAmount || "0"} ETH
+                        {formData.totalAmount || "0"} FLOW
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
@@ -540,7 +540,7 @@ export default function CreateFundPage() {
                         Monthly Payment
                       </span>
                       <span className="text-primary font-medium">
-                        {monthlyContribution} ETH
+                        {monthlyContribution} FLOW
                       </span>
                     </div>
                   </div>

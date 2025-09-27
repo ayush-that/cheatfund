@@ -46,7 +46,7 @@ export class ChitFundDatabase {
     startDate?: Date;
     isPublic?: boolean;
   }) {
-    return await prisma.chitFund.create({
+    const fund = await prisma.chitFund.create({
       data: {
         contractAddress: data.contractAddress,
         name: data.name,
@@ -58,8 +58,19 @@ export class ChitFundDatabase {
         duration: data.duration,
         startDate: data.startDate,
         isPublic: data.isPublic ?? true,
+        members: {
+          create: {
+            memberAddress: data.organizer,
+            status: "active",
+          },
+        },
+      },
+      include: {
+        members: true,
       },
     });
+
+    return fund;
   }
 
   static async getFundByContractAddress(contractAddress: string) {
@@ -93,6 +104,26 @@ export class ChitFundDatabase {
   static async getFundsByOrganizer(organizer: string) {
     return await prisma.chitFund.findMany({
       where: { organizer },
+      include: {
+        members: true,
+        _count: {
+          select: { members: true },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+  }
+
+  static async getFundsByMember(memberAddress: string) {
+    return await prisma.chitFund.findMany({
+      where: {
+        members: {
+          some: {
+            memberAddress: memberAddress,
+            status: "active",
+          },
+        },
+      },
       include: {
         members: true,
         _count: {
@@ -160,5 +191,31 @@ export class ChitFundDatabase {
       where: { contractAddress },
       data: updates,
     });
+  }
+
+  static async ensureOrganizerIsMember(contractAddress: string) {
+    const fund = await prisma.chitFund.findUnique({
+      where: { contractAddress },
+      include: { members: true },
+    });
+
+    if (!fund) return null;
+
+    const isOrganizerMember = fund.members.some(
+      (member) =>
+        member.memberAddress.toLowerCase() === fund.organizer.toLowerCase(),
+    );
+
+    if (!isOrganizerMember) {
+      await prisma.fundMember.create({
+        data: {
+          fundId: fund.id,
+          memberAddress: fund.organizer,
+          status: "active",
+        },
+      });
+    }
+
+    return fund;
   }
 }

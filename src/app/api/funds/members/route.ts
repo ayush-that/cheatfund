@@ -7,7 +7,6 @@ export async function POST(request: NextRequest) {
 
     const { fundId, memberAddress } = body;
 
-    // Validate required fields
     if (!fundId || !memberAddress) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -15,7 +14,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Add member to fund
     const member = await ChitFundDatabase.addMemberToFund(
       fundId,
       memberAddress,

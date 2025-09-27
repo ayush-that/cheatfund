@@ -61,7 +61,7 @@ export function TransactionStatus({
 
   const getBlockExplorerUrl = () => {
     if (!transactionHash) return null;
-    const network = SUPPORTED_NETWORKS[545]; // Flow Testnet
+    const network = SUPPORTED_NETWORKS[545];
     return `${network.blockExplorer}/tx/${transactionHash}`;
   };
 
@@ -104,7 +104,7 @@ export function TransactionStatus({
   const getProgressValue = () => {
     if (currentStatus === "confirmed") return 100;
     if (currentStatus === "failed") return 100;
-    return Math.min((confirmations / 1) * 100, 90); // Assuming 1 confirmation needed
+    return Math.min((confirmations / 1) * 100, 90);
   };
 
   return (

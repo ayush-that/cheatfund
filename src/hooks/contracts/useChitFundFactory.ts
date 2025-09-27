@@ -8,9 +8,9 @@ import { useWallet } from "~/lib/wallet";
 
 export interface CreateChitFundParams {
   fundName: string;
-  contributionAmount: string; // In ETH
+  contributionAmount: string;
   totalMembers: number;
-  paymentToken?: string; // Optional, defaults to ETH (ADDRESS_ZERO)
+  paymentToken?: string;
 }
 
 export interface ChitFundInfo {

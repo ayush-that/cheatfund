@@ -87,13 +87,13 @@ export function TransactionHistory({
       case "MemberJoined":
         return `Member ${data.member?.slice(0, 6)}...${data.member?.slice(-4)} joined the fund`;
       case "ContributionMade":
-        return `Contribution of ${formatEther(data.amount || 0)} ETH made by ${data.member?.slice(0, 6)}...${data.member?.slice(-4)}`;
+        return `Contribution of ${formatEther(data.amount || 0)} FLOW made by ${data.member?.slice(0, 6)}...${data.member?.slice(-4)}`;
       case "BidSubmitted":
         return `Bid of ${data.bidPercentage}% submitted by ${data.member?.slice(0, 6)}...${data.member?.slice(-4)}`;
       case "WinnerSelected":
         return `Winner selected: ${data.winner?.slice(0, 6)}...${data.winner?.slice(-4)} with ${data.bidPercentage}% bid`;
       case "FundsDistributed":
-        return `Funds distributed: ${formatEther(data.amount || 0)} ETH to ${data.recipient?.slice(0, 6)}...${data.recipient?.slice(-4)}`;
+        return `Funds distributed: ${formatEther(data.amount || 0)} FLOW to ${data.recipient?.slice(0, 6)}...${data.recipient?.slice(-4)}`;
       default:
         return `${type} event occurred`;
     }
@@ -105,7 +105,7 @@ export function TransactionHistory({
   };
 
   const getBlockExplorerUrl = (txHash: string) => {
-    const network = SUPPORTED_NETWORKS[545]; // Flow Testnet
+    const network = SUPPORTED_NETWORKS[545];
     return `${network.blockExplorer}/tx/${txHash}`;
   };
 

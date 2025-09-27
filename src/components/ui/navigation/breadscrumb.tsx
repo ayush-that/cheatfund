@@ -18,7 +18,6 @@ interface BreadcrumbProps {
 export function Breadcrumb({ items, className }: BreadcrumbProps) {
   const pathname = usePathname();
 
-  // Generate breadcrumb items from pathname if not provided
   const breadcrumbItems = items || generateBreadcrumbItems(pathname);
 
   return (
@@ -64,7 +63,6 @@ function generateBreadcrumbItems(pathname: string): BreadcrumbItem[] {
       ? undefined
       : "/" + segments.slice(0, index + 1).join("/");
 
-    // Decode URI components and format labels
     const label = formatSegmentLabel(decodeURIComponent(segment));
 
     items.push({ label, href });
@@ -74,7 +72,6 @@ function generateBreadcrumbItems(pathname: string): BreadcrumbItem[] {
 }
 
 function formatSegmentLabel(segment: string): string {
-  // Handle special cases
   const specialCases: Record<string, string> = {
     "my-funds": "My Funds",
     create: "Create Fund",
@@ -89,12 +86,10 @@ function formatSegmentLabel(segment: string): string {
     return specialCases[segment];
   }
 
-  // Handle Ethereum addresses
   if (segment.startsWith("0x") && segment.length === 42) {
     return `${segment.slice(0, 6)}...${segment.slice(-4)}`;
   }
 
-  // Capitalize and format regular segments
   return segment
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))

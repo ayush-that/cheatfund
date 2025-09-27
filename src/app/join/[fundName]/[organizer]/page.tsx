@@ -34,9 +34,11 @@ import {
   Loader2,
 } from "lucide-react";
 import Link from "next/link";
+import { formatDate } from "~/lib/date-utils";
 
 export default function JoinFundPage() {
-  const contractAddress = "0xaeba71150ced9fdf7b3f54796ceef360b1df7f2d";
+  const contractAddress =
+    process.env.NEXT_PUBLIC_CHIT_FUND_CONTRACT_ADDRESS || "";
   const params = useParams();
   const router = useRouter();
   const { address, balance } = useWallet();
@@ -98,9 +100,7 @@ export default function JoinFundPage() {
             fund.members?.length >= fund.maxParticipants
               ? "full"
               : "recruiting",
-          nextRoundDate: fund.startDate
-            ? new Date(fund.startDate).toISOString().split("T")[0]
-            : null,
+          nextRoundDate: fund.startDate ? formatDate(fund.startDate) : null,
         };
 
         setFundData(completeFundData);
@@ -286,7 +286,7 @@ export default function JoinFundPage() {
                             Total Fund Amount
                           </p>
                           <p className="font-semibold">
-                            {fundData.totalAmount} ETH
+                            {fundData.totalAmount} FLOW
                           </p>
                         </div>
                       </div>
@@ -321,7 +321,9 @@ export default function JoinFundPage() {
                           <p className="text-muted-foreground text-sm">
                             Start Date
                           </p>
-                          <p className="font-semibold">{fundData.startDate}</p>
+                          <p className="font-semibold">
+                            {formatDate(fundData.startDate)}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -343,7 +345,7 @@ export default function JoinFundPage() {
                         Monthly Payment
                       </p>
                       <p className="text-primary text-2xl font-bold">
-                        {fundData.monthlyAmount} ETH
+                        {fundData.monthlyAmount} FLOW
                       </p>
                       <p className="text-muted-foreground mt-1 text-xs">
                         Due every month
@@ -354,7 +356,7 @@ export default function JoinFundPage() {
                         Minimum Bid
                       </p>
                       <p className="text-xl font-semibold">
-                        {fundData.minimumBid} ETH
+                        {fundData.minimumBid} FLOW
                       </p>
                       <p className="text-muted-foreground mt-1 text-xs">
                         Lowest possible bid
@@ -365,7 +367,7 @@ export default function JoinFundPage() {
                   <Alert>
                     <Info className="h-4 w-4" />
                     <AlertDescription>
-                      You'll pay {fundData.monthlyAmount} ETH every month. When
+                      You'll pay {fundData.monthlyAmount} FLOW every month. When
                       you win a round through bidding, you'll receive the full
                       fund amount and pay the difference between your bid and
                       the monthly amount.
@@ -373,57 +375,9 @@ export default function JoinFundPage() {
                   </Alert>
                 </CardContent>
               </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Shield className="mr-2 h-5 w-5" />
-                    Terms & Conditions
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-start space-x-2">
-                      <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-500" />
-                      <p>
-                        Monthly payments are mandatory and must be made on time
-                      </p>
-                    </div>
-                    <div className="flex items-start space-x-2">
-                      <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-500" />
-                      <p>
-                        Bidding is open to all participants during designated
-                        periods
-                      </p>
-                    </div>
-                    <div className="flex items-start space-x-2">
-                      <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-500" />
-                      <p>
-                        All transactions are secured by smart contracts on
-                        Ethereum
-                      </p>
-                    </div>
-                    <div className="flex items-start space-x-2">
-                      <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-500" />
-                      <p>
-                        Funds are distributed transparently based on bidding
-                        results
-                      </p>
-                    </div>
-                    <div className="flex items-start space-x-2">
-                      <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-500" />
-                      <p>
-                        Early withdrawal may result in penalties as per fund
-                        rules
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
 
             <div className="space-y-6">
-              {/* New Join Fund Form */}
               <JoinFundForm
                 contractAddress={contractAddress}
                 fundName={fundData.name}
@@ -454,20 +408,8 @@ export default function JoinFundPage() {
                     <span className="font-medium text-green-600">98.5%</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">
-                      Organizer Rating
-                    </span>
-                    <span className="font-medium">4.8/5.0</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">
-                      Funds Organized
-                    </span>
-                    <span className="font-medium">12</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Total Volume</span>
-                    <span className="font-medium">245.8 ETH</span>
+                    <span className="font-medium">245.8 FLOW</span>
                   </div>
                 </CardContent>
               </Card>

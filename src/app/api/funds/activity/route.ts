@@ -14,7 +14,6 @@ export async function POST(request: NextRequest) {
       transactionHash,
     } = body;
 
-    // Validate required fields
     if (!fundId || !activityType) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -22,7 +21,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Add activity to database
     const activity = await ChitFundDatabase.addActivity({
       fundId,
       activityType,

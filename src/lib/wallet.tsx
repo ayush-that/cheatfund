@@ -95,7 +95,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
           error: null,
         }));
 
-        // Fetch balance if we have an address
         updateBalance(address);
       }
     } else {
@@ -176,7 +175,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         params: [{ chainId: `0x${targetChainId.toString(16)}` }],
       } as any);
 
-      // Update the chain ID in our state
       setState((prev) => ({ ...prev, chainId: targetChainId }));
       toast.success(`Switched to chain ${targetChainId}`);
     } catch (error: any) {

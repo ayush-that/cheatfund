@@ -18,7 +18,6 @@ export async function POST(request: NextRequest) {
       isPublic,
     } = body;
 
-    // Validate required fields
     if (!contractAddress || !name || !organizer) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -26,7 +25,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create fund in database
     const fund = await ChitFundDatabase.createFund({
       contractAddress,
       name,

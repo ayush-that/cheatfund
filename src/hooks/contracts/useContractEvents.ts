@@ -37,7 +37,7 @@ export function useContractEvents(
           type: parsed.name,
           blockNumber: log.blockNumber,
           transactionHash: log.transactionHash,
-          timestamp: Date.now(), // In real app, get from block timestamp
+          timestamp: Date.now(),
           args: parsed.args.slice(),
           data: Object.fromEntries(
             parsed.fragment.inputs.map((input, i) => [

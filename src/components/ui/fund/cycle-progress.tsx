@@ -174,7 +174,7 @@ export function CycleProgress({
               <DollarSign className="h-4 w-4" />
               <span>Total Pool</span>
             </div>
-            <p className="text-lg font-semibold">{poolAmount} ETH</p>
+            <p className="text-lg font-semibold">{poolAmount} FLOW</p>
           </div>
           <div className="space-y-1">
             <div className="text-muted-foreground flex items-center space-x-2 text-sm">

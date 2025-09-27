@@ -101,7 +101,9 @@ export function UpcomingActions({ actions }: UpcomingActionsProps) {
                 </div>
                 {action.amount && (
                   <div className="text-right">
-                    <p className="text-sm font-semibold">{action.amount} ETH</p>
+                    <p className="text-sm font-semibold">
+                      {action.amount} FLOW
+                    </p>
                   </div>
                 )}
               </div>

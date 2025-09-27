@@ -82,7 +82,7 @@ export function RecentActivity({ activities }: RecentActivityProps) {
                   <div className="flex items-center space-x-2">
                     {activity.amount && (
                       <span className="text-foreground text-sm font-medium">
-                        {activity.amount} ETH
+                        {activity.amount} FLOW
                       </span>
                     )}
                     <Badge

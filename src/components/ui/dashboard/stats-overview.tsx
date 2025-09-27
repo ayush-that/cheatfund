@@ -18,7 +18,7 @@ interface StatsOverviewProps {
     activeFunds: number;
     completedFunds: number;
     successRate: number;
-    nextPaymentDue: string;
+    nextPaymentDue: string | null;
     monthlyCommitment: string;
   };
 }
@@ -41,11 +41,11 @@ export function StatsOverview({ userStats }: StatsOverviewProps) {
         </CardHeader>
         <CardContent>
           <div className="text-foreground text-2xl font-bold">
-            {userStats.totalInvested} ETH
+            {userStats.totalInvested} FLOW
           </div>
           <div className="mt-1 flex items-center">
             <span className="text-muted-foreground text-xs">
-              Monthly: {userStats.monthlyCommitment} ETH
+              Monthly: {userStats.monthlyCommitment} FLOW
             </span>
           </div>
         </CardContent>
@@ -60,7 +60,7 @@ export function StatsOverview({ userStats }: StatsOverviewProps) {
         </CardHeader>
         <CardContent>
           <div className="text-foreground text-2xl font-bold">
-            {userStats.totalReturns} ETH
+            {userStats.totalReturns} FLOW
           </div>
           <div className="mt-1 flex items-center">
             {profitLoss >= 0 ? (

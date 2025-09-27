@@ -81,7 +81,6 @@ export function ContributionForm({
 
   const hasEnoughBalance = () => {
     if (!balance || !contributionAmount) return false;
-    // Balance is already in ETH format as string, convert to wei for comparison
     const balanceInEth = Number.parseFloat(balance.toString());
     const contributionInEth = Number(formatEther(contributionAmount));
     return balanceInEth >= contributionInEth;
@@ -103,7 +102,6 @@ export function ContributionForm({
         setTxHash(result.txHash);
         setTxStatus("pending");
 
-        // Wait for confirmation
         if (result.receipt) {
           setTxStatus(result.receipt.status === 1 ? "confirmed" : "failed");
           if (result.receipt.status === 1) {
@@ -145,7 +143,7 @@ export function ContributionForm({
           <div className="bg-muted flex items-center space-x-2 rounded-lg p-3">
             <DollarSign className="text-muted-foreground h-4 w-4" />
             <span className="text-lg font-semibold">
-              {contributionAmountFormatted} ETH
+              {contributionAmountFormatted} FLOW
             </span>
           </div>
         </div>
@@ -240,7 +238,7 @@ export function ContributionForm({
           ) : (
             <>
               <DollarSign className="mr-2 h-4 w-4" />
-              Contribute {contributionAmountFormatted} ETH
+              Contribute {contributionAmountFormatted} FLOW
             </>
           )}
         </Button>

@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "../button";
-// import { Badge } from "@/components/ui/badge"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -112,7 +111,7 @@ export function WalletButton() {
           {balance && (
             <div className="text-sm">
               <span className="text-muted-foreground">Balance: </span>
-              <span className="font-medium">{balance} ETH</span>
+              <span className="font-medium">{balance} FLOW</span>
             </div>
           )}
         </div>

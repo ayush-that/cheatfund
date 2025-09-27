@@ -117,7 +117,6 @@ export function BiddingInterface({
         setTxHash(result.txHash);
         setTxStatus("pending");
 
-        // Wait for confirmation
         if (result.receipt) {
           setTxStatus(result.receipt.status === 1 ? "confirmed" : "failed");
           if (result.receipt.status === 1) {
@@ -168,7 +167,7 @@ export function BiddingInterface({
           <label className="text-sm font-medium">Total Pool</label>
           <div className="bg-muted flex items-center space-x-2 rounded-lg p-3">
             <DollarSign className="text-muted-foreground h-4 w-4" />
-            <span className="text-lg font-semibold">{poolAmount} ETH</span>
+            <span className="text-lg font-semibold">{poolAmount} FLOW</span>
           </div>
         </div>
 
@@ -209,20 +208,20 @@ export function BiddingInterface({
               <div>
                 <span className="text-muted-foreground">Bid Amount:</span>
                 <span className="ml-2 font-semibold">
-                  {payout.bidAmount} ETH
+                  {payout.bidAmount} FLOW
                 </span>
               </div>
               <div>
                 <span className="text-muted-foreground">You Receive:</span>
                 <span className="ml-2 font-semibold text-green-600">
-                  {payout.payout} ETH
+                  {payout.payout} FLOW
                 </span>
               </div>
             </div>
 
             <div className="text-xs text-blue-700">
               You're bidding {payout.percentage}% of the pool, so you'll receive{" "}
-              {payout.payout} ETH
+              {payout.payout} FLOW
             </div>
           </div>
         )}

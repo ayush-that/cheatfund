@@ -26,12 +26,6 @@ export default function HomePage() {
           <div className="mb-8 text-center">
             <Loader2 className="mx-auto mb-4 h-8 w-8 animate-spin" />
             <span className="ml-2">Loading dashboard...</span>
-            <div className="text-muted-foreground mt-4 text-sm">
-              <p>Fetching your funds and data...</p>
-              <p className="mt-2 text-xs">
-                If this takes too long, there might be a network issue.
-              </p>
-            </div>
           </div>
         </div>
       </WalletGuard>
@@ -148,7 +142,7 @@ export default function HomePage() {
                           <div>
                             <p className="text-muted-foreground">Amount</p>
                             <p className="text-foreground font-semibold">
-                              {fund.totalAmount} ETH
+                              {fund.totalAmount} FLOW
                             </p>
                           </div>
                           <div>
@@ -190,9 +184,14 @@ export default function HomePage() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-foreground text-xl font-semibold">
-                Discover Public Funds
-              </h2>
+              <div className="flex items-center justify-between">
+                <h2 className="text-foreground text-xl font-semibold">
+                  Discover Public Funds
+                </h2>
+                <Button variant="outline" asChild>
+                  <Link href="/discover">View All Funds</Link>
+                </Button>
+              </div>
               <div className="grid gap-4">
                 {publicFunds.length === 0 ? (
                   <Card>
@@ -226,7 +225,7 @@ export default function HomePage() {
                           <div>
                             <p className="text-muted-foreground">Amount</p>
                             <p className="text-foreground font-semibold">
-                              {fund.totalAmount} ETH
+                              {fund.totalAmount} FLOW
                             </p>
                           </div>
                           <div>

@@ -1,7 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "~/components/ui/sidebar";
-import { Home, PiggyBank, Settings, Plus, Contact2 } from "lucide-react";
+import {
+  Home,
+  PiggyBank,
+  Settings,
+  Plus,
+  Contact2,
+  Search,
+} from "lucide-react";
 
 export function SidebarDemo() {
   const links = [
@@ -20,6 +27,13 @@ export function SidebarDemo() {
       ),
     },
     {
+      label: "Discover",
+      href: "/discover",
+      icon: (
+        <Search className="h-5 w-5 flex-shrink-0 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
       label: "Create Fund",
       href: "/create",
       icon: (
@@ -29,7 +43,6 @@ export function SidebarDemo() {
     {
       label: "Contact",
       href: "/contact",
-
       icon: (
         <Contact2 className="h-5 w-5 flex-shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),

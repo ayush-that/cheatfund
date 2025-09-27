@@ -80,7 +80,6 @@ export function JoinFundForm({
 
   const hasEnoughBalance = () => {
     if (!balance || !contributionAmount) return false;
-    // Balance is already in ETH format as string, convert to wei for comparison
     const balanceInEth = Number.parseFloat(balance.toString());
     const contributionInEth = Number(formatEther(contributionAmount));
     return balanceInEth >= contributionInEth;
@@ -100,7 +99,6 @@ export function JoinFundForm({
         setTxHash(result.txHash);
         setTxStatus("pending");
 
-        // Wait for confirmation
         if (result.receipt) {
           setTxStatus(result.receipt.status === 1 ? "confirmed" : "failed");
           if (result.receipt.status === 1) {
@@ -279,9 +277,6 @@ export function JoinFundForm({
           <p>
             • You'll be required to make monthly contributions of{" "}
             {contributionAmountFormatted} FLOW
-          </p>
-          <p>
-            • All transactions are secured by smart contracts on the blockchain
           </p>
         </div>
       </CardContent>
