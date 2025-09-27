@@ -62,7 +62,10 @@ We've digitized and decentralized this process using:
 2. **FCL Integration**: Real blockchain interactions and wallet management
 3. **Database**: User management, transaction history, UI state
 4. **Frontend**: Modern React interface with real-time updates
-5. **Authentication**: Supabase Web3 Auth + Aadhaar for secure user verification
+   <<<<<<< HEAD
+5. # **Authentication**: Privy + Aadhaar for secure user verification
+6. **Authentication**: Supabase Web3 Auth + Aadhaar for secure user verification
+   > > > > > > > a85843ed5f4707bec454ead61fb95b5ece9bf6dc
 
 ---
 
