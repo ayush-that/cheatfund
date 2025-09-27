@@ -68,7 +68,7 @@ export default function MyFundsPage() {
           <div className="text-center">
             <span className="text-lg">No data available</span>
             <p className="text-muted-foreground mt-2">
-              This might be because you haven't joined any funds yet.
+              This might be because you have not joined any funds yet.
             </p>
             <Button onClick={refetch} className="mt-4">
               Try Again
@@ -190,15 +190,7 @@ export default function MyFundsPage() {
           </Button>
         );
       default:
-        return (
-          <Button size="sm" variant="outline" asChild>
-            <Link
-              href={`/fund/${encodeURIComponent(fund.name)}/${fund.organizer}`}
-            >
-              View Details
-            </Link>
-          </Button>
-        );
+        return null; // Don't render anything for default case
     }
   };
 
@@ -236,7 +228,7 @@ export default function MyFundsPage() {
               <Card>
                 <CardContent className="py-12 text-center">
                   <p className="text-muted-foreground text-lg">
-                    You're not participating in any funds yet
+                    You are not participating in any funds yet
                   </p>
                   <p className="text-muted-foreground mt-2">
                     Discover and join funds to start participating
@@ -315,7 +307,7 @@ export default function MyFundsPage() {
               <Card>
                 <CardContent className="py-12 text-center">
                   <p className="text-muted-foreground text-lg">
-                    You haven't organized any funds yet
+                    You have not organized any funds yet
                   </p>
                   <p className="text-muted-foreground mt-2">
                     Create your first fund to start organizing

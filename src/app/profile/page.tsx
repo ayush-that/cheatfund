@@ -6,24 +6,15 @@ import { UserProfile } from "~/components/ui/user/user-profile";
 
 export default function ProfilePage() {
   const [totalVolume, setTotalVolume] = useState<string>("0");
-  const [successRate, setSuccessRate] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [volumeResponse, successRateResponse] = await Promise.all([
-          fetch("/api/funds/total-volume"),
-          fetch("/api/funds/success-rate"),
-        ]);
+        const volumeResponse = await fetch("/api/funds/total-volume");
 
         if (volumeResponse.ok) {
           const { totalVolume: volume } = await volumeResponse.json();
           setTotalVolume(volume);
-        }
-
-        if (successRateResponse.ok) {
-          const { successRate: rate } = await successRateResponse.json();
-          setSuccessRate(rate);
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -40,7 +31,6 @@ export default function ProfilePage() {
     reputation: 4.8,
     fundsOrganized: 3,
     fundsParticipated: 12,
-    successRate,
     totalVolume,
   };
 

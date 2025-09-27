@@ -20,6 +20,8 @@ import { CycleProgress } from "~/components/ui/fund/cycle-progress";
 import { MembersList } from "~/components/ui/fund/members-list";
 import { ContributionForm } from "~/components/ui/fund/contribution-form";
 import { BiddingInterface } from "~/components/ui/fund/bidding-interface";
+import { WinnerSelection } from "~/components/ui/fund/winner-selection";
+import { BiddingTest } from "~/components/ui/fund/bidding-test";
 import { TransactionHistory } from "~/components/ui/fund/transaction-history";
 import { formatEther } from "ethers";
 import { ArrowLeft, Share2, AlertCircle, RefreshCw } from "lucide-react";
@@ -73,28 +75,6 @@ export default function FundManagementPage() {
         return;
       }
 
-      // Debug: Check what data we're getting
-      console.log("Fund data from database:", {
-        name: fund.name,
-        members: fund.members,
-        membersLength: fund.members?.length,
-        _count: fund._count,
-        maxParticipants: fund.maxParticipants,
-      });
-
-      // Debug: Check members directly
-      try {
-        const membersResponse = await fetch(
-          `/api/debug/fund-members?fundId=${fund.id}`,
-        );
-        if (membersResponse.ok) {
-          const membersData = await membersResponse.json();
-          console.log("Direct members query:", membersData);
-        }
-      } catch (err) {
-        console.error("Failed to fetch members directly:", err);
-      }
-
       setContractAddress(fund.contractAddress);
       setFundData(fund);
     } catch (err) {
@@ -114,13 +94,12 @@ export default function FundManagementPage() {
     }
   }, [contractAddress]);
 
-  // Add periodic refresh to catch member updates
   useEffect(() => {
     const interval = setInterval(() => {
       if (contractAddress) {
         fetchFundData();
       }
-    }, 5000); // Refresh every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [contractAddress]);
@@ -301,11 +280,13 @@ export default function FundManagementPage() {
               {combinedFundData.members && (
                 <MembersList
                   contractAddress={contractAddress}
-                  members={combinedFundData.members.map((member, index) => ({
-                    ...member,
-                    joinedAt: Date.now() - index * 24 * 60 * 60 * 1000,
-                    position: index + 1,
-                  }))}
+                  members={combinedFundData.members.map(
+                    (member: any, index: number) => ({
+                      ...member,
+                      joinedAt: Date.now() - index * 24 * 60 * 60 * 1000,
+                      position: index + 1,
+                    }),
+                  )}
                   currentUserAddress={address || undefined}
                   showDetails={true}
                 />
@@ -406,7 +387,6 @@ export default function FundManagementPage() {
                     />
                   </div>
 
-                  {/* Member Status */}
                   {combinedFundData.memberStatus && (
                     <div className="border-t pt-4">
                       <h4 className="mb-2 text-sm font-medium">Your Status</h4>
@@ -495,43 +475,63 @@ export default function FundManagementPage() {
                   />
                 )}
 
+              {combinedFundData.currentCycle &&
+                (getCyclePhase(combinedFundData.currentCycle) === "bidding" ||
+                  getCyclePhase(combinedFundData.currentCycle) ===
+                    "complete") &&
+                isOrganizer && (
+                  <WinnerSelection
+                    contractAddress={contractAddress}
+                    cycleData={{
+                      ...combinedFundData.currentCycle,
+                      phase: getCyclePhase(combinedFundData.currentCycle),
+                    }}
+                    onWinnerSelected={(winner) => {}}
+                    onFundsDistributed={(amount) => {}}
+                  />
+                )}
+
               {isOrganizer && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Organizer Actions</CardTitle>
-                    <CardDescription>
-                      Manage your fund as the organizer
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                      onClick={() =>
-                        router.push(
-                          `/join/${encodeURIComponent(fundName)}/${organizer}`,
-                        )
-                      }
-                    >
-                      View Join Link
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                      onClick={copyShareLink}
-                    >
-                      <Share2 className="mr-2 h-4 w-4" />
-                      Share Fund
-                    </Button>
-                    {combinedFundData.currentCycle &&
-                      getCyclePhase(combinedFundData.currentCycle) ===
-                        "complete" && (
-                        <Button className="w-full" onClick={() => {}}>
-                          Start Next Cycle
-                        </Button>
-                      )}
-                  </CardContent>
-                </Card>
+                <>
+                  <BiddingTest contractAddress={contractAddress} />
+
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Organizer Actions</CardTitle>
+                      <CardDescription>
+                        Manage your fund as the organizer
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() =>
+                          router.push(
+                            `/join/${encodeURIComponent(fundName)}/${organizer}`,
+                          )
+                        }
+                      >
+                        View Join Link
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={copyShareLink}
+                      >
+                        <Share2 className="mr-2 h-4 w-4" />
+                        Share Fund
+                      </Button>
+                      {combinedFundData.currentCycle &&
+                        getCyclePhase(combinedFundData.currentCycle) ===
+                          "complete" && (
+                          <Button className="w-full" onClick={() => {}}>
+                            Start Next Cycle
+                          </Button>
+                        )}
+                    </CardContent>
+                  </Card>
+                </>
               )}
 
               {!combinedFundData.memberStatus?.isMember && (

@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { ethers } from "ethers";
 import { CONTRACTS } from "~/lib/contracts";
-import { getSigner, getProvider, parseEther, formatEther } from "~/lib/web3";
+import { getSigner, getProvider } from "~/lib/web3";
 import { useWallet } from "~/lib/wallet";
 
 export interface FundDashboardData {
@@ -124,6 +124,33 @@ export function useChitFund(contractAddress: string) {
 
       const tx = await (contract as any).joinFund();
       const receipt = await tx.wait();
+
+      if (receipt.status === 1) {
+        try {
+          const fundResponse = await fetch(
+            `/api/funds/public?contractAddress=${contractAddress}`,
+          );
+          if (fundResponse.ok) {
+            const { data: funds } = await fundResponse.json();
+            const fund = funds?.find(
+              (f: any) => f.contractAddress === contractAddress,
+            );
+
+            if (fund) {
+              await fetch("/api/funds/members", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  fundId: fund.id,
+                  memberAddress: address,
+                }),
+              });
+            }
+          }
+        } catch (dbError) {
+          console.warn("Failed to add member to database:", dbError);
+        }
+      }
 
       return {
         success: true,
@@ -352,6 +379,108 @@ export function useChitFund(contractAddress: string) {
     }
   }, [address, contractAddress]);
 
+  const selectWinner = useCallback(async () => {
+    if (!address || !contractAddress) {
+      throw new Error("Wallet not connected or invalid contract address");
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const signer = await getSigner();
+      const contract = new ethers.Contract(
+        contractAddress,
+        CONTRACTS.CHITFUND.abi,
+        signer,
+      );
+
+      const tx = await (contract as any).selectWinner();
+      const receipt = await tx.wait();
+
+      return {
+        success: true,
+        txHash: tx.hash,
+        receipt,
+      };
+    } catch (error: any) {
+      const errorMessage =
+        error.reason || error.message || "Failed to select winner";
+      setError(errorMessage);
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }, [address, contractAddress]);
+
+  const distributeFunds = useCallback(async () => {
+    if (!address || !contractAddress) {
+      throw new Error("Wallet not connected or invalid contract address");
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const signer = await getSigner();
+      const contract = new ethers.Contract(
+        contractAddress,
+        CONTRACTS.CHITFUND.abi,
+        signer,
+      );
+
+      const tx = await (contract as any).distributeFunds();
+      const receipt = await tx.wait();
+
+      return {
+        success: true,
+        txHash: tx.hash,
+        receipt,
+      };
+    } catch (error: any) {
+      const errorMessage =
+        error.reason || error.message || "Failed to distribute funds";
+      setError(errorMessage);
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }, [address, contractAddress]);
+
+  const startNextCycle = useCallback(async () => {
+    if (!address || !contractAddress) {
+      throw new Error("Wallet not connected or invalid contract address");
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const signer = await getSigner();
+      const contract = new ethers.Contract(
+        contractAddress,
+        CONTRACTS.CHITFUND.abi,
+        signer,
+      );
+
+      const tx = await (contract as any).startNextCycle();
+      const receipt = await tx.wait();
+
+      return {
+        success: true,
+        txHash: tx.hash,
+        receipt,
+      };
+    } catch (error: any) {
+      const errorMessage =
+        error.reason || error.message || "Failed to start next cycle";
+      setError(errorMessage);
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }, [address, contractAddress]);
+
   const getFundData =
     useCallback(async (): Promise<FundDashboardData | null> => {
       if (!contractAddress) {
@@ -442,6 +571,9 @@ export function useChitFund(contractAddress: string) {
     joinFund,
     contribute,
     submitBid,
+    selectWinner,
+    distributeFunds,
+    startNextCycle,
     getFundData,
     checkCanJoin,
     fundData,

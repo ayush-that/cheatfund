@@ -7,11 +7,11 @@ import { formatDate } from "~/lib/date-utils";
 
 export interface HomePageData {
   userStats: {
+    totalBalance: string;
     totalInvested: string;
     totalReturns: string;
     activeFunds: number;
     completedFunds: number;
-    successRate: number;
     nextPaymentDue: string | null;
     monthlyCommitment: string;
   };
@@ -53,7 +53,7 @@ export interface HomePageData {
 }
 
 export function useHomePageData() {
-  const { address } = useWallet();
+  const { address, balance } = useWallet();
   const { getUserChitFunds, getAllChitFunds } = useChitFundFactory();
   const [data, setData] = useState<HomePageData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -73,11 +73,11 @@ export function useHomePageData() {
       if (!contractAddress) {
         const fallbackData: HomePageData = {
           userStats: {
+            totalBalance: "0",
             totalInvested: "0",
             totalReturns: "0",
             activeFunds: 0,
             completedFunds: 0,
-            successRate: 0,
             nextPaymentDue: null,
             monthlyCommitment: "0",
           },
@@ -104,6 +104,10 @@ export function useHomePageData() {
         ]);
         userFunds = Array.isArray(result) ? result : [];
       } catch (contractError) {
+        console.warn(
+          "Contract funds fetch failed (continuing with empty array):",
+          contractError,
+        );
         userFunds = [];
       }
 
@@ -115,8 +119,13 @@ export function useHomePageData() {
           const { data } = await dbResponse.json();
           databaseFunds = data || [];
         } else {
+          console.warn("Database response not ok:", dbResponse.status);
         }
       } catch (dbError) {
+        console.warn(
+          "Database funds fetch failed (continuing with empty array):",
+          dbError,
+        );
         databaseFunds = [];
       }
 
@@ -205,18 +214,15 @@ export function useHomePageData() {
         contractAddress: fund.contractAddress,
       }));
 
-      const successRateResponse = await fetch("/api/funds/success-rate");
-      const successRate = successRateResponse.ok
-        ? (await successRateResponse.json()).successRate
-        : 0;
+      const walletBalance = balance || "0";
 
       const homePageData: HomePageData = {
         userStats: {
+          totalBalance: walletBalance,
           totalInvested: validTotalInvested.toString(),
           totalReturns: "0",
           activeFunds: activeFunds.length,
           completedFunds: completedFunds.length,
-          successRate,
           nextPaymentDue: null,
           monthlyCommitment: validTotalInvested.toString(),
         },
@@ -231,11 +237,11 @@ export function useHomePageData() {
 
       const fallbackData: HomePageData = {
         userStats: {
+          totalBalance: "0",
           totalInvested: "0",
           totalReturns: "0",
           activeFunds: 0,
           completedFunds: 0,
-          successRate: 0,
           nextPaymentDue: null,
           monthlyCommitment: "0",
         },
@@ -256,11 +262,11 @@ export function useHomePageData() {
       if (loading) {
         const fallbackData: HomePageData = {
           userStats: {
+            totalBalance: "0",
             totalInvested: "0",
             totalReturns: "0",
             activeFunds: 0,
             completedFunds: 0,
-            successRate: 0,
             nextPaymentDue: null,
             monthlyCommitment: "0",
           },

@@ -1,7 +1,3 @@
-/**
- * Date utility functions for consistent date formatting across the application
- */
-
 export function formatDate(date: string | Date): string {
   const dateObj = typeof date === "string" ? new Date(date) : date;
 
@@ -76,7 +72,7 @@ export function formatDateForInput(date: string | Date): string {
     return "";
   }
 
-  return dateObj.toISOString().split("T")[0];
+  return dateObj.toISOString().split("T")[0] || "";
 }
 
 export function getNextMonthDate(): string {

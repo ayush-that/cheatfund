@@ -181,7 +181,7 @@ export function BiddingInterface({
 
           <Slider
             value={[bidPercentage]}
-            onValueChange={([value]) => setBidPercentage(value)}
+            onValueChange={([value]) => setBidPercentage(value || 0)}
             max={30}
             min={0}
             step={0.1}
@@ -314,10 +314,10 @@ export function BiddingInterface({
         )}
 
         <div className="text-muted-foreground space-y-1 text-xs">
-          <p>• Lower bids have a higher chance of winning</p>
-          <p>• You can only submit one bid per cycle</p>
-          <p>• Bids are final and cannot be changed</p>
-          <p>• The lowest bid wins the pool</p>
+          <p>Higher bids have a higher chance of winning</p>
+          <p>You can only submit one bid per cycle</p>
+          <p>Bids are final and cannot be changed</p>
+          <p>The highest bid wins the pool</p>
         </div>
       </CardContent>
     </Card>

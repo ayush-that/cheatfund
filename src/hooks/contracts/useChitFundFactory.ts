@@ -50,7 +50,7 @@ export function useChitFundFactory() {
 
         const contributionAmountWei = parseEther(params.contributionAmount);
         const paymentToken = params.paymentToken || ethers.ZeroAddress;
-        const tx = await contract.createChitFund(
+        const tx = await contract.createChitFund?.(
           params.fundName,
           contributionAmountWei,
           params.totalMembers,
@@ -105,13 +105,13 @@ export function useChitFundFactory() {
         provider,
       );
 
-      const userFunds = await contract.getUserChitFunds(address);
+      const userFunds = await contract.getUserChitFunds?.(address);
 
       const fundDetails: ChitFundInfo[] = [];
 
       for (const fundAddress of userFunds) {
         try {
-          const details = await contract.getChitFundDetails(fundAddress);
+          const details = await contract.getChitFundDetails?.(fundAddress);
           fundDetails.push({
             address: fundAddress,
             name: details.name,
@@ -142,13 +142,13 @@ export function useChitFundFactory() {
         provider,
       );
 
-      const allFunds = await contract.getAllChitFunds();
+      const allFunds = await contract.getAllChitFunds?.();
 
       const fundDetails: ChitFundInfo[] = [];
 
       for (const fundAddress of allFunds) {
         try {
-          const details = await contract.getChitFundDetails(fundAddress);
+          const details = await contract.getChitFundDetails?.(fundAddress);
           fundDetails.push({
             address: fundAddress,
             name: details.name,

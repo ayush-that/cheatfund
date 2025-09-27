@@ -25,7 +25,6 @@ interface UserProfileProps {
     reputation: number;
     fundsOrganized: number;
     fundsParticipated: number;
-    successRate: number;
     totalVolume: string;
   };
 }
@@ -172,12 +171,6 @@ export function UserProfile({ profile }: UserProfileProps) {
             <Separator />
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Success Rate</span>
-                <span className="text-primary font-medium">
-                  {profile.successRate}%
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Total Volume</span>
                 <span className="font-medium">{profile.totalVolume} FLOW</span>
               </div>
@@ -203,7 +196,7 @@ export function UserProfile({ profile }: UserProfileProps) {
                 Trusted Organizer
               </Badge>
               <span className="text-muted-foreground text-xs">
-                Organized 5+ successful funds
+                Organized 5 or more successful funds
               </span>
             </div>
             <div className="flex items-center space-x-3">
@@ -215,7 +208,7 @@ export function UserProfile({ profile }: UserProfileProps) {
                 Perfect Record
               </Badge>
               <span className="text-muted-foreground text-xs">
-                100% payment success rate
+                Perfect payment record
               </span>
             </div>
             <div className="flex items-center space-x-3">
@@ -227,7 +220,7 @@ export function UserProfile({ profile }: UserProfileProps) {
                 Active Participant
               </Badge>
               <span className="text-muted-foreground text-xs">
-                Participated in 10+ funds
+                Participated in 10 or more funds
               </span>
             </div>
           </CardContent>

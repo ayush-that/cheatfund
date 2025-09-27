@@ -74,7 +74,7 @@ export function useContractEvents(
 
       for (const eventType of filters) {
         try {
-          const filter = contract.filters[eventType]();
+          const filter = contract.filters?.[eventType]?.();
           const logs = await contract.queryFilter(
             filter,
             fromBlock,

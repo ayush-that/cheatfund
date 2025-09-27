@@ -1,23 +1,22 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "../card";
-import { Progress } from "../progress";
 import {
   TrendingUp,
   TrendingDown,
   DollarSign,
   Users,
-  Calendar,
   Target,
 } from "lucide-react";
+import numeral from "numeral";
 
 interface StatsOverviewProps {
   userStats: {
+    totalBalance: string;
     totalInvested: string;
     totalReturns: string;
     activeFunds: number;
     completedFunds: number;
-    successRate: number;
     nextPaymentDue: string | null;
     monthlyCommitment: string;
   };
@@ -30,22 +29,27 @@ export function StatsOverview({ userStats }: StatsOverviewProps) {
   const profitLossPercentage =
     (profitLoss / Number.parseFloat(userStats.totalInvested)) * 100;
 
+  const formatNumber = (value: string) => {
+    const num = Number.parseFloat(value);
+    return numeral(num).format("0.0a");
+  };
+
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-muted-foreground flex items-center text-sm font-medium">
             <DollarSign className="mr-1 h-4 w-4" />
-            Total Invested
+            Total FLOW Balance
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-foreground text-2xl font-bold">
-            {userStats.totalInvested} FLOW
+            {formatNumber(userStats.totalBalance)} FLOW
           </div>
           <div className="mt-1 flex items-center">
             <span className="text-muted-foreground text-xs">
-              Monthly: {userStats.monthlyCommitment} FLOW
+              Available balance
             </span>
           </div>
         </CardContent>
@@ -55,12 +59,31 @@ export function StatsOverview({ userStats }: StatsOverviewProps) {
         <CardHeader className="pb-2">
           <CardTitle className="text-muted-foreground flex items-center text-sm font-medium">
             <Target className="mr-1 h-4 w-4" />
-            Total Returns
+            Invested
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-foreground text-2xl font-bold">
-            {userStats.totalReturns} FLOW
+            {formatNumber(userStats.totalInvested)} FLOW
+          </div>
+          <div className="mt-1 flex items-center">
+            <span className="text-muted-foreground text-xs">
+              Total invested amount
+            </span>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-muted-foreground flex items-center text-sm font-medium">
+            <TrendingUp className="mr-1 h-4 w-4" />
+            Returns
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-foreground text-2xl font-bold">
+            {formatNumber(userStats.totalReturns)} FLOW
           </div>
           <div className="mt-1 flex items-center">
             {profitLoss >= 0 ? (
@@ -98,21 +121,6 @@ export function StatsOverview({ userStats }: StatsOverviewProps) {
               {userStats.completedFunds} completed
             </span>
           </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-muted-foreground flex items-center text-sm font-medium">
-            <Calendar className="mr-1 h-4 w-4" />
-            Success Rate
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-primary text-2xl font-bold">
-            {userStats.successRate}%
-          </div>
-          <Progress value={userStats.successRate} className="mt-2" />
         </CardContent>
       </Card>
     </div>

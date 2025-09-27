@@ -683,7 +683,6 @@ const nextConfig = {
 
 ### Technical Metrics
 
-- **Transaction Success Rate**: >95%
 - **Page Load Time**: <3 seconds
 - **Time to Interactive**: <5 seconds
 - **Error Rate**: <2%

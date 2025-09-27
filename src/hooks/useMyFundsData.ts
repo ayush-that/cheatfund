@@ -29,6 +29,7 @@ export interface MyFundsData {
   organizingFunds: Array<{
     id: string;
     name: string;
+    organizer: string;
     contractAddress: string;
     totalAmount: string;
     duration: number;
@@ -117,11 +118,10 @@ export function useMyFundsData() {
             (member: any) =>
               member.memberAddress?.toLowerCase() === address.toLowerCase(),
           );
-          const isMemberInContract = fund.currentMembers > 0;
           const isOrganizer =
             fund.organizer?.toLowerCase() === address.toLowerCase();
 
-          return (isMemberInDB || isMemberInContract) && !isOrganizer;
+          return isMemberInDB && !isOrganizer;
         })
         .map((fund) => ({
           id: fund.address || fund.contractAddress || fund.id,
@@ -157,6 +157,7 @@ export function useMyFundsData() {
           return {
             id: fund.address || fund.contractAddress || fund.id,
             name: fund.name,
+            organizer: fund.organizer || fund.creator || address,
             contractAddress: fund.address || fund.contractAddress,
             totalAmount: fund.totalAmount?.toString() || "0",
             duration: fund.duration || 12,

@@ -115,11 +115,11 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         const balance = (await window.ethereum.request({
           method: "eth_getBalance",
           params: [address, "latest"],
-        } as any)) as string;
+        })) as string;
         const balanceInEth =
           Math.floor((Number.parseInt(balance, 16) / Math.pow(10, 18)) * 100) /
           100;
-        setState((prev) => ({ ...prev, balance: balanceInEth }));
+        setState((prev) => ({ ...prev, balance: balanceInEth.toString() }));
       }
     } catch (error) {}
   };
