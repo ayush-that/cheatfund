@@ -1,0 +1,1113 @@
+{
+  "_format": "",
+  "paths": {
+    "artifacts": "out",
+    "build_infos": "out/build-info",
+    "sources": "src",
+    "tests": "test",
+    "scripts": "script",
+    "libraries": ["lib"]
+  },
+  "files": {
+    "lib/forge-std/src/Base.sol": {
+      "lastModificationDate": 1758963092757,
+      "contentHash": "b30affbf365427e2",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/Base.sol",
+      "imports": [
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/Vm.sol"
+      ],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "CommonBase": {
+          "0.8.20": {
+            "default": {
+              "path": "Base.sol/CommonBase.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        },
+        "ScriptBase": {
+          "0.8.20": {
+            "default": {
+              "path": "Base.sol/ScriptBase.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        },
+        "TestBase": {
+          "0.8.20": {
+            "default": {
+              "path": "Base.sol/TestBase.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/Script.sol": {
+      "lastModificationDate": 1758963092726,
+      "contentHash": "654eb74437773a2d",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/Script.sol",
+      "imports": [
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol"
+      ],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "Script": {
+          "0.8.20": {
+            "default": {
+              "path": "Script.sol/Script.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/StdAssertions.sol": {
+      "lastModificationDate": 1758963092727,
+      "contentHash": "02aafa55c6c27fcf",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/StdAssertions.sol",
+      "imports": ["lib/forge-std/src/Vm.sol"],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "StdAssertions": {
+          "0.8.20": {
+            "default": {
+              "path": "StdAssertions.sol/StdAssertions.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/StdChains.sol": {
+      "lastModificationDate": 1758963092757,
+      "contentHash": "a40952ce0d242817",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/StdChains.sol",
+      "imports": ["lib/forge-std/src/Vm.sol"],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "StdChains": {
+          "0.8.20": {
+            "default": {
+              "path": "StdChains.sol/StdChains.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/StdCheats.sol": {
+      "lastModificationDate": 1758963092727,
+      "contentHash": "30325e8cda32c7ae",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/StdCheats.sol",
+      "imports": [
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol"
+      ],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "StdCheats": {
+          "0.8.20": {
+            "default": {
+              "path": "StdCheats.sol/StdCheats.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        },
+        "StdCheatsSafe": {
+          "0.8.20": {
+            "default": {
+              "path": "StdCheats.sol/StdCheatsSafe.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/StdConstants.sol": {
+      "lastModificationDate": 1758963092727,
+      "contentHash": "23303eb7e922efe4",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/StdConstants.sol",
+      "imports": [
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol"
+      ],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "StdConstants": {
+          "0.8.20": {
+            "default": {
+              "path": "StdConstants.sol/StdConstants.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/StdError.sol": {
+      "lastModificationDate": 1758963092727,
+      "contentHash": "a1a86c7115e2cdf3",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/StdError.sol",
+      "imports": [],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "stdError": {
+          "0.8.20": {
+            "default": {
+              "path": "StdError.sol/stdError.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/StdInvariant.sol": {
+      "lastModificationDate": 1758963092727,
+      "contentHash": "0111ef959dff6f54",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/StdInvariant.sol",
+      "imports": [],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "StdInvariant": {
+          "0.8.20": {
+            "default": {
+              "path": "StdInvariant.sol/StdInvariant.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/StdJson.sol": {
+      "lastModificationDate": 1758963092727,
+      "contentHash": "5fb1b35c8fb281fd",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/StdJson.sol",
+      "imports": ["lib/forge-std/src/Vm.sol"],
+      "versionRequirement": ">=0.6.0, <0.9.0",
+      "artifacts": {
+        "stdJson": {
+          "0.8.20": {
+            "default": {
+              "path": "StdJson.sol/stdJson.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/StdMath.sol": {
+      "lastModificationDate": 1758963092727,
+      "contentHash": "72584abebada1e7a",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/StdMath.sol",
+      "imports": [],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "stdMath": {
+          "0.8.20": {
+            "default": {
+              "path": "StdMath.sol/stdMath.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/StdStorage.sol": {
+      "lastModificationDate": 1758963092727,
+      "contentHash": "9a44dcb9bda3bfa9",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/StdStorage.sol",
+      "imports": ["lib/forge-std/src/Vm.sol"],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "stdStorage": {
+          "0.8.20": {
+            "default": {
+              "path": "StdStorage.sol/stdStorage.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        },
+        "stdStorageSafe": {
+          "0.8.20": {
+            "default": {
+              "path": "StdStorage.sol/stdStorageSafe.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/StdStyle.sol": {
+      "lastModificationDate": 1758963092727,
+      "contentHash": "ee166ef95092736e",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/StdStyle.sol",
+      "imports": ["lib/forge-std/src/Vm.sol"],
+      "versionRequirement": ">=0.4.22, <0.9.0",
+      "artifacts": {
+        "StdStyle": {
+          "0.8.20": {
+            "default": {
+              "path": "StdStyle.sol/StdStyle.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/StdToml.sol": {
+      "lastModificationDate": 1758963092728,
+      "contentHash": "fc667e4ecb7fa86c",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/StdToml.sol",
+      "imports": ["lib/forge-std/src/Vm.sol"],
+      "versionRequirement": ">=0.6.0, <0.9.0",
+      "artifacts": {
+        "stdToml": {
+          "0.8.20": {
+            "default": {
+              "path": "StdToml.sol/stdToml.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/StdUtils.sol": {
+      "lastModificationDate": 1758963092728,
+      "contentHash": "b7cdeb66252de708",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/StdUtils.sol",
+      "imports": [
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol"
+      ],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "StdUtils": {
+          "0.8.20": {
+            "default": {
+              "path": "StdUtils.sol/StdUtils.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/Test.sol": {
+      "lastModificationDate": 1758963092728,
+      "contentHash": "f56119a09f81c62c",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/Test.sol",
+      "imports": [
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdInvariant.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdToml.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol"
+      ],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "Test": {
+          "0.8.20": {
+            "default": {
+              "path": "Test.sol/Test.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/Vm.sol": {
+      "lastModificationDate": 1758963092758,
+      "contentHash": "e42237c90542cb12",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/Vm.sol",
+      "imports": [],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "Vm": {
+          "0.8.20": {
+            "default": {
+              "path": "Vm.sol/Vm.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        },
+        "VmSafe": {
+          "0.8.20": {
+            "default": {
+              "path": "Vm.sol/VmSafe.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/console.sol": {
+      "lastModificationDate": 1758963092728,
+      "contentHash": "bae85493a76fb054",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/console.sol",
+      "imports": [],
+      "versionRequirement": ">=0.4.22, <0.9.0",
+      "artifacts": {
+        "console": {
+          "0.8.20": {
+            "default": {
+              "path": "console.sol/console.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/console2.sol": {
+      "lastModificationDate": 1758963092728,
+      "contentHash": "49a7da3dfc404603",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/console2.sol",
+      "imports": ["lib/forge-std/src/console.sol"],
+      "versionRequirement": ">=0.4.22, <0.9.0",
+      "artifacts": {},
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/interfaces/IMulticall3.sol": {
+      "lastModificationDate": 1758963092729,
+      "contentHash": "b680a332ebf10901",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/interfaces/IMulticall3.sol",
+      "imports": [],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "IMulticall3": {
+          "0.8.20": {
+            "default": {
+              "path": "IMulticall3.sol/IMulticall3.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/forge-std/src/safeconsole.sol": {
+      "lastModificationDate": 1758963092729,
+      "contentHash": "621653b34a6691ea",
+      "interfaceReprHash": null,
+      "sourceName": "lib/forge-std/src/safeconsole.sol",
+      "imports": [],
+      "versionRequirement": ">=0.6.2, <0.9.0",
+      "artifacts": {
+        "safeconsole": {
+          "0.8.20": {
+            "default": {
+              "path": "safeconsole.sol/safeconsole.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/openzeppelin-contracts/contracts/interfaces/draft-IERC6093.sol": {
+      "lastModificationDate": 1758963138868,
+      "contentHash": "9c740010cc7bb5db",
+      "interfaceReprHash": null,
+      "sourceName": "lib/openzeppelin-contracts/contracts/interfaces/draft-IERC6093.sol",
+      "imports": [],
+      "versionRequirement": ">=0.8.4",
+      "artifacts": {
+        "IERC1155Errors": {
+          "0.8.20": {
+            "default": {
+              "path": "draft-IERC6093.sol/IERC1155Errors.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        },
+        "IERC20Errors": {
+          "0.8.20": {
+            "default": {
+              "path": "draft-IERC6093.sol/IERC20Errors.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        },
+        "IERC721Errors": {
+          "0.8.20": {
+            "default": {
+              "path": "draft-IERC6093.sol/IERC721Errors.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol": {
+      "lastModificationDate": 1758963138871,
+      "contentHash": "93d784d4e49c0d24",
+      "interfaceReprHash": null,
+      "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol",
+      "imports": [
+        "lib/openzeppelin-contracts/contracts/interfaces/draft-IERC6093.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "lib/openzeppelin-contracts/contracts/utils/Context.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "ERC20": {
+          "0.8.20": {
+            "default": {
+              "path": "ERC20.sol/ERC20.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol": {
+      "lastModificationDate": 1758963138769,
+      "contentHash": "1dcd768972ff31b3",
+      "interfaceReprHash": null,
+      "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+      "imports": [],
+      "versionRequirement": ">=0.4.16",
+      "artifacts": {
+        "IERC20": {
+          "0.8.20": {
+            "default": {
+              "path": "IERC20.sol/IERC20.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
+      "lastModificationDate": 1758963138770,
+      "contentHash": "c0fde354a75fbdc6",
+      "interfaceReprHash": null,
+      "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+      "imports": [
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionRequirement": ">=0.6.2",
+      "artifacts": {
+        "IERC20Metadata": {
+          "0.8.20": {
+            "default": {
+              "path": "IERC20Metadata.sol/IERC20Metadata.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "lib/openzeppelin-contracts/contracts/utils/Context.sol": {
+      "lastModificationDate": 1758963138774,
+      "contentHash": "16db1f8b2f7183f5",
+      "interfaceReprHash": null,
+      "sourceName": "lib/openzeppelin-contracts/contracts/utils/Context.sol",
+      "imports": [],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "Context": {
+          "0.8.20": {
+            "default": {
+              "path": "Context.sol/Context.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "script/DeployChitFund.s.sol": {
+      "lastModificationDate": 1758974985771,
+      "contentHash": "2784e28be82a238a",
+      "interfaceReprHash": null,
+      "sourceName": "script/DeployChitFund.s.sol",
+      "imports": [
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "src/ChitFund.sol",
+        "src/ChitFundFactory.sol",
+        "src/interfaces/IChitFund.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "DeployChitFund": {
+          "0.8.20": {
+            "default": {
+              "path": "DeployChitFund.s.sol/DeployChitFund.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "script/DeployLocal.s.sol": {
+      "lastModificationDate": 1758974531343,
+      "contentHash": "cf7266f134266853",
+      "interfaceReprHash": null,
+      "sourceName": "script/DeployLocal.s.sol",
+      "imports": [
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/openzeppelin-contracts/contracts/interfaces/draft-IERC6093.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "lib/openzeppelin-contracts/contracts/utils/Context.sol",
+        "src/ChitFund.sol",
+        "src/ChitFundFactory.sol",
+        "src/interfaces/IChitFund.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "DeployLocal": {
+          "0.8.20": {
+            "default": {
+              "path": "DeployLocal.s.sol/DeployLocal.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        },
+        "MockUSDC": {
+          "0.8.20": {
+            "default": {
+              "path": "DeployLocal.s.sol/MockUSDC.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "script/TestChitFund.s.sol": {
+      "lastModificationDate": 1758974985772,
+      "contentHash": "ac2b90d242824f0a",
+      "interfaceReprHash": null,
+      "sourceName": "script/TestChitFund.s.sol",
+      "imports": [
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "src/ChitFund.sol",
+        "src/interfaces/IChitFund.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "TestChitFund": {
+          "0.8.20": {
+            "default": {
+              "path": "TestChitFund.s.sol/TestChitFund.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "script/TestCompleteCycle.s.sol": {
+      "lastModificationDate": 1758971255507,
+      "contentHash": "e6b85d443ed736c6",
+      "interfaceReprHash": null,
+      "sourceName": "script/TestCompleteCycle.s.sol",
+      "imports": [
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "src/ChitFund.sol",
+        "src/interfaces/IChitFund.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "TestCompleteCycle": {
+          "0.8.20": {
+            "default": {
+              "path": "TestCompleteCycle.s.sol/TestCompleteCycle.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "src/ChitFund.sol": {
+      "lastModificationDate": 1758974531343,
+      "contentHash": "c99782b9245223c7",
+      "interfaceReprHash": null,
+      "sourceName": "src/ChitFund.sol",
+      "imports": [
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "src/interfaces/IChitFund.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "ChitFund": {
+          "0.8.20": {
+            "default": {
+              "path": "ChitFund.sol/ChitFund.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "src/ChitFundFactory.sol": {
+      "lastModificationDate": 1758974531343,
+      "contentHash": "ef1bab6f1aef4646",
+      "interfaceReprHash": null,
+      "sourceName": "src/ChitFundFactory.sol",
+      "imports": [
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "src/ChitFund.sol",
+        "src/interfaces/IChitFund.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "ChitFundFactory": {
+          "0.8.20": {
+            "default": {
+              "path": "ChitFundFactory.sol/ChitFundFactory.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "src/interfaces/IAutomationCompatible.sol": {
+      "lastModificationDate": 1758964383023,
+      "contentHash": "bdb6e5a7f418ed2b",
+      "interfaceReprHash": null,
+      "sourceName": "src/interfaces/IAutomationCompatible.sol",
+      "imports": [],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "IAutomationCompatible": {
+          "0.8.20": {
+            "default": {
+              "path": "IAutomationCompatible.sol/IAutomationCompatible.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "src/interfaces/IChitFund.sol": {
+      "lastModificationDate": 1758964373944,
+      "contentHash": "e65b7b0d3477eb86",
+      "interfaceReprHash": null,
+      "sourceName": "src/interfaces/IChitFund.sol",
+      "imports": [],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "IChitFund": {
+          "0.8.20": {
+            "default": {
+              "path": "IChitFund.sol/IChitFund.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "src/interfaces/IChitFundFactory.sol": {
+      "lastModificationDate": 1758965603329,
+      "contentHash": "0539777bb117331b",
+      "interfaceReprHash": null,
+      "sourceName": "src/interfaces/IChitFundFactory.sol",
+      "imports": [],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "IChitFundFactory": {
+          "0.8.20": {
+            "default": {
+              "path": "IChitFundFactory.sol/IChitFundFactory.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "test/ChitFund.t.sol": {
+      "lastModificationDate": 1758974985779,
+      "contentHash": "311c92a24ee63145",
+      "interfaceReprHash": null,
+      "sourceName": "test/ChitFund.t.sol",
+      "imports": [
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdInvariant.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdToml.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "src/ChitFund.sol",
+        "src/ChitFundFactory.sol",
+        "src/interfaces/IChitFund.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "ChitFundTest": {
+          "0.8.20": {
+            "default": {
+              "path": "ChitFund.t.sol/ChitFundTest.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "test/ChitFundAutomation.t.sol": {
+      "lastModificationDate": 1758974985784,
+      "contentHash": "b984c2d5131ac4f9",
+      "interfaceReprHash": null,
+      "sourceName": "test/ChitFundAutomation.t.sol",
+      "imports": [
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdInvariant.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdToml.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "src/ChitFund.sol",
+        "src/ChitFundFactory.sol",
+        "src/interfaces/IChitFund.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "ChitFundAutomationTest": {
+          "0.8.20": {
+            "default": {
+              "path": "ChitFundAutomation.t.sol/ChitFundAutomationTest.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "test/ChitFundEdgeCases.t.sol": {
+      "lastModificationDate": 1758974985772,
+      "contentHash": "c8a7e4edb1ad483f",
+      "interfaceReprHash": null,
+      "sourceName": "test/ChitFundEdgeCases.t.sol",
+      "imports": [
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdInvariant.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdToml.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "src/ChitFund.sol",
+        "src/ChitFundFactory.sol",
+        "src/interfaces/IChitFund.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "ChitFundEdgeCasesTest": {
+          "0.8.20": {
+            "default": {
+              "path": "ChitFundEdgeCases.t.sol/ChitFundEdgeCasesTest.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "test/ChitFundFactory.t.sol": {
+      "lastModificationDate": 1758974904430,
+      "contentHash": "6808fea83c6585aa",
+      "interfaceReprHash": null,
+      "sourceName": "test/ChitFundFactory.t.sol",
+      "imports": [
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdInvariant.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdToml.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "src/ChitFund.sol",
+        "src/ChitFundFactory.sol",
+        "src/interfaces/IChitFund.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "ChitFundFactoryTest": {
+          "0.8.20": {
+            "default": {
+              "path": "ChitFundFactory.t.sol/ChitFundFactoryTest.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    },
+    "test/ChitFundIntegration.t.sol": {
+      "lastModificationDate": 1758974985784,
+      "contentHash": "a78795ec08c0999c",
+      "interfaceReprHash": null,
+      "sourceName": "test/ChitFundIntegration.t.sol",
+      "imports": [
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdConstants.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdInvariant.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdToml.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "src/ChitFund.sol",
+        "src/ChitFundFactory.sol",
+        "src/interfaces/IChitFund.sol"
+      ],
+      "versionRequirement": "^0.8.20",
+      "artifacts": {
+        "ChitFundIntegrationTest": {
+          "0.8.20": {
+            "default": {
+              "path": "ChitFundIntegration.t.sol/ChitFundIntegrationTest.json",
+              "build_id": "9faf6063c2ab6b94"
+            }
+          }
+        }
+      },
+      "seenByCompiler": true
+    }
+  },
+  "builds": ["9faf6063c2ab6b94"],
+  "profiles": {
+    "default": {
+      "solc": {
+        "optimizer": { "enabled": true, "runs": 200 },
+        "metadata": {
+          "useLiteralContent": false,
+          "bytecodeHash": "ipfs",
+          "appendCBOR": true
+        },
+        "outputSelection": {
+          "*": {
+            "*": [
+              "abi",
+              "evm.bytecode.object",
+              "evm.bytecode.sourceMap",
+              "evm.bytecode.linkReferences",
+              "evm.deployedBytecode.object",
+              "evm.deployedBytecode.sourceMap",
+              "evm.deployedBytecode.linkReferences",
+              "evm.deployedBytecode.immutableReferences",
+              "evm.methodIdentifiers",
+              "metadata"
+            ]
+          }
+        },
+        "evmVersion": "shanghai",
+        "viaIR": true,
+        "libraries": {}
+      },
+      "vyper": {
+        "evmVersion": "shanghai",
+        "outputSelection": {
+          "*": { "*": ["abi", "evm.bytecode", "evm.deployedBytecode"] }
+        }
+      }
+    }
+  },
+  "preprocessed": false,
+  "mocks": []
+}

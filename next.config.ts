@@ -5,13 +5,6 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  webpack: (config) => {
-    config.resolve.fallback = {
-      fs: false,
-      readline: false,
-    };
-    return config;
-  },
 };
 
 export default nextConfig;

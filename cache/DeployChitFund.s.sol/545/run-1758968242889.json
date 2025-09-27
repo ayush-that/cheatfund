@@ -1,0 +1,10 @@
+{
+  "transactions": [
+    {
+      "rpc": "https://testnet.evm.nodes.onflow.org"
+    },
+    {
+      "rpc": "https://testnet.evm.nodes.onflow.org"
+    }
+  ]
+}
