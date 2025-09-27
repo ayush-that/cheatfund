@@ -145,7 +145,8 @@ export function WalletButton() {
           className="text-destructive cursor-pointer"
         >
           <LogOut className="mr-2 h-4 w-4" />
-          Disconnect
+
+          <span className="text-red-800">Disconnect</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
