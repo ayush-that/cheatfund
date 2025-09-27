@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    domains: ["assets.aceternity.com"],
+  },
 };
 
 export default nextConfig;

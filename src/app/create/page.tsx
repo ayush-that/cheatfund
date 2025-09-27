@@ -415,7 +415,10 @@ export default function CreateFundPage() {
                       <Select
                         value={formData.duration}
                         onValueChange={(value) =>
-                          setFormData((prev) => ({ ...prev, duration: value }))
+                          setFormData((prev) => ({
+                            ...prev,
+                            duration: value,
+                          }))
                         }
                       >
                         <SelectTrigger>
@@ -490,7 +493,10 @@ export default function CreateFundPage() {
                       id="isPublic"
                       checked={formData.isPublic}
                       onCheckedChange={(checked) =>
-                        setFormData((prev) => ({ ...prev, isPublic: checked }))
+                        setFormData((prev) => ({
+                          ...prev,
+                          isPublic: checked,
+                        }))
                       }
                     />
                   </div>
