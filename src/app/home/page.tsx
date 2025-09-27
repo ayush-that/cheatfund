@@ -11,6 +11,7 @@ import { Plus, Users, Clock } from "lucide-react";
 import { WalletGuard } from "~/components/ui/wallet/wallet-guard";
 import { StatsOverview } from "~/components/ui/dashboard/stats-overview";
 import { RecentActivity } from "~/components/ui/dashboard/recent-activity";
+import { SidebarDemo } from "~/components/ui/dashboard/sidebar";
 // import { UpcomingActions } from "~/components/ui/dashboard/upcoming-actions";
 
 export default function HomePage() {
@@ -81,7 +82,6 @@ export default function HomePage() {
   return (
     <WalletGuard>
       <div className="space-y-6 p-6">
-        {/* Header */}
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-foreground text-3xl font-bold">Dashboard</h1>

@@ -5,6 +5,7 @@ import { Geist } from "next/font/google";
 import { AnonAadhaarProviderWrapper } from "~/components/anon-aadhaar-provider-wrapper";
 import { WalletProvider } from "~/lib/wallet";
 import { Toaster } from "~/components/ui/sonner";
+import { SidebarDemo } from "~/components/ui/dashboard/sidebar";
 
 export const metadata: Metadata = {
   title: "CheatFund - Web3 Authentication",
@@ -25,7 +26,10 @@ export default function RootLayout({
       <body>
         <AnonAadhaarProviderWrapper>
           <WalletProvider>
-            {children}
+            <div className="flex min-h-screen flex-row">
+              <SidebarDemo />
+              <div className="w-full">{children}</div>
+            </div>
             <Toaster />
           </WalletProvider>
         </AnonAadhaarProviderWrapper>
