@@ -54,12 +54,8 @@ export function SidebarDemo() {
   return (
     <Sidebar open={open} setOpen={setOpen} animate={true}>
       <SidebarBody>
-        <div className="mt-2 flex w-full flex-col gap-2">
-          <div className="px-4 py-2">
-            <h1 className="truncate text-3xl font-bold text-[#E4BAD1]">
-              cheat.fund
-            </h1>
-          </div>
+        <div className="mt-[-26px] flex w-full flex-col gap-4">
+          <div className="px-4 py-2"></div>
           <div className={open ? "pl-[12px]" : "pl-[5px]"}>
             {links.map((link, idx) => (
               <SidebarLink key={idx} link={link} />
