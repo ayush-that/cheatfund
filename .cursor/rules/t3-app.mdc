@@ -68,3 +68,4 @@ Notes:
 - We use Zustand for state management
 - We use Privy for authentication
 - Read/update documentation time to time from the docs folder
+- Never add emojis in comments or text
