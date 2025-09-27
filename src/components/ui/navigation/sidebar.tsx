@@ -11,7 +11,11 @@ const navigation = [
   { name: "My Funds", href: "/my-funds", icon: Wallet },
   { name: "Create Fund", href: "/create", icon: Plus },
   { name: "Profile", href: "/profile", icon: User },
-  { name: "Contact", href: "/contact", icon: MessageCircle },
+  {
+    name: "Contact",
+    href: "mailto:contact@cheatfund.com",
+    icon: MessageCircle,
+  },
 ];
 
 export function Sidebar() {
