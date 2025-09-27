@@ -27,6 +27,11 @@ import { Badge } from "~/components/ui/badge";
 import { Separator } from "~/components/ui/separator";
 import { WalletGuard } from "~/components/ui/wallet/wallet-guard";
 import { useWallet } from "~/lib/wallet";
+import { useChitFundFactory } from "~/hooks/contracts/useChitFundFactory";
+import { useTransactionManager } from "~/hooks/contracts/useTransactionManager";
+import { TransactionStatus } from "~/components/ui/transaction/transaction-status";
+import { switchToFlowTestnet, checkNetwork } from "~/lib/web3";
+import { toast } from "sonner";
 import {
   ArrowLeft,
   Users,
@@ -34,6 +39,7 @@ import {
   DollarSign,
   Shield,
   Info,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -51,7 +57,14 @@ interface FundFormData {
 export default function CreateFundPage() {
   const router = useRouter();
   const { address } = useWallet();
+  const {
+    createChitFund,
+    loading: contractLoading,
+    error: contractError,
+  } = useChitFundFactory();
+  const { addTransaction, getTransaction } = useTransactionManager();
   const [isCreating, setIsCreating] = useState(false);
+  const [currentTx, setCurrentTx] = useState<string | null>(null);
   const [formData, setFormData] = useState<FundFormData>({
     name: "",
     description: "",
@@ -95,20 +108,116 @@ export default function CreateFundPage() {
     e.preventDefault();
 
     if (!validateForm()) return;
+    if (!address) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
 
     setIsCreating(true);
 
     try {
-      // TODO: Implement smart contract interaction
-      console.log("Creating fund with data:", formData);
+      // Check and switch to Flow Testnet
+      const isOnFlowTestnet = await checkNetwork();
+      if (!isOnFlowTestnet) {
+        toast.loading("Switching to Flow Testnet...", { id: "switch-network" });
+        const switched = await switchToFlowTestnet();
+        if (!switched) {
+          toast.error("Please switch to Flow Testnet to create funds", {
+            id: "switch-network",
+          });
+          setIsCreating(false);
+          return;
+        }
+        toast.success("Switched to Flow Testnet!", { id: "switch-network" });
+      }
 
-      // Simulate fund creation
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Prepare contract parameters
+      const contributionAmount = (
+        Number.parseFloat(formData.totalAmount) /
+        Number.parseInt(formData.maxParticipants)
+      ).toString();
 
-      // Redirect to fund management page
-      router.push(`/fund/${encodeURIComponent(formData.name)}/${address}`);
-    } catch (error) {
-      console.error("Error creating fund:", error);
+      const params = {
+        fundName: formData.name,
+        contributionAmount,
+        totalMembers: Number.parseInt(formData.maxParticipants),
+      };
+
+      toast.loading("Creating chit fund...", { id: "create-fund" });
+
+      // Call smart contract
+      const result = await createChitFund(params);
+
+      if (result.success && result.txHash) {
+        // Track transaction
+        addTransaction(result.txHash);
+        setCurrentTx(result.txHash);
+
+        toast.success("Fund creation transaction submitted!", {
+          id: "create-fund",
+        });
+
+        setTimeout(async () => {
+          if (result.contractAddress) {
+            try {
+              const fundResponse = await fetch("/api/funds/create", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  contractAddress: result.contractAddress,
+                  name: formData.name,
+                  description: formData.description,
+                  category: formData.category,
+                  organizer: address,
+                  totalAmount: Number.parseFloat(formData.totalAmount),
+                  maxParticipants: Number.parseInt(formData.maxParticipants),
+                  duration: Number.parseInt(formData.duration),
+                  startDate: formData.startDate,
+                  isPublic: formData.isPublic,
+                }),
+              });
+
+              if (!fundResponse.ok) {
+                throw new Error("Failed to save fund to database");
+              }
+
+              const { fund } = await fundResponse.json();
+
+              await fetch("/api/funds/activity", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  fundId: fund.id,
+                  activityType: "fund_created",
+                  description: `Fund "${formData.name}" created by organizer`,
+                  memberAddress: address,
+                  transactionHash: result.txHash,
+                }),
+              });
+
+              toast.success("Chit fund created and saved successfully!");
+              router.push(
+                `/fund/${encodeURIComponent(formData.name)}/${address}`,
+              );
+            } catch (dbError) {
+              toast.error(
+                "Fund created on blockchain but failed to save metadata",
+              );
+              router.push(
+                `/fund/${encodeURIComponent(formData.name)}/${address}`,
+              );
+            }
+          }
+        }, 3000);
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Failed to create fund", {
+        id: "create-fund",
+      });
     } finally {
       setIsCreating(false);
     }
@@ -125,7 +234,6 @@ export default function CreateFundPage() {
   return (
     <WalletGuard>
       <div className="mx-auto max-w-4xl space-y-6 p-6">
-        {/* Header */}
         <div className="flex items-center space-x-4">
           <Button variant="ghost" size="sm" asChild>
             <Link href="/home">
@@ -145,9 +253,7 @@ export default function CreateFundPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid gap-6 lg:grid-cols-3">
-            {/* Main Form */}
             <div className="space-y-6 lg:col-span-2">
-              {/* Basic Information */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
@@ -235,7 +341,6 @@ export default function CreateFundPage() {
                 </CardContent>
               </Card>
 
-              {/* Financial Details */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
@@ -363,7 +468,6 @@ export default function CreateFundPage() {
                 </CardContent>
               </Card>
 
-              {/* Settings */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
@@ -394,7 +498,6 @@ export default function CreateFundPage() {
               </Card>
             </div>
 
-            {/* Summary Sidebar */}
             <div className="space-y-6">
               <Card className="sticky top-6">
                 <CardHeader>
@@ -467,15 +570,37 @@ export default function CreateFundPage() {
                   <Button
                     type="submit"
                     className="bg-primary hover:bg-primary/90 w-full"
-                    disabled={isCreating}
+                    disabled={isCreating || contractLoading}
                   >
-                    {isCreating ? "Creating Fund..." : "Create Fund"}
+                    {isCreating || contractLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Creating Fund...
+                      </>
+                    ) : (
+                      "Create Fund"
+                    )}
                   </Button>
 
                   <p className="text-muted-foreground text-center text-xs">
                     By creating this fund, you agree to act as the organizer and
                     manage the fund according to the terms.
                   </p>
+
+                  {currentTx && (
+                    <div className="mt-4">
+                      <TransactionStatus
+                        transaction={getTransaction(currentTx)!}
+                        onClose={() => setCurrentTx(null)}
+                      />
+                    </div>
+                  )}
+
+                  {contractError && (
+                    <div className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-800">
+                      <strong>Error:</strong> {contractError}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>

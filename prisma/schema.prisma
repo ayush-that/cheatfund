@@ -29,3 +29,61 @@ model Post {
 
     @@index([name])
 }
+
+model ChitFund {
+    id                String   @id @default(cuid())
+    contractAddress   String   @unique
+    name              String
+    description       String?
+    category          String?
+    organizer         String
+    totalAmount       Decimal
+    maxParticipants   Int
+    duration          Int?
+    startDate         DateTime?
+    isPublic          Boolean  @default(true)
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @updatedAt
+
+    // Relations
+    members           FundMember[]
+    activities        FundActivity[]
+
+    @@index([contractAddress])
+    @@index([organizer])
+    @@index([isPublic])
+    @@index([category])
+}
+
+model FundMember {
+    id              String   @id @default(cuid())
+    fundId          String
+    memberAddress   String
+    joinedAt        DateTime @default(now())
+    status          String   @default("active")
+    
+    // Relations
+    fund            ChitFund @relation(fields: [fundId], references: [id], onDelete: Cascade)
+
+    @@unique([fundId, memberAddress])
+    @@index([fundId])
+    @@index([memberAddress])
+}
+
+model FundActivity {
+    id              String   @id @default(cuid())
+    fundId          String
+    activityType    String
+    description     String?
+    amount          Decimal?
+    memberAddress   String?
+    transactionHash String?
+    createdAt       DateTime @default(now())
+    
+    // Relations
+    fund            ChitFund @relation(fields: [fundId], references: [id], onDelete: Cascade)
+
+    @@index([fundId])
+    @@index([activityType])
+    @@index([createdAt])
+}

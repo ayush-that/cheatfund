@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   Card,
@@ -15,6 +15,11 @@ import { Separator } from "~/components/ui/separator";
 import { Alert, AlertDescription } from "~/components/ui/alert";
 import { WalletGuard } from "~/components/ui/wallet/wallet-guard";
 import { useWallet } from "~/lib/wallet";
+import { useChitFund } from "~/hooks/contracts/useChitFund";
+import { useTransactionManager } from "~/hooks/contracts/useTransactionManager";
+import { TransactionStatus } from "~/components/ui/transaction/transaction-status";
+import { switchToFlowTestnet, checkNetwork } from "~/lib/web3";
+import { toast } from "sonner";
 import {
   ArrowLeft,
   Users,
@@ -25,40 +30,91 @@ import {
   AlertCircle,
   Clock,
   Info,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 
 export default function JoinFundPage() {
+  const contractAddress = "0x66cb2eb0baa986b241d43d652ae912a4dbfce50c";
   const params = useParams();
   const router = useRouter();
   const { address, balance } = useWallet();
-
   const fundName = decodeURIComponent(params.fundName as string);
   const organizer = params.organizer as string;
-
   const [isJoining, setIsJoining] = useState(false);
-  const [error, setError] = useState("");
+  const [joinError, setJoinError] = useState("");
+  const [currentTx, setCurrentTx] = useState<string | null>(null);
 
-  // Mock data - in real app, this would come from smart contract
-  const fundData = {
-    name: fundName,
-    description:
-      "A professional chit fund for tech workers to save and invest together.",
-    organizer: organizer,
-    totalAmount: "10.0",
-    duration: 12,
-    maxParticipants: 10,
-    currentParticipants: 7,
-    monthlyAmount: "1.0",
-    minimumBid: "0.5",
-    category: "Professional Groups",
-    startDate: "2024-01-15",
-    isPublic: true,
-    status: "recruiting",
-    nextRoundDate: "2024-04-15",
-  };
+  const {
+    joinFund,
+    getFundData,
+    loading: contractLoading,
+    error: contractError,
+  } = useChitFund(contractAddress);
+  const { addTransaction, getTransaction } = useTransactionManager();
+
+  const [fundData, setFundData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string>("");
+
+  useEffect(() => {
+    const fetchFundData = async () => {
+      try {
+        setLoading(true);
+
+        const fundsResponse = await fetch(
+          "/api/funds/public?limit=100&offset=0",
+        );
+        if (!fundsResponse.ok) {
+          throw new Error("Failed to fetch funds");
+        }
+        const { data: funds } = await fundsResponse.json();
+        const fund = funds.find(
+          (f: any) =>
+            f.name.toLowerCase() === fundName.toLowerCase() &&
+            f.organizer.toLowerCase() === organizer.toLowerCase(),
+        );
+
+        if (!fund) {
+          setFetchError("Fund not found");
+          return;
+        }
+
+        const blockchainData = await getFundData();
+
+        const completeFundData = {
+          ...fund,
+          ...blockchainData,
+          monthlyAmount: (
+            Number(fund.totalAmount) / fund.maxParticipants
+          ).toFixed(2),
+          minimumBid: (
+            (Number(fund.totalAmount) / fund.maxParticipants) *
+            0.5
+          ).toFixed(2),
+          currentParticipants: fund.members?.length || 0,
+          status:
+            fund.members?.length >= fund.maxParticipants
+              ? "full"
+              : "recruiting",
+          nextRoundDate: fund.startDate
+            ? new Date(fund.startDate).toISOString().split("T")[0]
+            : null,
+        };
+
+        setFundData(completeFundData);
+      } catch (err) {
+        setFetchError("Failed to load fund data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFundData();
+  }, [fundName, organizer]);
 
   const canJoin =
+    fundData &&
     fundData.currentParticipants < fundData.maxParticipants &&
     fundData.status === "recruiting" &&
     Number.parseFloat(balance || "0") >=
@@ -66,31 +122,112 @@ export default function JoinFundPage() {
 
   const handleJoinFund = async () => {
     if (!canJoin) return;
+    if (!address) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
 
     setIsJoining(true);
-    setError("");
+    setJoinError("");
 
     try {
-      // TODO: Implement smart contract interaction
-      console.log("Joining fund:", { fundName, organizer, address });
+      // Check and switch to Flow Testnet
+      const isOnFlowTestnet = await checkNetwork();
+      if (!isOnFlowTestnet) {
+        toast.loading("Switching to Flow Testnet...", { id: "switch-network" });
+        const switched = await switchToFlowTestnet();
+        if (!switched) {
+          toast.error("Please switch to Flow Testnet to join funds", {
+            id: "switch-network",
+          });
+          setIsJoining(false);
+          return;
+        }
+        toast.success("Switched to Flow Testnet!", { id: "switch-network" });
+      }
 
-      // Simulate joining process
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      toast.loading("Joining fund...", { id: "join-fund" });
+      const result = await joinFund();
 
-      // Redirect to fund page
-      router.push(`/fund/${encodeURIComponent(fundName)}/${organizer}`);
-    } catch (error) {
-      console.error("Error joining fund:", error);
-      setError("Failed to join fund. Please try again.");
+      if (result.success && result.txHash) {
+        addTransaction(result.txHash);
+        setCurrentTx(result.txHash);
+
+        toast.success("Join transaction submitted!", { id: "join-fund" });
+
+        setTimeout(async () => {
+          try {
+            await fetch("/api/funds/members", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                fundId: fundData.id,
+                memberAddress: address,
+              }),
+            });
+
+            await fetch("/api/funds/activity", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                fundId: fundData.id,
+                activityType: "member_joined",
+                description: `Member ${address} joined the fund`,
+                memberAddress: address,
+                transactionHash: result.txHash,
+              }),
+            });
+
+            toast.success("Successfully joined the fund!");
+            router.push(`/fund/${encodeURIComponent(fundName)}/${organizer}`);
+          } catch (dbError) {
+            toast.error("Joined fund but failed to save member data");
+            router.push(`/fund/${encodeURIComponent(fundName)}/${organizer}`);
+          }
+        }, 3000);
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Failed to join fund", { id: "join-fund" });
+      setJoinError(error.message || "Failed to join fund. Please try again.");
     } finally {
       setIsJoining(false);
     }
   };
 
+  if (loading) {
+    return (
+      <WalletGuard>
+        <div className="mx-auto max-w-4xl space-y-6 p-6">
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin" />
+            <span className="ml-2">Loading fund data...</span>
+          </div>
+        </div>
+      </WalletGuard>
+    );
+  }
+
+  if (fetchError || !fundData) {
+    return (
+      <WalletGuard>
+        <div className="mx-auto max-w-4xl space-y-6 p-6">
+          <Alert variant="destructive">
+            <AlertDescription>
+              {fetchError || "Fund not found"}
+            </AlertDescription>
+          </Alert>
+        </div>
+      </WalletGuard>
+    );
+  }
+
   return (
     <WalletGuard>
       <div className="bg-background min-h-screen">
-        {/* Header */}
         <div className="border-border bg-card/50 border-b backdrop-blur-sm">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center space-x-4">
@@ -114,9 +251,7 @@ export default function JoinFundPage() {
 
         <div className="container mx-auto max-w-4xl px-4 py-6">
           <div className="grid gap-6 lg:grid-cols-3">
-            {/* Main Content */}
             <div className="space-y-6 lg:col-span-2">
-              {/* Fund Overview */}
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
@@ -194,7 +329,6 @@ export default function JoinFundPage() {
                 </CardContent>
               </Card>
 
-              {/* Financial Details */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
@@ -240,7 +374,6 @@ export default function JoinFundPage() {
                 </CardContent>
               </Card>
 
-              {/* Terms and Conditions */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
@@ -289,9 +422,7 @@ export default function JoinFundPage() {
               </Card>
             </div>
 
-            {/* Sidebar */}
             <div className="space-y-6">
-              {/* Join Action */}
               <Card className="sticky top-6">
                 <CardHeader>
                   <CardTitle>Join This Fund</CardTitle>
@@ -301,7 +432,6 @@ export default function JoinFundPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {/* Eligibility Check */}
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-muted-foreground">
@@ -337,10 +467,10 @@ export default function JoinFundPage() {
 
                   <Separator />
 
-                  {error && (
+                  {joinError && (
                     <Alert variant="destructive">
                       <AlertCircle className="h-4 w-4" />
-                      <AlertDescription>{error}</AlertDescription>
+                      <AlertDescription>{joinError}</AlertDescription>
                     </Alert>
                   )}
 
@@ -364,17 +494,38 @@ export default function JoinFundPage() {
                     disabled={!canJoin || isJoining}
                     className="bg-primary hover:bg-primary/90 w-full"
                   >
-                    {isJoining ? "Joining Fund..." : "Join Fund"}
+                    {isJoining || contractLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Joining Fund...
+                      </>
+                    ) : (
+                      "Join Fund"
+                    )}
                   </Button>
 
                   <p className="text-muted-foreground text-center text-xs">
                     By joining, you agree to the terms and conditions of this
                     chit fund.
                   </p>
+
+                  {currentTx && (
+                    <div className="mt-4">
+                      <TransactionStatus
+                        transaction={getTransaction(currentTx)!}
+                        onClose={() => setCurrentTx(null)}
+                      />
+                    </div>
+                  )}
+
+                  {contractError && (
+                    <div className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-800">
+                      <strong>Error:</strong> {contractError}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 
-              {/* Fund Stats */}
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">Fund Statistics</CardTitle>
