@@ -2,8 +2,8 @@
 pragma solidity ^0.8.20;
 
 import {Test, console} from "forge-std/Test.sol";
-import {ChitFund} from "../src/ChitFund.sol";
-import {ChitFundFactory} from "../src/ChitFundFactory.sol";
+import {ChitFund} from "../contracts/ChitFund.sol";
+import {ChitFundFactory} from "../contracts/ChitFundFactory.sol";
 
 contract ChitFundTest is Test {
     ChitFund public chitFund;

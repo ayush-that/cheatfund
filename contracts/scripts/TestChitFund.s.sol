@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import {Script, console} from "forge-std/Script.sol";
-import {ChitFund} from "../src/ChitFund.sol";
+import {ChitFund} from "../ChitFund.sol";
 
 contract TestChitFund is Script {
     address public factoryAddress = 0x3B0F27234E1c5922B5C76Be0eC2002B9217DD264;
