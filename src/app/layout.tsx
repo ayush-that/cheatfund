@@ -7,6 +7,7 @@ import { WalletProvider } from "~/lib/wallet";
 import { Toaster } from "~/components/ui/sonner";
 import { SidebarDemo } from "~/components/ui/dashboard/sidebar";
 import { ChatPopup } from "~/components/chat-popup";
+import { Navbar } from "~/components/ui/navigation/navbar";
 
 export const metadata: Metadata = {
   title: "CheatFund - Web3 Authentication",
@@ -27,9 +28,12 @@ export default function RootLayout({
       <body>
         <AnonAadhaarProviderWrapper>
           <WalletProvider>
-            <div className="flex min-h-screen flex-row">
-              <SidebarDemo />
-              <div className="w-full">{children}</div>
+            <div className="flex min-h-screen flex-col">
+              <Navbar />
+              <div className="flex flex-1">
+                <SidebarDemo />
+                <div className="w-full">{children}</div>
+              </div>
             </div>
             <Toaster />
             <ChatPopup />
