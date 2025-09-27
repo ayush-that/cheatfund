@@ -230,14 +230,8 @@ export default function CreateFundPage() {
 
   return (
     <WalletGuard>
-      <div className="mx-auto max-w-4xl space-y-6 p-6">
+      <div className="mx-auto space-y-6 p-6">
         <div className="flex items-center space-x-4">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/home">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
-            </Link>
-          </Button>
           <div>
             <h1 className="text-foreground text-3xl font-bold">
               Create Chit Fund
