@@ -1,11 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnonAadhaarProvider } from "@anon-aadhaar/react";
+import dynamic from "next/dynamic";
 
 interface AnonAadhaarProviderWrapperProps {
   children: React.ReactNode;
 }
+
+const AnonAadhaarProvider = dynamic(
+  () =>
+    import("@anon-aadhaar/react").then((mod) => ({
+      default: mod.AnonAadhaarProvider,
+    })),
+  {
+    ssr: false,
+    loading: () => null,
+  },
+);
 
 export function AnonAadhaarProviderWrapper({
   children,
