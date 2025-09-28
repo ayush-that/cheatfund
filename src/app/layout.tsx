@@ -11,7 +11,7 @@ import { Navbar } from "~/components/ui/navigation/navbar";
 export const metadata: Metadata = {
   title: "cheat.fund",
   description: "cheat.fund",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/favicon.jpeg" }],
 };
 
 export default function RootLayout({

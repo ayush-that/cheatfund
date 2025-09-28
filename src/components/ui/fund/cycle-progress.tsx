@@ -32,18 +32,57 @@ interface CycleData {
   biddingDeadline: number;
   winner: string | null;
   phase: "contribution" | "bidding" | "complete";
+  contributionStartTime?: number;
+  contributionDuration?: number;
+  biddingDuration?: number;
 }
 
 interface CycleProgressProps {
   cycleData: CycleData;
   totalMembers: number;
   className?: string;
+  currency?: string;
+  phaseConfig?: {
+    contribution: {
+      label: string;
+      description: string;
+      color: string;
+    };
+    bidding: {
+      label: string;
+      description: string;
+      color: string;
+    };
+    complete: {
+      label: string;
+      description: string;
+      color: string;
+    };
+  };
 }
 
 export function CycleProgress({
   cycleData,
   totalMembers,
   className,
+  currency = "FLOW",
+  phaseConfig = {
+    contribution: {
+      label: "Contribution Phase",
+      description: "Members are contributing to the pool",
+      color: "bg-blue-100 text-blue-800 border-blue-200",
+    },
+    bidding: {
+      label: "Bidding Phase",
+      description: "Members are submitting bids",
+      color: "bg-yellow-100 text-yellow-800 border-yellow-200",
+    },
+    complete: {
+      label: "Cycle Complete",
+      description: "Winner has been selected",
+      color: "bg-green-100 text-green-800 border-green-200",
+    },
+  },
 }: CycleProgressProps) {
   const [timeRemaining, setTimeRemaining] = useState<{
     contribution: number;
@@ -87,48 +126,52 @@ export function CycleProgress({
     const now = Math.floor(Date.now() / 1000);
 
     if (now < cycleData.contributionDeadline) {
+      const contributionStartTime =
+        cycleData.contributionStartTime ||
+        cycleData.contributionDeadline -
+          (cycleData.contributionDuration || 7 * 24 * 3600);
+      const totalContributionTime =
+        cycleData.contributionDeadline - contributionStartTime;
+
       return {
         phase: "contribution" as const,
-        label: "Contribution Phase",
-        description: "Members are contributing to the pool",
-        color: "bg-blue-100 text-blue-800 border-blue-200",
+        label: phaseConfig.contribution.label,
+        description: phaseConfig.contribution.description,
+        color: phaseConfig.contribution.color,
         icon: <DollarSign className="h-4 w-4" />,
         progress: Math.max(
           0,
-          100 -
-            (timeRemaining.contribution /
-              (cycleData.contributionDeadline -
-                (cycleData.contributionDeadline - 7 * 24 * 3600))) *
-              100,
+          100 - (timeRemaining.contribution / totalContributionTime) * 100,
         ),
       };
     }
 
     if (now < cycleData.biddingDeadline) {
+      const biddingDuration =
+        cycleData.biddingDuration ||
+        cycleData.biddingDeadline - cycleData.contributionDeadline;
+
       return {
         phase: "bidding" as const,
-        label: "Bidding Phase",
-        description: "Members are submitting bids",
-        color: "bg-yellow-100 text-yellow-800 border-yellow-200",
+        label: phaseConfig.bidding.label,
+        description: phaseConfig.bidding.description,
+        color: phaseConfig.bidding.color,
         icon: <Users className="h-4 w-4" />,
         progress: Math.max(
           0,
-          100 -
-            (timeRemaining.bidding /
-              (cycleData.biddingDeadline - cycleData.contributionDeadline)) *
-              100,
+          100 - (timeRemaining.bidding / biddingDuration) * 100,
         ),
       };
     }
 
     return {
       phase: "complete" as const,
-      label: "Cycle Complete",
+      label: phaseConfig.complete.label,
       description: cycleData.winner
-        ? "Winner has been selected"
+        ? phaseConfig.complete.description
         : "Waiting for winner selection",
       color: cycleData.winner
-        ? "bg-green-100 text-green-800 border-green-200"
+        ? phaseConfig.complete.color
         : "bg-gray-100 text-gray-800 border-gray-200",
       icon: cycleData.winner ? (
         <CheckCircle className="h-4 w-4" />
@@ -174,7 +217,9 @@ export function CycleProgress({
               <DollarSign className="h-4 w-4" />
               <span>Total Pool</span>
             </div>
-            <p className="text-lg font-semibold">{poolAmount} FLOW</p>
+            <p className="text-lg font-semibold">
+              {poolAmount} {currency}
+            </p>
           </div>
           <div className="space-y-1">
             <div className="text-muted-foreground flex items-center space-x-2 text-sm">
@@ -243,11 +288,9 @@ export function CycleProgress({
                     : "bg-gray-300",
                 )}
               />
-              <span>Contribution Phase</span>
+              <span>{phaseConfig.contribution.label}</span>
               {phaseInfo.phase === "contribution" && (
-                <Badge variant="outline" size="sm">
-                  Active
-                </Badge>
+                <Badge variant="outline">Active</Badge>
               )}
             </div>
 
@@ -265,11 +308,9 @@ export function CycleProgress({
                     : "bg-gray-300",
                 )}
               />
-              <span>Bidding Phase</span>
+              <span>{phaseConfig.bidding.label}</span>
               {phaseInfo.phase === "bidding" && (
-                <Badge variant="outline" size="sm">
-                  Active
-                </Badge>
+                <Badge variant="outline">Active</Badge>
               )}
             </div>
 
@@ -287,11 +328,9 @@ export function CycleProgress({
                     : "bg-gray-300",
                 )}
               />
-              <span>Complete</span>
+              <span>{phaseConfig.complete.label}</span>
               {phaseInfo.phase === "complete" && (
-                <Badge variant="outline" size="sm">
-                  Done
-                </Badge>
+                <Badge variant="outline">Done</Badge>
               )}
             </div>
           </div>
