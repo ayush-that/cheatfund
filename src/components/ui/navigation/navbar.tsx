@@ -6,7 +6,7 @@ import { Breadcrumb } from "./breadscrumb";
 import { Button } from "../button";
 export function Navbar() {
   return (
-    <header className="border-border bg-card/50 h-16 w-full border-b backdrop-blur-sm">
+    <header className="border-border bg-card/50 sticky top-0 h-16 w-full border-b backdrop-blur-sm">
       <div className="flex h-full items-center justify-between px-6">
         <h1 className="truncate text-3xl font-semibold text-[#E4BAD1]">
           cheat.fund

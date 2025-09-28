@@ -374,7 +374,7 @@ export default function CreateFundPage() {
                         id="totalAmount"
                         type="number"
                         step="0.01"
-                        min="0"
+                        min="1"
                         value={formData.totalAmount}
                         onChange={(e) =>
                           setFormData((prev) => ({
@@ -382,7 +382,7 @@ export default function CreateFundPage() {
                             totalAmount: e.target.value,
                           }))
                         }
-                        placeholder="10.0"
+                        placeholder="Enter total amount in FLOW"
                         className={
                           errors.totalAmount ? "border-destructive" : ""
                         }

@@ -52,7 +52,7 @@ export function SidebarDemo() {
   const [open, setOpen] = useState(false);
 
   return (
-    <Sidebar open={open} setOpen={setOpen} animate={true}>
+    <Sidebar open={open} setOpen={setOpen} animate={false}>
       <SidebarBody>
         <div className="mt-[-26px] flex w-full flex-col gap-4">
           <div className="px-4 py-2"></div>
