@@ -83,8 +83,8 @@ export function StatsOverview({
         <Card>
           <CardContent className="p-3">
             <div className="flex items-center space-x-3">
-              <div className="text-primary flex h-10 w-10 items-center justify-center rounded-lg">
-                <DollarSign className="h-12 w-12" />
+              <div className="text-primary flex h-16 w-16 items-center justify-center rounded-lg">
+                <DollarSign className="h-14 w-14" />
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-muted-foreground text-xs font-medium">
@@ -101,8 +101,8 @@ export function StatsOverview({
         <Card>
           <CardContent className="p-3">
             <div className="flex items-center space-x-3">
-              <div className="text-primary flex h-10 w-10 items-center justify-center rounded-lg">
-                <Target className="h-12 w-12" />
+              <div className="text-primary flex h-16 w-16 items-center justify-center rounded-lg">
+                <Target className="h-14 w-14" />
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-muted-foreground text-xs font-medium">
@@ -119,8 +119,8 @@ export function StatsOverview({
         <Card>
           <CardContent className="p-3">
             <div className="flex items-center space-x-3">
-              <div className="text-primary flex h-10 w-10 items-center justify-center rounded-lg">
-                <Users className="h-12 w-12" />
+              <div className="text-primary flex h-16 w-16 items-center justify-center rounded-lg">
+                <Users className="h-14 w-14" />
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-muted-foreground text-xs font-medium">
@@ -137,15 +137,24 @@ export function StatsOverview({
         <Card>
           <CardContent className="p-3">
             <div className="flex items-center space-x-3">
-              <div className="text-primary flex h-10 w-10 items-center justify-center rounded-lg">
-                <History className="h-12 w-12" />
+              <div className="text-primary flex h-16 w-16 items-center justify-center rounded-lg">
+                <History className="h-14 w-14" />
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-muted-foreground text-xs font-medium">
                   Recent Activity
                 </p>
                 <p className="text-foreground truncate text-lg font-bold">
-                  {recentActivities.length} items
+                  {recentActivities.map((activity) => (
+                    <div
+                      key={activity.id}
+                      className="hover:bg-muted/50 flex items-center space-x-4 rounded-lg transition-colors"
+                    >
+                      <p className="text-muted-foreground mt-1 text-xs">
+                        {activity.description}
+                      </p>
+                    </div>
+                  ))}
                 </p>
               </div>
             </div>
