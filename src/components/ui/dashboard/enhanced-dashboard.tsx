@@ -63,15 +63,8 @@ export function EnhancedDashboard({
 
   const { events, loading: eventsLoading } = useContractEvents(contractAddress);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRefreshKey((prev) => prev + 1);
-      setLastUpdate(new Date());
-      getFundData();
-    }, 30000);
-
-    return () => clearInterval(interval);
-  }, [getFundData]);
+  // Remove the 30000ms interval - data fetching is now handled by the enhanced hook
+  // with event-driven updates and smart caching
 
   const getCyclePhase = (
     cycle: any,

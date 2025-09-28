@@ -123,12 +123,8 @@ export default function FundManagementPage() {
   useEffect(() => {
     if (contractAddress) {
       getFundData();
-
-      const interval = setInterval(() => {
-        getFundData();
-      }, 30000);
-
-      return () => clearInterval(interval);
+      // Data fetching is now handled by enhanced hooks with event-driven updates
+      // and smart caching instead of fixed 30000ms intervals
     }
   }, [contractAddress]);
 

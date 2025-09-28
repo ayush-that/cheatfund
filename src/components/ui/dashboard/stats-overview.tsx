@@ -12,6 +12,7 @@ import {
   Clock,
   Gavel,
   ArrowRight,
+  History,
 } from "lucide-react";
 import numeral from "numeral";
 
@@ -80,119 +81,149 @@ export function StatsOverview({
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-muted-foreground flex items-center text-sm font-medium">
-              <DollarSign className="mr-1 h-4 w-4" />
-              Total FLOW Balance
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-foreground text-2xl font-bold">
-              {userStats.totalBalance} FLOW
-            </div>
-            <div className="mt-1 flex items-center">
-              <span className="text-muted-foreground text-xs">
-                Available balance
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-muted-foreground flex items-center text-sm font-medium">
-              <Target className="mr-1 h-4 w-4" />
-              Invested
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-foreground text-2xl font-bold">
-              {formatNumber(userStats.totalInvested)} FLOW
-            </div>
-            <div className="mt-1 flex items-center">
-              <span className="text-muted-foreground text-xs">
-                Total invested amount
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-muted-foreground flex items-center text-sm font-medium">
-              <Users className="mr-1 h-4 w-4" />
-              Active Funds
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-foreground text-2xl font-bold">
-              {userStats.activeFunds}
-            </div>
-            <div className="mt-1 flex items-center">
-              <span className="text-muted-foreground text-xs">
-                {userStats.completedFunds} completed
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {recentActivities.length === 0 ? (
-              <div className="py-8 text-center">
-                <Clock className="text-muted-foreground mx-auto mb-2 h-8 w-8" />
-                <p className="text-muted-foreground text-sm">
-                  No recent activity
+          <CardContent className="p-3">
+            <div className="flex items-center space-x-3">
+              <div className="text-primary flex h-10 w-10 items-center justify-center rounded-lg">
+                <DollarSign className="h-12 w-12" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-muted-foreground text-xs font-medium">
+                  Total FLOW Balance
+                </p>
+                <p className="text-foreground truncate text-lg font-bold">
+                  {userStats.totalBalance} FLOW
                 </p>
               </div>
-            ) : (
-              recentActivities.map((activity) => (
-                <div
-                  key={activity.id}
-                  className="hover:bg-muted/50 flex items-start space-x-3 rounded-lg p-3 transition-colors"
-                >
-                  <div className="bg-primary/10 text-primary flex h-8 w-8 items-center justify-center rounded-full">
-                    {getActivityIcon(activity.type)}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-3">
+            <div className="flex items-center space-x-3">
+              <div className="text-primary flex h-10 w-10 items-center justify-center rounded-lg">
+                <Target className="h-12 w-12" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-muted-foreground text-xs font-medium">
+                  Invested
+                </p>
+                <p className="text-foreground truncate text-lg font-bold">
+                  {formatNumber(userStats.totalInvested)} FLOW
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-3">
+            <div className="flex items-center space-x-3">
+              <div className="text-primary flex h-10 w-10 items-center justify-center rounded-lg">
+                <Users className="h-12 w-12" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-muted-foreground text-xs font-medium">
+                  Active Funds
+                </p>
+                <p className="text-foreground truncate text-lg font-bold">
+                  {userStats.activeFunds}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-3">
+            <div className="flex items-center space-x-3">
+              <div className="text-primary flex h-10 w-10 items-center justify-center rounded-lg">
+                <History className="h-12 w-12" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-muted-foreground text-xs font-medium">
+                  Recent Activity
+                </p>
+                <p className="text-foreground truncate text-lg font-bold">
+                  {recentActivities.length} items
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Recent Activities Section */}
+      {/* {recentActivities.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <History className="mr-2 h-5 w-5" />
+              Recent Activity
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {recentActivities.map((activity) => (
+              <div
+                key={activity.id}
+                className="hover:bg-muted/50 flex items-center space-x-4 rounded-lg p-3 transition-colors"
+              >
+                <div className=" text-primary flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg">
+                  {getActivityIcon(activity.type)}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between">
+                    <p className="text-foreground truncate text-sm font-medium">
+                      {activity.title}
+                    </p>
+                    {activity.amount && (
+                      <span className="text-foreground ml-2 text-sm font-medium">
+                        {activity.amount} FLOW
+                      </span>
+                    )}
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between">
-                      <p className="text-foreground truncate text-sm font-medium">
-                        {activity.title}
-                      </p>
-                      {/* <div className="flex items-center space-x-2">
-                      {activity.amount && (
-                        <span className="text-foreground text-sm font-medium">
-                          {activity.amount} FLOW
-                        </span>
-                      )}
+                  <p className="text-muted-foreground mt-1 truncate text-xs">
+                    {activity.description}
+                  </p>
+                  <div className="mt-2 flex items-center justify-between">
+                    <span className="text-muted-foreground text-xs">
+                      {activity.fundName}
+                    </span>
+                    <div className="flex items-center space-x-2">
                       <Badge
                         variant="secondary"
-                        className={getStatusColor(activity.status)}
+                        className={`text-xs ${getStatusColor(activity.status)}`}
                       >
                         {activity.status}
                       </Badge>
-                    </div> */}
-                    </div>
-                    <p className="text-muted-foreground mt-1 text-xs">
-                      {activity.description}
-                    </p>
-                    <div className="mt-2 flex items-center justify-between">
-                      <span className="text-muted-foreground text-xs">
-                        {activity.fundName}
-                      </span>
                       <span className="text-muted-foreground text-xs">
                         {activity.timestamp}
                       </span>
                     </div>
                   </div>
                 </div>
-              ))
-            )}
+              </div>
+            ))}
           </CardContent>
         </Card>
-      </div>
+      )} */}
+
+      {/* Empty State */}
+      {recentActivities.length === 0 && (
+        <Card>
+          <CardContent className="py-12">
+            <div className="text-center">
+              <Clock className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+              <h3 className="text-foreground mb-2 text-lg font-semibold">
+                No Recent Activity
+              </h3>
+              <p className="text-muted-foreground text-sm">
+                Your recent fund activities will appear here
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

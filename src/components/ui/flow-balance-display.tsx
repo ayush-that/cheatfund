@@ -1,6 +1,6 @@
 "use client";
 
-import { useFlowBalance } from "~/hooks/useFlowBalance";
+import { useFlowBalanceEnhanced } from "~/hooks/useFlowBalanceEnhanced";
 import { Card, CardContent, CardHeader, CardTitle } from "./card";
 import { Badge } from "./badge";
 import { RefreshCw, Wallet } from "lucide-react";
@@ -17,10 +17,13 @@ export function FlowBalanceDisplay({
   network = "testnet",
   showRefresh = true,
 }: FlowBalanceDisplayProps) {
-  const { balance, loading, error, refetch } = useFlowBalance(address, {
-    network,
-    refreshInterval: 30000,
-  });
+  const { balance, loading, error, refetch, lastUpdate } =
+    useFlowBalanceEnhanced(address, {
+      network,
+      refreshInterval: 60000, // 1 minute instead of 30 seconds
+      enablePolling: true,
+      cacheTTL: 60000,
+    });
 
   const formatBalance = (value: number) => {
     return numeral(value).format("0.000000");
