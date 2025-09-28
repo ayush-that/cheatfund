@@ -11,14 +11,7 @@ import {
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
 import { Alert, AlertDescription } from "~/components/ui/alert";
-import {
-  TestTube,
-  CheckCircle,
-  AlertCircle,
-  Clock,
-  Users,
-  DollarSign,
-} from "lucide-react";
+import { TestTube, CheckCircle, AlertCircle, Clock } from "lucide-react";
 import { useWallet } from "~/lib/wallet";
 import { useChitFund } from "~/hooks/contracts/useChitFund";
 import { formatEther } from "ethers";
