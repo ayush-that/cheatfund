@@ -9,19 +9,11 @@ import {
 } from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
 import { Avatar, AvatarFallback } from "~/components/ui/avatar";
-import {
-  User,
-  CheckCircle,
-  Clock,
-  Crown,
-  AlertCircle,
-  DollarSign,
-  Users,
-} from "lucide-react";
+import { CheckCircle, Clock, Crown, DollarSign, Users } from "lucide-react";
 import { cn } from "~/lib/utils";
 
 interface MemberData {
-  wallet: string;
+  wallet?: string | number | bigint;
   hasContributed: boolean;
   hasBid: boolean;
   bidAmount?: number;
@@ -39,7 +31,6 @@ interface MembersListProps {
 }
 
 export function MembersList({
-  contractAddress,
   members,
   currentUserAddress,
   showDetails = false,
@@ -83,8 +74,10 @@ export function MembersList({
 
   const getMemberAvatar = (member: MemberData) => {
     const isCurrentUser =
-      currentUserAddress?.toLowerCase() === member.wallet.toLowerCase();
-    const initials = member.wallet.slice(2, 4).toUpperCase();
+      currentUserAddress?.toLowerCase() ===
+      member.wallet?.toString().toLowerCase();
+    const initials =
+      member.wallet?.toString().slice(2, 4).toUpperCase() || "??";
 
     return (
       <Avatar
@@ -137,7 +130,10 @@ export function MembersList({
               </span>
             </div>
             <p className="mt-1 text-sm text-yellow-700">
-              {formatAddress(winner.wallet)} won with {winner.bidAmount}% bid
+              {winner.wallet
+                ? formatAddress(winner.wallet.toString())
+                : "Unknown Address"}{" "}
+              won with {winner.bidAmount}% bid
             </p>
           </div>
         )}
@@ -145,12 +141,13 @@ export function MembersList({
         <div className="space-y-3">
           {sortedMembers.map((member, index) => {
             const isCurrentUser =
-              currentUserAddress?.toLowerCase() === member.wallet.toLowerCase();
+              currentUserAddress?.toLowerCase() ===
+              member.wallet?.toString().toLowerCase();
             const status = getMemberStatus(member);
 
             return (
               <div
-                key={member.wallet}
+                key={member.wallet?.toString() || `member-${index}`}
                 className={cn(
                   "flex items-center space-x-3 rounded-lg border p-3",
                   isCurrentUser
@@ -168,7 +165,9 @@ export function MembersList({
                         isCurrentUser ? "text-blue-900" : "text-gray-900",
                       )}
                     >
-                      {formatAddress(member.wallet)}
+                      {member.wallet
+                        ? formatAddress(member.wallet.toString())
+                        : "Unknown Address"}
                       {isCurrentUser && " (You)"}
                     </p>
                     <Badge className={status.color}>
