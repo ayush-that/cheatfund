@@ -32,7 +32,7 @@ export default function ContactPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center space-x-3">
-                <Mail className="h-5 w-5 text-blue-600" />
+                <Mail className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                 <div>
                   <p className="font-medium">Email</p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -42,7 +42,7 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-center space-x-3">
-                <Phone className="h-5 w-5 text-blue-600" />
+                <Phone className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                 <div>
                   <p className="font-medium">Phone</p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -52,7 +52,7 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-center space-x-3">
-                <MapPin className="h-5 w-5 text-blue-600" />
+                <MapPin className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                 <div>
                   <p className="font-medium">Address</p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -84,7 +84,7 @@ export default function ContactPage() {
                   <input
                     type="text"
                     id="name"
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-gray-500 focus:outline-none dark:border-gray-600 dark:text-white"
                     placeholder="Your name"
                   />
                 </div>
@@ -99,7 +99,7 @@ export default function ContactPage() {
                   <input
                     type="email"
                     id="email"
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-gray-500 focus:outline-none dark:border-gray-600 dark:text-white"
                     placeholder="your.email@example.com"
                   />
                 </div>
@@ -114,7 +114,7 @@ export default function ContactPage() {
                   <textarea
                     id="message"
                     rows={4}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-gray-500 focus:outline-none dark:border-gray-600 dark:text-white"
                     placeholder="Your message..."
                   />
                 </div>

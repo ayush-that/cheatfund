@@ -43,7 +43,6 @@ export function JoinFundForm({
   contributionAmount,
   totalMembers,
   currentMembers,
-  totalVolume = "0",
   onSuccess,
   onError,
   className,
@@ -201,11 +200,6 @@ export function JoinFundForm({
               <span className="font-semibold">
                 {contributionAmountFormatted} FLOW
               </span>
-            </div>
-
-            <div className="flex items-center justify-between text-sm">
-              <span>Total Volume</span>
-              <span className="font-semibold">{totalVolume} FLOW</span>
             </div>
           </div>
         )}

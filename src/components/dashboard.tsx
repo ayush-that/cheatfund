@@ -49,7 +49,7 @@ export function Dashboard({ user, session, onSignOut }: DashboardProps) {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h1 className="mb-2 text-3xl font-bold">Welcome to CheatFund</h1>
+        <h1 className="mb-2 text-3xl font-bold">Welcome to cheat.fund</h1>
         <p className="text-muted-foreground">Your Web3 dashboard</p>
       </div>
 

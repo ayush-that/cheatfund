@@ -1,7 +1,6 @@
 import "../styles/globals.css";
 
 import { type Metadata } from "next";
-import { Geist } from "next/font/google";
 import { AnonAadhaarProviderWrapper } from "~/components/anon-aadhaar-provider-wrapper";
 import { WalletProvider } from "~/lib/wallet";
 import { Toaster } from "~/components/ui/sonner";
@@ -10,21 +9,16 @@ import { ChatPopup } from "~/components/chat-popup";
 import { Navbar } from "~/components/ui/navigation/navbar";
 
 export const metadata: Metadata = {
-  title: "CheatFund - Web3 Authentication",
-  description: "Secure Web3 authentication with Ethereum wallets",
+  title: "cheat.fund",
+  description: "cheat.fund",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
-
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable} dark`}>
+    <html lang="en" className={`dark`}>
       <body>
         <AnonAadhaarProviderWrapper>
           <WalletProvider>
