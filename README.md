@@ -1,402 +1,167 @@
-# CheatFund
+<div align="center">
+  <img src="./logo.png" alt="CheatFund Logo" width="150" />
+</div>
 
-CheatFund is a decentralized chit fund platform built on Flow blockchain that revolutionizes traditional community-based savings and lending systems. It combines the transparency and automation of blockchain technology with privacy-preserving identity verification using Anon Aadhaar protocol.
+<h1 align="center">CheatFund: Decentralized Community Finance</h1>
 
-## 🎯 What is CheatFund?
+CheatFund is a decentralized platform that migrates the traditional Indian chit fund system to the blockchain. Our mission is to enhance a proven model of community-based finance with unparalleled transparency, security, and automation, making it accessible to a new generation of users while preserving the core tenets of trust and privacy.
 
-CheatFund digitizes and decentralizes the traditional chit fund system:
+The platform addresses the operational inefficiencies and opacity of traditional systems by leveraging smart contracts for fund management and zero-knowledge proofs for identity verification, creating a trustless and efficient financial ecosystem.
 
-- **Group Savings**: Members contribute a fixed amount regularly to a common pool
-- **Fair Bidding**: Automated bidding system determines fund allocation each cycle
-- **Transparent Process**: All operations are recorded on-chain for complete transparency
-- **Privacy-First**: Identity verification without revealing personal data using zero-knowledge proofs
+![](./hero.png)
+![](./hero1.png)
+![](./hero2.png)
 
-**Demo App**: [CheatFund Live Demo](https://landing-page-cheat-fund.vercel.app/) | [Source Code](https://github.com/ayush-that/cheatfund)
+**[View the Live Demo](https://landing-page-cheat-fund.vercel.app/)** | **[Explore the Source Code](https://github.com/ayush-that/cheatfund)**
 
-**Documentation**: CheatFund Documentation
+## Core Concepts
 
-## 🚀 Key Features
+CheatFund digitizes the entire lifecycle of a chit fund through a secure, automated protocol.
 
-### 🔒 Privacy-Preserving Identity Verification
+- **Decentralized Fund Management**: Groups can pool capital and manage funds collectively without relying on a central intermediary. All operations are governed by immutable smart contracts.
+- **Algorithmic Winner Selection**: The allocation of the fund pool each cycle is determined by a fair and transparent bidding algorithm, executed on-chain to ensure integrity.
+- **On-Chain Auditing and Transparency**: Every transaction, from contribution to distribution, is recorded on a public ledger, providing a complete and verifiable audit trail for all participants.
+- **Privacy-Preserving Identity Verification**: We integrate the Anon Aadhaar protocol, allowing users to cryptographically verify their identity and eligibility (e.g., citizenship, age) without revealing any underlying personal data.
 
-- **Anon Aadhaar Integration**: Verify Indian identity without revealing personal details
-- **Zero-Knowledge Proofs**: Age verification (18+) using ZK circuits
-- **No Data Storage**: Identity verification happens client-side
+## Platform Highlights
 
-### 🏦 Decentralized Chit Fund Operations
+| Feature                        | Description                                                                                                                                        |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Zero-Knowledge Identity**    | Leverages ZK-circuits for client-side identity verification, ensuring sensitive user data is never stored or transmitted.                          |
+| **Smart Contract Automation**  | Automates the fund lifecycle—contributions, bidding, and payouts—to eliminate manual overhead and minimize counterparty risk.                      |
+| **Multi-Network Architecture** | Deployed on Flow EVM for high throughput and low transaction costs, with planned support for Ethereum, Polygon, and other EVM-compatible networks. |
+| **Responsive Interface**       | A clean, intuitive dashboard designed for seamless fund management across all devices, ensuring a consistent user experience.                      |
+| **Web3 Wallet Integration**    | Natively supports MetaMask and other Web3 wallets for secure authentication and straightforward interaction with the blockchain.                   |
 
-- **Smart Contract Automation**: Eliminates intermediaries and manual processes
-- **Transparent Bidding**: Fair, automated winner selection each cycle
-- **Multi-Network Support**: Flow EVM, Ethereum, Polygon support
-- **Real-time Updates**: Live fund status and member activities
+## Technical Architecture
 
-### 💡 User-Friendly Experience
+CheatFund is built with a modern, robust technology stack designed for security, scalability, and performance.
 
-- **Web3 Wallet Integration**: Seamless MetaMask connection
-- **Intuitive Dashboard**: Clean UI for fund management
-- **Mobile Responsive**: Works on all devices
-- **Transaction History**: Complete audit trail of all activities
+- **Smart Contracts**: Solidity, Foundry
+- **Blockchain**: Flow EVM, Ethereum, Polygon
+- **Frontend**: Next.js 15, TypeScript, Tailwind CSS, shadcn/ui
+- **Web3 Integration**: Ethers.js
+- **Backend & Database**: Supabase, PostgreSQL, Prisma
+- **State Management**: Zustand
 
-## 🏗️ Architecture Overview
+## <img src='https://ethglobal.b-cdn.net/organizations/fjaae/square-logo/default.png' alt="Flow Blockchain Logo" width="35" style="vertical-align: middle; margin-right: 10px;"/>Flow Blockchain Integration
 
-### Smart Contract Layer
+We leverage Flow's EVM equivalence to deploy our Solidity smart contracts while benefiting from Flow's superior performance characteristics. Our implementation includes:
 
-- **ChitFundFactory**: Creates and manages multiple chit funds
-- **ChitFund**: Core contract handling contributions, bidding, and distributions
-- **Flow EVM**: Primary blockchain for low-cost, fast transactions
+We leverage Flow's EVM equivalence to deploy our Solidity smart contracts while benefiting from Flow's superior performance characteristics. Our implementation includes:
 
-### Frontend Layer
+**Smart Contract Deployment**
 
-- **Next.js 15**: Modern React framework with app router
-- **TypeScript**: Type-safe development
-- **Tailwind CSS + shadcn/ui**: Beautiful, accessible components
-- **Ethers.js**: Blockchain interaction library
+- ChitFund and ChitFundFactory contracts deployed on Flow Testnet (Chain ID: 545)
+- Full EVM compatibility allowing seamless Solidity development
+- Native FLOW token support for contributions and distributions
 
-### Authentication & Privacy
+**Network Configuration**
 
-- **Supabase Auth**: Web3 wallet authentication
-- **Anon Aadhaar**: Privacy-preserving identity verification
-- **Zustand**: Client-side state management
+- Primary RPC: `https://testnet.evm.nodes.onflow.org`
+- Block Explorer: `https://evm-testnet.flowscan.io`
+- Automatic network switching with MetaMask integration
+- Flow balance tracking and display components
 
-### Database
+**Performance Benefits**
 
-- **PostgreSQL**: User data and fund metadata
-- **Prisma**: Type-safe database ORM
-- **Vercel**: Serverless deployment
+- Transaction finality under 3 seconds
+- Gas costs under $0.01 per transaction
+- Account abstraction for simplified wallet interactions
+- On-chain randomness for fair winner selection
+- Scalability without sharding complexity
 
-## 📦 Project Structure
+## <img src='https://ethglobal.b-cdn.net/organizations/7t8af/square-logo/default.png' alt="Flow Blockchain Logo" width="35" style="vertical-align: middle; margin-right: 10px;"/>AI Integration with Fetch.ai & ASI Alliance
 
-```
-cheatfund/
-├── contracts/                  # Smart contracts (Solidity)
-│   ├── ChitFund.sol           # Core chit fund logic
-│   ├── ChitFundFactory.sol    # Factory for creating funds
-│   └── scripts/               # Deployment scripts
-├── src/
-│   ├── app/                   # Next.js app router
-│   │   ├── create/           # Fund creation page
-│   │   ├── join/             # Fund joining pages
-│   │   └── fund/             # Fund management pages
-│   ├── components/            # React components
-│   │   ├── ui/               # Reusable UI components
-│   │   ├── dashboard.tsx     # Main dashboard
-│   │   └── aadhar-verification.tsx
-│   ├── hooks/                # Custom React hooks
-│   │   ├── contracts/        # Smart contract hooks
-│   │   └── use-web3-auth.ts  # Web3 authentication
-│   ├── lib/                  # Utility libraries
-│   │   ├── contracts.ts      # Contract configurations
-│   │   ├── wallet.ts         # Wallet integration
-│   │   └── web3.ts          # Web3 utilities
-│   └── stores/              # State management
-├── prisma/                   # Database schema
-├── docs/                     # Documentation
-└── test/                     # Smart contract tests
-```
+We've integrated Fetch.ai's ASI Alliance infrastructure to power intelligent features throughout CheatFund:
 
-## 🛠️ Getting Started
+**ASI:One Chat Integration**
 
-### Prerequisites
+- Web3-native LLM integration through ASI:One API
+- Multiple model support: asi1-mini, asi1-fast, asi1-extended, asi1-agentic
+- Real-time chat interface with markdown rendering
+- Financial advisor agent for fund management guidance
 
-- **Node.js** (v18 or higher)
-- **pnpm** package manager
-- **PostgreSQL** database
-- **Flow wallet** for testing
-- **Foundry** for smart contract development
+**Implementation Details**
 
-### Installation
+- Custom ASI provider configuration in `src/lib/ai/asi-provider.ts`
+- Chat page at `/chat` with full ASI:One integration
+- Fallback to OpenAI for enhanced reliability
+- Dynamic model selection based on use case
 
-1. **Clone the repository**
+**AI-Powered Features**
 
-```bash
-git clone https://github.com/ayush-that/cheatfund.git
-cd cheatfund
-```
+- Intelligent fund recommendations based on user preferences
+- Automated risk assessment and fund analysis
+- Cross-chain fund monitoring and insights
+- Personalized financial advice through conversational AI
 
-2. **Install dependencies**
+## <img src='https://ethglobal.b-cdn.net/organizations/362vt/square-logo/default.png' alt="Flow Blockchain Logo" width="35" style="vertical-align: middle; margin-right: 10px;"/>Privacy-Preserving Identity with Anon Aadhaar
 
-```bash
-pnpm install
-```
+We implement a comprehensive privacy-first identity verification system using Anon Aadhaar protocol:
 
-3. **Environment setup**
-
-```bash
-# Copy environment template
-cp .env.example .env.local
-
-# Configure your environment variables
-DATABASE_URL="postgresql://..."
-NEXT_PUBLIC_SUPABASE_URL="your_supabase_url"
-NEXT_PUBLIC_SUPABASE_ANON_KEY="your_supabase_key"
-NEXT_PUBLIC_CHITFUND_FACTORY_ADDRESS="0x..." # After deployment
-NEXT_PUBLIC_FLOW_TESTNET_RPC="https://testnet.evm.nodes.onflow.org"
-```
-
-4. **Database setup**
-
-```bash
-# Run Prisma migrations
-pnpm db:migrate
-
-# Generate Prisma client
-pnpm postinstall
-```
-
-5. **Smart contract deployment**
-
-```bash
-# Deploy to Flow Testnet
-make deploy-flow-testnet
-
-# Or deploy locally for development
-make deploy-local
-```
-
-6. **Start development server**
-
-```bash
-pnpm dev
-```
-
-Visit [http://localhost:3000](http://localhost:3000) to see the application.
-
-## 🔧 Smart Contract Integration
-
-### Core Contracts
-
-#### ChitFund Contract
-
-- **Purpose**: Core chit fund operations
-- **Key Functions**:
-  - `joinFund()` - Join an existing fund
-  - `contribute()` - Make monthly contribution
-  - `submitBid()` - Submit bid for current cycle
-  - `selectWinner()` - Automated winner selection
-  - `distributeFunds()` - Distribute funds to winner
-
-#### ChitFundFactory Contract
-
-- **Purpose**: Create and manage multiple chit funds
-- **Key Functions**:
-  - `createChitFund()` - Create new fund
-  - `getAllChitFunds()` - Get all funds
-  - `getUserChitFunds()` - Get user's funds
-
-### Contract Integration Examples
-
-```typescript
-// Create a new chit fund
-const { createChitFund } = useChitFundFactory();
-
-const fundData = await createChitFund({
-  fundName: "Tech Professionals Fund",
-  contributionAmount: "1.0", // in ETH
-  totalMembers: 10,
-});
-
-// Join an existing fund
-const { joinFund } = useChitFund(contractAddress);
-await joinFund();
-
-// Make contribution
-const { contribute } = useChitFund(contractAddress);
-await contribute();
-```
-
-## 🧪 Testing & Development
-
-### Smart Contract Commands
-
-```shell
-# Build contracts
-forge build
-
-# Run tests
-forge test
-
-# Run tests with gas reporting
-forge test --gas-report
-
-# Format code
-forge fmt
-
-# Coverage report
-forge coverage
-
-# Deploy to local testnet
-anvil
-
-# Deploy contracts
-forge script scripts/DeployChitFund.s.sol --rpc-url <rpc_url> --private-key <private_key>
-```
-
-### Frontend Commands
-
-```bash
-# Development server
-pnpm dev
-
-# Build for production
-pnpm build
-
-# Run linting
-pnpm lint
-
-# Run tests
-pnpm test
-
-# Database operations
-pnpm db:push        # Push schema changes
-pnpm db:migrate     # Run migrations
-pnpm db:studio      # Open Prisma Studio
-```
-
-## 🚀 Deployment
-
-### Smart Contracts
-
-```bash
-# Deploy to different networks
-make deploy-flow-testnet    # Flow Testnet
-make deploy-sepolia        # Ethereum Sepolia
-make deploy-mumbai         # Polygon Mumbai
-make deploy-base-sepolia   # Base Sepolia
-```
-
-### Frontend Deployment
-
-```bash
-# Deploy to Vercel
-vercel deploy
-
-# Or build for production
-pnpm build
-pnpm start
-```
-
-## 📚 How It Works
-
-### 1. Identity Verification
-
-Users verify their Indian identity using Anon Aadhaar protocol:
+**Zero-Knowledge Identity Verification**
 
 - Client-side proof generation using ZK circuits
 - Age verification (18+) without revealing personal data
-- No sensitive information stored on servers
+- Indian citizenship verification through Aadhaar integration
+- No sensitive information stored on our servers
 
-### 2. Fund Creation
+**Implementation Architecture**
 
-Organizers create chit funds specifying:
+- Dynamic component loading for SSR compatibility
+- Real-time verification status tracking
+- Proof validation and storage in local state
+- Seamless integration with user authentication flow
 
-- Contribution amount per cycle
-- Number of members
-- Duration and cycle frequency
-- Payment token (ETH or ERC20)
+**Privacy Guarantees**
 
-### 3. Member Participation
+- All verification happens client-side in user's browser
+- Cryptographic proofs without revealing underlying data
+- Local processing with zero data transmission
+- Privacy-first design with no personal information storage
 
-Members join funds and participate in cycles:
+## Ethereum Foundation Infrastructure
 
-- Regular contributions to the common pool
-- Bidding process for fund allocation
-- Automated winner selection based on lowest bid
-- Transparent fund distribution
+CheatFund addresses the Ethereum Foundation's infrastructure challenge for Best Client-Side Privacy:
 
-### 4. Cycle Management
+**Unified ZK Registry System**
 
-Smart contracts automatically handle:
+- Consolidated proof format management for multiple document types
+- Anon Aadhaar integration for Indian identity verification
+- Age verification using ZK circuits with 18+ proof generation
+- Support for passport and other document verification
+- Single system managing all proof types with consistent privacy guarantees
 
-- Contribution collection
-- Bidding period management
-- Winner selection algorithm
-- Fund distribution to winner
-- Cycle progression
+**NFC Feature Integration**
 
-## 🌐 Supported Networks
+- Physical device integration for enhanced UX
+- NFC chip support for proof generation
+- Tap-to-verify functionality for identity confirmation
+- Developer-friendly NFC integration APIs
+- Cross-platform support for mobile and desktop environments
 
-| Network          | Chain ID | RPC URL                                     | Status       |
-| ---------------- | -------- | ------------------------------------------- | ------------ |
-| Flow Testnet     | 545      | https://testnet.evm.nodes.onflow.org        | ✅ Active    |
-| Flow Mainnet     | 747      | https://mainnet.evm.nodes.onflow.org        | 🚧 Planned   |
-| Ethereum Sepolia | 11155111 | https://ethereum-sepolia-rpc.publicnode.com | ✅ Supported |
-| Polygon Mumbai   | 80001    | https://rpc-mumbai.maticvigil.com           | ✅ Supported |
+**Client-Side Privacy Architecture**
 
-## 🔒 Security Features
+- Zero data storage with all sensitive operations client-side
+- ZK proof generation without revealing underlying data
+- Local processing for identity verification in user's browser/device
+- Privacy-first design with no personal information on servers
 
-- **Multi-signature Wallets**: For large fund management
-- **Time-locked Withdrawals**: Prevent rush withdrawals
-- **Audit Trail**: Complete transaction history on-chain
-- **Emergency Pause**: Admin controls for crisis management
-- **Comprehensive Testing**: 95%+ test coverage
+## Local Development Setup
 
-## 🎪 Demo Flow
+To get started with CheatFund on your local machine, follow the steps below.
 
-1. **Identity Verification**: Connect wallet + Aadhaar verification
-2. **Fund Discovery**: Browse available public funds
-3. **Join Fund**: Participate in a fund with other members
-4. **Contribute**: Make monthly contributions to the pool
-5. **Bid**: Submit bids when eligible for fund allocation
-6. **Receive Funds**: Automatic distribution to cycle winner
-7. **Track Progress**: Monitor fund status and member activities
+**Prerequisites:**
 
-## 📊 Technical Metrics
+- Node.js (v18 or higher)
+- pnpm package manager
+- A running PostgreSQL instance
+- Foundry for smart contract development
 
-- **Transaction Finality**: < 3 seconds (Flow blockchain)
-- **Gas Costs**: < $0.01 per transaction
-- **User Onboarding**: < 2 minutes with Aadhaar
-- **System Uptime**: 99.9% availability target
+**1. Clone the Repository**
 
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
-
-### Development Guidelines
-
-- **TypeScript**: Strict type checking enabled
-- **ESLint + Prettier**: Automated code formatting
-- **Conventional Commits**: Structured commit messages
-- **Test Coverage**: Minimum 80% coverage for new features
-
-## 📞 Support & Community
-
-### Resources
-
-- **GitHub Repository**: [CheatFund Source Code](https://github.com/ayush-that/cheatfund)
-- **Live Demo**: [CheatFund Demo](https://landing-page-cheat-fund.vercel.app/)
-- **Documentation**: Project Docs
-
-## 🔮 Roadmap
-
-### Phase 1 (Current) - MVP ✅
-
-- [x] Core smart contracts
-- [x] Basic frontend interface
-- [x] Anon Aadhaar integration
-- [x] Flow Testnet deployment
-
-### Phase 2 - Enhanced Features 🚧
-
-- [ ] Multi-token support
-- [ ] Mobile app development
-- [ ] Advanced analytics dashboard
-- [ ] Mainnet deployment
-
-### Phase 3 - Scale & Expand 📋
-
-- [ ] Cross-chain compatibility
-- [ ] Insurance integration
-- [ ] Governance token launch
-- [ ] Enterprise partnerships
-
-## 📄 License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
----
+```bash
+git clone [https://github.com/ayush-that/cheatfund.git](https://github.com/ayush-that/cheatfund.git)
+cd cheatfund
+```
